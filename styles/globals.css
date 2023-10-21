@@ -7,13 +7,18 @@ html {
   width: 100%;
 }
 
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
 body {
   display: flex;
-  height: 100%;
+  min-height: 100%;
   width: 100%;
   align-items: center;
   justify-content: center;
   padding: 3em;
+  background-color: black;
 }
 
 body > div {
