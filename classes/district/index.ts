@@ -10,17 +10,48 @@ import { Code } from "../../utils/constants";
 const rotations = [0, 90, 180, 270];
 type DistrictImage = [string, string];
 
-export default class District {
+enum highwayConnections {
+    ldtr,
+    ltdr,
+}
+
+class Tile {
+    code: Code;
+    rotation: 0 | 90 | 180 | 270 = 0;
+    image: DistrictImage;
+    title?: string;
+    constructor(code: Code, image: DistrictImage) {
+        this.code = code;
+        this.image = image;
+    }
+}
+
+let highway_id = 0;
+
+export class Highway extends Tile {
+    connections: highwayConnections;
+    id: string;
+    constructor(code: Code, image: DistrictImage) {
+        super(code, image);
+        this.title = "Highway";
+        this.id = `highway_${highway_id++}`;
+    }
+    rotateDistrict() {
+        const selectedRotation = randomSelect(rotations);
+        this.rotation = selectedRotation;
+        this.connections = this.rotation === 0 || this.rotation === 180 ? highwayConnections.ldtr : highwayConnections.ltdr;
+        return this;
+    }
+}
+
+export default class District extends Tile {
     districtType: OtherDistrictTypes | Faction;
     difficulty: number;
     metroStation: boolean;
     id: number;
-    code: Code;
-    image: DistrictImage;
     liberated: boolean = false;
     hasOccupationSlot: boolean;
     roads: boolean[] = [true, true, true, true];
-    rotation: 0 | 90 | 180 | 270 = 0;
 
     @Type(() => ShoppingCenter)
     shoppingCenters: ShoppingCenter[];
@@ -30,17 +61,19 @@ export default class District {
 
     constructor(
         id: number,
+        title: string,
         code: Code,
         metroStation: boolean,
         districtType: OtherDistrictTypes | Faction,
         difficulty: number,
         image: DistrictImage,
     ) {
+        super(code, image);
         this.roads = metroStation ? [false, true, true, true] : this.roads;
         this.id = id;
-        this.code = code;
+        this.title = title;
         this.image = image,
-        this.difficulty = difficulty;
+            this.difficulty = difficulty;
         this.metroStation = metroStation;
         this.districtType = districtType;
         this.shoppingCenters = generateShoppingCenters(districtType, metroStation);

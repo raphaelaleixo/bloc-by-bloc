@@ -1,20 +1,20 @@
 import { grid } from "../../gameData/cityGrid";
 import { Code } from "../../utils/constants";
 import { shuffler } from "../../utils/randomizers";
-import District from "../district";
+import District, { Highway } from "../district";
 import { Type  } from "class-transformer";
 
-class CityBlock {
+export class CityBlock {
     code: Code;
     
     @Type(() => District)
-    tile: District;
+    tile: District | Highway;
 
     constructor(code: Code) {
         this.code = code;
     }
-    addTile(district: District) {
-        this.tile = district;
+    addTile(tile: District | Highway) {
+        this.tile = tile;
         return this;
     }
 }
@@ -27,12 +27,12 @@ export default class City {
         this.blocks = blocks || [];
     }
 
-    createBlocks(districtList: District[]) {
+    createBlocks(districtList: Array<District|Highway>) {
         const shuffled = shuffler(districtList);
         const cityBlocks = grid.map((gridLine: Code[]) => gridLine.map((gridItem: Code) => {
             const targetIndex = shuffled.findIndex((item: District) => item.code === gridItem);
             const targetBlock = shuffled.splice(targetIndex, 1);
-            return new CityBlock(gridItem).addTile(targetBlock);
+            return new CityBlock(gridItem).addTile(targetBlock[0]);
         }))
         this.blocks = cityBlocks;
         return this;
