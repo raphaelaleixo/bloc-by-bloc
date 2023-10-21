@@ -14,6 +14,7 @@ export default function Home() {
 
   if (city) {
     const jsonCity = serialize(city);
+    console.log(jsonCity);
     const cityReconstucted = deserialize(City, jsonCity);
     console.log(cityReconstucted);
   }

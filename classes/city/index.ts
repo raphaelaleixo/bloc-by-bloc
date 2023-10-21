@@ -7,7 +7,15 @@ import { Type  } from "class-transformer";
 export class CityBlock {
     code: Code;
     
-    @Type(() => District)
+    @Type(() => District, {
+        discriminator: {
+          property: '__type',
+          subTypes: [
+            { value: District, name: 'district' },
+            { value: Highway, name: 'highway' },
+          ],
+        },
+      })
     tile: District | Highway;
 
     constructor(code: Code) {
