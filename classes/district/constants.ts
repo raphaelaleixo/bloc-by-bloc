@@ -13,5 +13,6 @@ export interface DistrictConfiguration {
 export enum OtherDistrictTypes {
   State = "STATE",
   Public = "PUBLIC",
-  Commercial = "COMMERCIAL"
+  Commercial = "COMMERCIAL",
+  Highway = "HIGHWAY",
 }

@@ -8,6 +8,7 @@ import { Type } from "class-transformer";
 import { Code } from "../../utils/constants";
 
 const rotations = [0, 90, 180, 270];
+type DistrictType = OtherDistrictTypes | Faction;
 type DistrictImage = [string, string];
 
 enum highwayConnections {
@@ -19,10 +20,11 @@ class Tile {
     code: Code;
     rotation: 0 | 90 | 180 | 270 = 0;
     image: DistrictImage;
-    title?: string;
-    constructor(code: Code, image: DistrictImage) {
+    districtType: DistrictType;
+    constructor(code: Code, image: DistrictImage, type: DistrictType) {
         this.code = code;
         this.image = image;
+        this.districtType = type;
     }
 }
 
@@ -31,9 +33,8 @@ let highway_id = 0;
 export class Highway extends Tile {
     connections: highwayConnections;
     id: string;
-    constructor(code: Code, image: DistrictImage) {
-        super(code, image);
-        this.title = "Highway";
+    constructor(code: Code, image: DistrictImage, type: DistrictType) {
+        super(code, image, type = OtherDistrictTypes.Highway);
         this.id = `highway_${highway_id++}`;
     }
     rotateDistrict() {
@@ -49,6 +50,7 @@ export default class District extends Tile {
     difficulty: number;
     metroStation: boolean;
     id: number;
+    title?: string;
     liberated: boolean = false;
     hasOccupationSlot: boolean;
     roads: boolean[] = [true, true, true, true];
@@ -64,11 +66,11 @@ export default class District extends Tile {
         title: string,
         code: Code,
         metroStation: boolean,
-        districtType: OtherDistrictTypes | Faction,
+        districtType: DistrictType,
         difficulty: number,
         image: DistrictImage,
     ) {
-        super(code, image);
+        super(code, image, districtType);
         this.roads = metroStation ? [false, true, true, true] : this.roads;
         this.id = id;
         this.title = title;

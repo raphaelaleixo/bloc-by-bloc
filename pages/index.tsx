@@ -25,7 +25,7 @@ export default function Home() {
         <title>Bloc By Bloc</title>
       </Head>
       <main className="contents ">
-        <div className="grid grid-cols-5 w-[50em] gap-4">
+        <div className="grid grid-cols-5 w-[45em] gap-3">
           {city?.blocks.map((line: CityBlock[]) =>
             line.map((district: CityBlock) => {
               return (
@@ -38,12 +38,11 @@ export default function Home() {
                     <span>{district.tile?.code}</span>
                   </div>
                   <div className="text-sm text-white leading-4 font-bold uppercase relative z-10">
-                    <span>{district.tile?.title}</span>
+                    <span>{district.tile instanceof District && district.tile?.title}</span>
                   </div>
                   <div className="text-[0.5rem] text-white font-bold relative z-10">
                     <span>
-                      {district.tile instanceof District &&
-                        district.tile.districtType}
+                      {district.tile.districtType}
                     </span>
                   </div>
                   {district.tile instanceof Highway ? (
