@@ -33,7 +33,7 @@ let highway_id = 0;
 export class Highway extends Tile {
     connections: highwayConnections;
     id: string;
-    constructor(code: Code, image: DistrictImage, type: DistrictType) {
+    constructor(code: Code, image: DistrictImage, type?: DistrictType) {
         super(code, image, type = OtherDistrictTypes.Highway);
         this.id = `highway_${highway_id++}`;
     }
