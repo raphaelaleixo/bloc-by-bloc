@@ -2,20 +2,20 @@ import { grid } from "../../gameData/cityGrid";
 import { Code } from "../../utils/constants";
 import { shuffler } from "../../utils/randomizers";
 import District, { Highway } from "../district";
-import { Type  } from "class-transformer";
+import { Type } from "class-transformer";
 
 export class CityBlock {
     code: Code;
-    
+
     @Type(() => District, {
         discriminator: {
-          property: '__type',
-          subTypes: [
-            { value: District, name: 'district' },
-            { value: Highway, name: 'highway' },
-          ],
+            property: '__type',
+            subTypes: [
+                { value: District, name: 'district' },
+                { value: Highway, name: 'highway' },
+            ],
         },
-      })
+    })
     tile: District | Highway;
 
     constructor(code: Code) {
@@ -27,6 +27,12 @@ export class CityBlock {
     }
 }
 
+type DistrictCoordinate = {
+    x: number;
+    y: number;
+    id: number | string;
+}
+
 export default class City {
     @Type(() => CityBlock)
     blocks: CityBlock[][];
@@ -35,7 +41,25 @@ export default class City {
         this.blocks = blocks || [];
     }
 
-    createBlocks(districtList: Array<District|Highway>) {
+    getDistrictCoordinates() {
+        const coordinates: DistrictCoordinate[] = [];
+        let x = 0;
+        let y = 0;
+        this.blocks.forEach((line) => {
+            line.forEach((block) => {
+                coordinates.push({
+                    x, y, id: block.tile.id
+                });
+                x++;
+            });
+            y++;
+            x = 0;
+        })
+
+        return coordinates;
+    }
+
+    createBlocks(districtList: Array<District | Highway>) {
         const shuffled = shuffler(districtList);
         const cityBlocks = grid.map((gridLine: Code[]) => gridLine.map((gridItem: Code) => {
             const targetIndex = shuffled.findIndex((item: District) => item.code === gridItem);

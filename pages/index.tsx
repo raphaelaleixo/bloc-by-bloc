@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import { createNewCity } from "../classes/city/createNewCity";
 import City, { CityBlock } from "../classes/city";
 import District, { Highway } from "../classes/district";
-import { deserialize, serialize } from "class-transformer";
+import Police from "../classes/police";
+import { Faction } from "../utils/constants";
 
 export default function Home() {
   const [city, setCity] = useState<City | undefined>();
@@ -12,11 +13,9 @@ export default function Home() {
     setCity(createNewCity());
   }, []);
 
+  const police = new Police().initialize();
   if (city) {
-    const jsonCity = serialize(city);
-    console.log(jsonCity);
-    const cityReconstucted = deserialize(City, jsonCity);
-    console.log(cityReconstucted);
+    police.movePoliceBlocks(city, Faction.Neighbors);
   }
 
   return (
@@ -35,15 +34,16 @@ export default function Home() {
                   style={{ rotate: `${district.tile.rotation}deg` }}
                 >
                   <div className="text-[0.5rem] text-white font-bold relative z-10">
-                    <span>{district.tile?.code}</span>
+                    <span>{district.tile?.id}</span>
                   </div>
                   <div className="text-sm text-white leading-4 font-bold uppercase relative z-10">
-                    <span>{district.tile instanceof District && district.tile?.title}</span>
+                    <span>
+                      {district.tile instanceof District &&
+                        district.tile?.title}
+                    </span>
                   </div>
                   <div className="text-[0.5rem] text-white font-bold relative z-10">
-                    <span>
-                      {district.tile.districtType}
-                    </span>
+                    <span>{district.tile.districtType}</span>
                   </div>
                   {district.tile instanceof Highway ? (
                     <div></div>
