@@ -66,7 +66,7 @@ export default class Police {
                 this.movePoliceBlocks(city, card.moviment.target as Faction | OtherDistrictTypes);
             }
         }
-        return this;
+        console.log(card.title);
     }
 
     getDistrictsWithPoliceBlocks(): Array<string | number> {

@@ -1,8 +1,15 @@
 import { useMemo } from "react";
 import District, { Highway } from "../../classes/district";
 import Police from "../../classes/police";
+import { findAdjacentDistricts } from "../../utils/getAdjacentDistricts";
+import City, { CityBlock } from "../../classes/city";
 
-const CityTile: React.FC<{ tile: District | Highway, police: Police }> = ({ tile, police }) => {
+const CityTile: React.FC<{ city: City, tile: District | Highway, police: Police, highightedTiles: CityBlock[], setHighlightedTiles: Function }> = ({ city, tile, police, highightedTiles, setHighlightedTiles }) => {
+
+    const isHighlighted = useMemo(() => {
+        const ids = highightedTiles.map((block: CityBlock) => block.tile.id);
+        return ids.includes(tile.id);
+    }, [highightedTiles]);
 
     const blocksOnDistrict = useMemo(() => {
         const blocks = police.blocks.filter(block => block.districtId === tile.id);
@@ -12,8 +19,10 @@ const CityTile: React.FC<{ tile: District | Highway, police: Police }> = ({ tile
     return (
         <div
             key={tile.id}
-            className="bg-zinc-900 aspect-square flex flex-col p-2 h-full overflow-hidden relative"
-            style={{ rotate: `${tile.rotation}deg` }}
+            onMouseOver={() => setHighlightedTiles(findAdjacentDistricts(city, tile.id))}
+            onMouseOut={() => setHighlightedTiles([])}
+            className="bg-zinc-900 aspect-square flex flex-col p-2 h-full overflow-hidden relative hover:outline hover:outline-2 outline-red-500"
+            style={{ rotate: `${tile.rotation}deg`, outline: isHighlighted ? '2px solid red' : '' }}
         >
             <div className="text-[0.5rem] text-white font-bold relative z-10">
                 <span>{tile.id}</span>

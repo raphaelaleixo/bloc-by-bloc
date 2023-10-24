@@ -30,6 +30,7 @@ export interface moviment {
 }
 
 export type PoliceOpsCard = {
+    title: string,
     type: policeOpsCardTypes;
     moviment?: moviment;
     reinforcement?: reinforcement;

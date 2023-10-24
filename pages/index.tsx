@@ -9,11 +9,14 @@ import { instanceToInstance } from "class-transformer";
 export default function Home() {
   const [city, setCity] = useState<City | undefined>();
   const [police, setPolice] = useState<Police | undefined>();
+  const [highightedTiles, setHighlightedTiles] = useState<CityBlock[]>([]);
 
   useEffect(() => {
     setCity(createNewCity());
     setPolice(new Police().initialize());
   }, []);
+
+
 
   return (
     <>
@@ -35,7 +38,7 @@ export default function Home() {
           {city?.blocks.map((line: CityBlock[]) =>
             line.map((district: CityBlock) => {
               return (
-                <CityTile tile={district.tile} police={police} key={district.tile.id} />
+                <CityTile city={city} tile={district.tile} police={police} key={district.tile.id} highightedTiles={highightedTiles} setHighlightedTiles={setHighlightedTiles} />
               );
             })
           )}
