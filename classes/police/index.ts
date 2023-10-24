@@ -5,7 +5,7 @@ import City from "../city";
 import { OtherDistrictTypes } from "../district/constants";
 import { PoliceOpsCard, policeOpsCardTypes, policeOpsMovimentTypes, priority, stateDistricts } from "./constants";
 import { movePoliceBlocks } from "./movePoliceBlocks";
-import { Type  } from "class-transformer";
+import { Type } from "class-transformer";
 
 export class PoliceBlock {
     districtId: string | number;
@@ -33,12 +33,13 @@ export default class Police {
     policeCount: number = 30;
     vanCount: number = 4;
     policeDeck: PoliceOpsCard[] = [];
-    
+
     @Type(() => PoliceBlock)
     blocks: PoliceBlock[] = [];
-    
+
     @Type(() => PoliceVan)
     vans: PoliceVan[] = [];
+
 
     initialize() {
         stateDistricts.forEach(district => {
@@ -65,6 +66,7 @@ export default class Police {
                 this.movePoliceBlocks(city, card.moviment.target as Faction | OtherDistrictTypes);
             }
         }
+        return this;
     }
 
     getDistrictsWithPoliceBlocks(): Array<string | number> {
@@ -92,6 +94,6 @@ export default class Police {
     movePoliceBlocks(city: City, districtType: Faction | OtherDistrictTypes, priority?: priority) {
         this.getDistrictsWithPoliceBlocks().forEach(districtId => {
             movePoliceBlocks(city, districtId, districtType, this);
-        })
+        });
     }
 }

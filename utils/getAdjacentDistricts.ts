@@ -3,7 +3,6 @@ import City, { CityBlock } from "../classes/city";
 export const findAdjacentDistricts = (city: City, targetId: string | number) => {
     const targetCoordinates = city.getDistrictCoordinates().find(coordinate => coordinate.id === targetId);
     const targetBlock: CityBlock = city.blocks.flat().find(block => block.tile.id === targetId);
-    console.log(targetBlock);
     if (!targetCoordinates) {
         return [];
     }
