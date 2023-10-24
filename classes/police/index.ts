@@ -1,14 +1,13 @@
+import { policeOpsDeck } from "../../gameData/policeOpsDeck";
 import { Faction } from "../../utils/constants";
-import City, { CityBlock } from "../city";
+import { shuffler } from "../../utils/randomizers";
+import City from "../city";
 import { OtherDistrictTypes } from "../district/constants";
+import { PoliceOpsCard, policeOpsCardTypes, policeOpsMovimentTypes, priority, stateDistricts } from "./constants";
+import { movePoliceBlocks } from "./movePoliceBlocks";
+import { Type  } from "class-transformer";
 
-const stateDistricts = [12, 13, 14, 15];
-enum policePriority {
-    lower,
-    higher
-}
-
-class PoliceBlock {
+export class PoliceBlock {
     districtId: string | number;
 
     constructor(districtId: number) {
@@ -20,51 +19,55 @@ class PoliceBlock {
     }
 }
 
-const findAdjacentDistricts = (city: City, targetId: string | number) => {
-    const targetDistrict = city.getDistrictCoordinates().find(coordinate => coordinate.id === targetId);
-    if (!targetDistrict) {
-        return [];
-    }
-    const { x, y } = targetDistrict;
-    const adjacentTiles: CityBlock[] = [];
-    //TODO: Add highway rules
-    //TODO: Add barricade rules
-    // Left
-    if (x > 0) {
-        adjacentTiles.push(city.blocks[y][x - 1]);
-    }
-    // Right
-    if (x < 4) {
-        adjacentTiles.push(city.blocks[y][x + 1]);
-    }
-    // Up
-    if (y > 0) {
-        adjacentTiles.push(city.blocks[y - 1][x]);
-    }
-    // Down
-    if (y < 4) {
-        adjacentTiles.push(city.blocks[y + 1][x]);
-    }
-    // You can add diagonal checks here if needed
-    return adjacentTiles;
-}
+export class PoliceVan extends PoliceBlock {
+    hits: number = 0;
 
+    constructor(districtId: number) {
+        super(districtId);
+    }
+}
 
 export default class Police {
     moraleTrack = [1, 2, 2, 2, 3];
     moraleIndex = 0;
+    policeCount: number = 30;
+    vanCount: number = 4;
+    policeDeck: PoliceOpsCard[] = [];
+    
+    @Type(() => PoliceBlock)
     blocks: PoliceBlock[] = [];
+    
+    @Type(() => PoliceVan)
+    vans: PoliceVan[] = [];
 
     initialize() {
         stateDistricts.forEach(district => {
             this.createPoliceBlock(district);
             this.createPoliceBlock(district);
             this.createPoliceBlock(district);
+            this.createPoliceVan(district);
         });
+        this.shufflePoliceDeck(policeOpsDeck);
         return this;
     }
 
-    getDistrictsWithPoliceBlocks(): Array<string|number> {
+    shufflePoliceDeck(deck: PoliceOpsCard[]) {
+        this.policeDeck = shuffler(deck);
+    }
+
+    drawPoliceCard(city: City) {
+        if (this.policeDeck.length === 0) {
+            this.shufflePoliceDeck(policeOpsDeck);
+        }
+        const card = this.policeDeck.shift();
+        if (card.type === policeOpsCardTypes.moviment) {
+            if (card.moviment.movimentType === policeOpsMovimentTypes.district) {
+                this.movePoliceBlocks(city, card.moviment.target as Faction | OtherDistrictTypes);
+            }
+        }
+    }
+
+    getDistrictsWithPoliceBlocks(): Array<string | number> {
         return Array.from(new Set(this.blocks.map((policeBlock) => policeBlock.districtId)));
     }
 
@@ -73,27 +76,22 @@ export default class Police {
     }
 
     createPoliceBlock(districtCode: number) {
-        this.blocks.push(new PoliceBlock(districtCode))
+        if (this.policeCount > 0) {
+            this.blocks.push(new PoliceBlock(districtCode));
+            this.policeCount--;
+        }
     }
 
-    movePoliceBlocks(city: City, districtType: Faction | OtherDistrictTypes, priority?: policePriority) {
+    createPoliceVan(districtCode: number) {
+        if (this.vanCount > 0) {
+            this.vans.push(new PoliceVan(districtCode));
+            this.vanCount--;
+        }
+    }
+
+    movePoliceBlocks(city: City, districtType: Faction | OtherDistrictTypes, priority?: priority) {
         this.getDistrictsWithPoliceBlocks().forEach(districtId => {
-            const actualDistrict = districtId;
-            const allAdjacentDistricts = findAdjacentDistricts(city, districtId);
-            const targetDistricts = allAdjacentDistricts.find((district => district.tile.districtType === districtType));
-            if (targetDistricts) {
-                const targetId = targetDistricts.tile.id;
-                const blocks = this.getBlocksInDistrict(actualDistrict)
-                const totalBlocks = blocks.length;
-                if (totalBlocks > 1) {
-                    const blocksToMove = totalBlocks - 1;
-                    for (let i = 0; i < blocksToMove; i++) {
-                        blocks[i].movePolice(targetId);
-                    }
-                    console.log(`Movi ${blocksToMove} de ${actualDistrict} para ${targetId}`)
-                }
-            }
+            movePoliceBlocks(city, districtId, districtType, this);
         })
     }
-
 }

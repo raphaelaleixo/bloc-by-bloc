@@ -8,15 +8,12 @@ import { Faction } from "../utils/constants";
 
 export default function Home() {
   const [city, setCity] = useState<City | undefined>();
+  const [police, setPolice] = useState<Police | undefined>();
 
   useEffect(() => {
     setCity(createNewCity());
+    setPolice(new Police().initialize());
   }, []);
-
-  const police = new Police().initialize();
-  if (city) {
-    police.movePoliceBlocks(city, Faction.Neighbors);
-  }
 
   return (
     <>
@@ -24,7 +21,16 @@ export default function Home() {
         <title>Bloc By Bloc</title>
       </Head>
       <main className="contents ">
-        <div className="grid grid-cols-5 w-[45em] gap-3">
+        <button
+          onClick={() => {
+            police.drawPoliceCard(city);
+            console.log(police.getDistrictsWithPoliceBlocks());
+          }}
+          className="bg-white"
+        >
+          Draw police ops card
+        </button>
+        <div className="grid grid-cols-5 w-[40em] gap-3">
           {city?.blocks.map((line: CityBlock[]) =>
             line.map((district: CityBlock) => {
               return (
