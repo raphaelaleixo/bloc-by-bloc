@@ -27,7 +27,7 @@ export class CityBlock {
     }
 }
 
-type DistrictCoordinate = {
+export type DistrictCoordinate = {
     x: number;
     y: number;
     id: number | string;

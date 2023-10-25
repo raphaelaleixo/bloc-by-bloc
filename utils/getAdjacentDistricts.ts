@@ -1,5 +1,5 @@
-import City, { CityBlock } from "../classes/city";
-import District from "../classes/district";
+import City, { CityBlock, DistrictCoordinate } from "../classes/city";
+import District, { Highway } from "../classes/district";
 
 enum directions {
     right,
@@ -8,44 +8,92 @@ enum directions {
     up,
 }
 
-export const findAdjacentDistricts = (city: City, targetId: string | number) => {
-    const targetCoordinates = city.getDistrictCoordinates().find(coordinate => coordinate.id === targetId);
-    const targetBlock = city.blocks.flat().find(block => block.tile.id === targetId).tile as District;
-    if (!targetCoordinates) {
-        return [];
+const getAllPossibleConnections = (originBlock: District | Highway, originCoordinates: DistrictCoordinate, originDirection?: directions) => {
+    const connections = [];
+    const leftIsPossible = originCoordinates.x > 0 && ((originBlock instanceof District && originBlock.roads[directions.left])
+        || (originBlock instanceof Highway && originDirection === directions.down && originBlock.connections === 0)
+        || (originBlock instanceof Highway && originDirection === directions.up && originBlock.connections === 1));
+    const rightIsPossible = originCoordinates.x < 4 && ((originBlock instanceof District && originBlock.roads[directions.right])
+        || (originBlock instanceof Highway && originDirection === directions.up && originBlock.connections === 0)
+        || (originBlock instanceof Highway && originDirection === directions.down && originBlock.connections === 1));
+    const topIsPossible = originCoordinates.y > 0 && ((originBlock instanceof District && originBlock.roads[directions.up])
+        || (originBlock instanceof Highway && originDirection === directions.right && originBlock.connections === 0)
+        || (originBlock instanceof Highway && originDirection === directions.left && originBlock.connections === 1));
+    const bottomIsPossible = originCoordinates.y < 4 && ((originBlock instanceof District && originBlock.roads[directions.down])
+        || (originBlock instanceof Highway && originDirection === directions.left && originBlock.connections === 0)
+        || (originBlock instanceof Highway && originDirection === directions.right && originBlock.connections === 1));
+    if (leftIsPossible) {
+        connections.push(directions.left);
     }
-    const { x, y } = targetCoordinates;
+    if (rightIsPossible) {
+        connections.push(directions.right);
+    }
+    if (topIsPossible) {
+        connections.push(directions.up);
+    }
+    if (bottomIsPossible) {
+        connections.push(directions.down);
+    }
+    return connections;
+}
+
+const getOppositeDirection = (direction: directions) => {
+    switch (direction) {
+        case directions.left:
+            return directions.right;
+        case directions.right:
+            return directions.left;
+        case directions.up:
+            return directions.down;
+        case directions.down:
+            return directions.up;
+        default:
+            return direction;
+    }
+};
+
+const addAdjacentBlock = (city: City, blockArray: CityBlock[], direction: directions, originCoordinates: DistrictCoordinate) => {
+    const { x, y } = originCoordinates;
+    let targetBlock: CityBlock;
+
+    if (direction === directions.left) {
+        targetBlock = city.blocks[y][x - 1];
+    }
+    if (direction === directions.right) {
+        targetBlock = city.blocks[y][x + 1];
+    }
+    if (direction === directions.down) {
+        targetBlock = city.blocks[y + 1][x];
+    }
+    if (direction === directions.up) {
+        targetBlock = city.blocks[y - 1][x];
+    }
+
+    if (!targetBlock) {
+        return;
+    }
+
+    if (targetBlock.tile instanceof District) {
+        const oppositeDirection = getOppositeDirection(direction);
+        if (targetBlock.tile.roads[oppositeDirection]) {
+            blockArray.push(targetBlock);
+        }
+    } else {
+        const targetCoordinates = city.getDistrictCoordinates().find(coordinate => coordinate.id === targetBlock.tile.id);
+        const newConnections = getAllPossibleConnections(targetBlock.tile, targetCoordinates, direction);
+        addAdjacentBlock(city, blockArray, newConnections[0], targetCoordinates);
+    }
+}
+
+
+
+export const getAdjacentDistricts = (city: City, originId: string | number,) => {
+    const originCoordinates = city.getDistrictCoordinates().find(coordinate => coordinate.id === originId);
+    const originBlock = city.blocks.flat().find(block => block.tile.id === originId).tile;
     const adjacentTiles: CityBlock[] = [];
-    //TODO: Add street rules
-    //TODO: Add highway rules
-    //TODO: Add barricade rules
-    // Left
-    if (x > 0) {
-        const adjacent = city.blocks[y][x - 1].tile as District;
-        if (adjacent.roads && targetBlock.roads && adjacent.roads[directions.right] && targetBlock.roads[directions.left]) {
-            adjacentTiles.push(city.blocks[y][x - 1]);
-        }
-    }
-    // Right
-    if (x < 4) {
-        const adjacent = city.blocks[y][x + 1].tile as District;
-        if (adjacent.roads && targetBlock.roads && adjacent.roads[directions.left] && targetBlock.roads[directions.right]) {
-            adjacentTiles.push(city.blocks[y][x + 1]);
-        }
-    }
-    // Up
-    if (y > 0) {
-        const adjacent = city.blocks[y - 1][x].tile as District;
-        if (adjacent.roads && targetBlock.roads && adjacent.roads[directions.down] && targetBlock.roads[directions.up]) {
-            adjacentTiles.push(city.blocks[y - 1][x]);
-        }
-    }
-    // Down
-    if (y < 4) {
-        const adjacent = city.blocks[y + 1][x].tile as District;
-        if (adjacent.roads && targetBlock.roads && adjacent.roads[directions.up] && targetBlock.roads[directions.down]) {
-            adjacentTiles.push(city.blocks[y + 1][x]);
-        }
-    }
+    const directions = getAllPossibleConnections(originBlock, originCoordinates);
+    directions.forEach(direction => {
+        addAdjacentBlock(city, adjacentTiles, direction, originCoordinates);
+    });
     return adjacentTiles;
 }

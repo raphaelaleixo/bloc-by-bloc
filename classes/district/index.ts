@@ -11,7 +11,7 @@ const rotations = [0, 90, 180, 270];
 type DistrictType = OtherDistrictTypes | Faction;
 type DistrictImage = [string, string];
 
-enum highwayConnections {
+export enum highwayConnections {
     ldtr,
     ltdr,
 }

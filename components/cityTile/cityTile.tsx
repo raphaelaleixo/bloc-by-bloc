@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import District, { Highway } from "../../classes/district";
 import Police from "../../classes/police";
-import { findAdjacentDistricts } from "../../utils/getAdjacentDistricts";
+import { getAdjacentDistricts } from "../../utils/getAdjacentDistricts";
 import City, { CityBlock } from "../../classes/city";
 
 const CityTile: React.FC<{ city: City, tile: District | Highway, police: Police, highightedTiles: CityBlock[], setHighlightedTiles: Function }> = ({ city, tile, police, highightedTiles, setHighlightedTiles }) => {
@@ -19,40 +19,43 @@ const CityTile: React.FC<{ city: City, tile: District | Highway, police: Police,
     return (
         <div
             key={tile.id}
-            onMouseOver={() => setHighlightedTiles(findAdjacentDistricts(city, tile.id))}
+            onMouseOver={() => setHighlightedTiles(getAdjacentDistricts(city, tile.id))}
             onMouseOut={() => setHighlightedTiles([])}
-            className="bg-zinc-900 aspect-square flex flex-col p-2 h-full overflow-hidden relative hover:outline hover:outline-2 outline-red-500"
-            style={{ rotate: `${tile.rotation}deg`, outline: isHighlighted ? '2px solid red' : '' }}
+            className="bg-zinc-700 aspect-square flex flex-col p-2 h-full overflow-hidden relative hover:outline hover:outline-2 outline-yellow-500"
+            style={{ rotate: `${tile.rotation}deg`, outline: isHighlighted ? '2px solid green' : '', pointerEvents: tile instanceof Highway ? 'none' : 'all' }}
         >
-            <div className="text-[0.5rem] text-white font-bold relative z-10">
+            <div className="text-[0.5rem] text-zinc-400 font-bold relative z-10">
                 <span>{tile.id}</span>
             </div>
-            <div className="text-sm text-white leading-4 font-bold uppercase relative z-10">
+            <div className="text-xs text-zinc-400 leading-4 font-bold uppercase relative z-10">
                 <span>
                     {tile instanceof District &&
                         tile.title}
                 </span>
             </div>
-            <div className="text-[0.5rem] text-white font-bold relative z-10">
+            <div className="text-[0.5rem] text-zinc-400 font-bold relative z-10">
                 <span>{tile.districtType}</span>
             </div>
             {tile instanceof Highway ? (
-                <div></div>
+                <>
+                    <div className="absolute w-full h-full top-0 left-0 rounded-full shadow-[0_0_0_20px_rgb(0,0,0)] translate-x-[calc(-50%_-_10px)] translate-y-[calc(-50%_-_10px)]"></div>
+                    <div className="absolute w-full h-full top-0 left-0 rounded-full shadow-[0_0_0_20px_rgb(0,0,0)] translate-x-[calc(50%_+_10px)] translate-y-[calc(50%_+_10px)]"></div>
+                </>
             ) : (
                 <>
-                    <div className="w-[20%] h-full absolute bg-zinc-600 top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%]"></div>
+                    <div className="w-[20px] h-full absolute bg-black top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%]"></div>
                     {tile instanceof District &&
                         tile.metroStation ? (
-                        <div className="h-[20%] w-[50%] absolute bg-zinc-600 top-2/4 left-0 translate-y-[-50%]"></div>
+                        <div className="h-[20px] w-[50%] absolute bg-black top-2/4 left-0 translate-y-[-50%]"></div>
                     ) : (
-                        <div className="h-[20%] w-full absolute bg-zinc-600 top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%]"></div>
+                        <div className="h-[20px] w-full absolute bg-black top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%]"></div>
                     )}
                 </>
             )}
-            <div className="absolute grid cols-3 gap-1">
+            <div className="absolute grid cols-3 gap-1 z-20">
                 {
                     blocksOnDistrict.map((_block, index) => (
-                        <div key={index} className="w-5 h-5 bg-white shadow-lg"></div>
+                        <div key={index} className="w-4 h-4 bg-white shadow-lg"></div>
                     ))
                 }
             </div>
