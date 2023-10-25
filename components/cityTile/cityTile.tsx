@@ -3,6 +3,8 @@ import District, { Highway } from "../../classes/district";
 import Police from "../../classes/police";
 import { getAdjacentDistricts } from "../../utils/getAdjacentDistricts";
 import City, { CityBlock } from "../../classes/city";
+import TileInformation from "./tileInformation";
+import OcupationSlot from "./ocupationSlot";
 
 const CityTile: React.FC<{ city: City, tile: District | Highway, police: Police, highightedTiles: CityBlock[], setHighlightedTiles: Function }> = ({ city, tile, police, highightedTiles, setHighlightedTiles }) => {
 
@@ -14,28 +16,19 @@ const CityTile: React.FC<{ city: City, tile: District | Highway, police: Police,
     const blocksOnDistrict = useMemo(() => {
         const blocks = police.blocks.filter(block => block.districtId === tile.id);
         return blocks;
-    }, [police]);
+    }, [police, tile.id]);
 
     return (
         <div
             key={tile.id}
             onMouseOver={() => setHighlightedTiles(getAdjacentDistricts(city, tile.id))}
             onMouseOut={() => setHighlightedTiles([])}
-            className="bg-zinc-700 aspect-square flex flex-col p-2 h-full overflow-hidden relative hover:outline hover:outline-2 outline-yellow-500"
-            style={{ rotate: `${tile.rotation}deg`, outline: isHighlighted ? '2px solid green' : '', pointerEvents: tile instanceof Highway ? 'none' : 'all' }}
+            className="bg-zinc-700 aspect-square flex flex-col p-2 h-full overflow-hidden relative hover:outline hover:outline-2 outline-blue-500"
+            style={{ rotate: `${tile.rotation}deg`, outline: isHighlighted ? '2px solid blue' : '', pointerEvents: tile instanceof Highway ? 'none' : 'all' }}
         >
-            <div className="text-[0.5rem] text-zinc-400 font-bold relative z-10">
-                <span>{tile.id}</span>
-            </div>
-            <div className="text-xs text-zinc-400 leading-4 font-bold uppercase relative z-10">
-                <span>
-                    {tile instanceof District &&
-                        tile.title}
-                </span>
-            </div>
-            <div className="text-[0.5rem] text-zinc-400 font-bold relative z-10">
-                <span>{tile.districtType}</span>
-            </div>
+            <TileInformation tile={tile} />
+            <OcupationSlot tile={tile} />
+
             {tile instanceof Highway ? (
                 <>
                     <div className="absolute w-full h-full top-0 left-0 rounded-full shadow-[0_0_0_20px_rgb(0,0,0)] translate-x-[calc(-50%_-_10px)] translate-y-[calc(-50%_-_10px)]"></div>
