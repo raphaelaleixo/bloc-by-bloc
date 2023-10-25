@@ -26,8 +26,8 @@ const CityTile: React.FC<{ city: City, tile: District | Highway, police: Police,
             className="bg-zinc-700 aspect-square flex flex-col p-2 h-full overflow-hidden relative hover:outline hover:outline-2 outline-blue-500"
             style={{ rotate: `${tile.rotation}deg`, outline: isHighlighted ? '2px solid blue' : '', pointerEvents: tile instanceof Highway ? 'none' : 'all' }}
         >
-            <TileInformation tile={tile} />
-            <OcupationSlot tile={tile} />
+            { tile instanceof District ? (<TileInformation tile={tile} />) : false }
+            { tile instanceof District ? (<OcupationSlot tile={tile} />) : false }
 
             {tile instanceof Highway ? (
                 <>

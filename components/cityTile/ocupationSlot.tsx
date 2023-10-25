@@ -3,11 +3,7 @@ import District, { Highway } from "../../classes/district"
 import { Faction } from "../../utils/constants";
 import { OtherDistrictTypes } from "../../classes/district/constants";
 
-const OcupationSlot: React.FC<{ tile: District | Highway }> = ({ tile }) => {
-
-    if (tile instanceof Highway || tile.hasOccupationSlot === false) {
-        return false;
-    }
+const OcupationSlot: React.FC<{ tile: District }> = ({ tile }) => {
 
     const borderColor = useMemo(() => {
         switch (tile.districtType) {
@@ -24,8 +20,11 @@ const OcupationSlot: React.FC<{ tile: District | Highway }> = ({ tile }) => {
             case (OtherDistrictTypes.State):
                 return 'border-white';
         }
-    }, [tile.districtType])
+    }, [tile.districtType]);
 
+    if (tile.hasOccupationSlot === false) {
+        return false;
+    }
 
     return (
         <div className={`absolute w-1/4 h-1/4 rounded-full right-[8%] top-[8%] border border-4 ${borderColor}`}></div>

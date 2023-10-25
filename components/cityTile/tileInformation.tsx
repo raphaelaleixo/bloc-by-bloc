@@ -3,12 +3,7 @@ import District, { Highway } from "../../classes/district"
 import { Faction } from "../../utils/constants";
 import { OtherDistrictTypes } from "../../classes/district/constants";
 
-const TileInformation: React.FC<{ tile: District | Highway }> = ({ tile }) => {
-
-    if (tile instanceof Highway) {
-        return false;
-    }
-
+const TileInformation: React.FC<{ tile: District }> = ({ tile }) => {
     const textColor = useMemo(() => {
         switch (tile.districtType) {
             case (Faction.Neighbors):
