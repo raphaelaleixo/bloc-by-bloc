@@ -26,15 +26,15 @@ const TileInformation: React.FC<{ tile: District }> = ({ tile }) => {
 
     return (
         <>
-            <div className="text-[0.5rem] text-zinc-400 font-bold relative z-10">
+            <div className="text-[0.35rem] leading-[0.5rem] text-zinc-400 font-bold relative z-10">
                 <span>{tile.id}</span>
             </div>
-            <div className={`text-xs text-zinc-400 leading-4 font-bold uppercase relative z-10`}>
+            <div className={`text-[0.5rem] w-1/2 text-zinc-400 leading-[0.5rem] font-bold uppercase relative z-10`}>
                 <span>
                     {tile.title}
                 </span>
             </div>
-            <div className={`text-[0.5rem] ${textColor} font-bold relative z-10`}>
+            <div className={`text-[0.35rem] ${textColor} font-bold relative z-10`}>
                 <span>{tile.districtType}</span>
             </div>
         </>

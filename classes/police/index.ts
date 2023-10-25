@@ -4,14 +4,18 @@ import { shuffler } from "../../utils/randomizers";
 import City from "../city";
 import { OtherDistrictTypes } from "../district/constants";
 import { PoliceOpsCard, policeOpsCardTypes, policeOpsMovimentTypes, priority, stateDistricts } from "./constants";
-import { movePoliceBlocks } from "./movePoliceBlocks";
+import { getPoliceBlockMoviments } from "./movePoliceBlocks";
 import { Type } from "class-transformer";
+
+let id: number = 0;
 
 export class PoliceBlock {
     districtId: string | number;
+    id: number;
 
     constructor(districtId: number) {
         this.districtId = districtId;
+        this.id = id++;
     }
 
     movePolice(districtCode: string | number) {
@@ -66,7 +70,7 @@ export default class Police {
                 this.movePoliceBlocks(city, card.moviment.target as Faction | OtherDistrictTypes);
             }
         }
-        console.log(card.title);
+        alert(`Police Squads with at least two blocks move to adjacent ${card.title} districts`);
     }
 
     getDistrictsWithPoliceBlocks(): Array<string | number> {
@@ -92,8 +96,13 @@ export default class Police {
     }
 
     movePoliceBlocks(city: City, districtType: Faction | OtherDistrictTypes, priority?: priority) {
+        let moviments = [];
         this.getDistrictsWithPoliceBlocks().forEach(districtId => {
-            movePoliceBlocks(city, districtId, districtType, this);
+            moviments = [...moviments, ...getPoliceBlockMoviments(city, districtId, districtType, this)];
         });
+        moviments.forEach(moviment => {
+            const blockToMove = this.blocks.find(block => block.id === moviment.blockId);
+            blockToMove.movePolice(moviment.targetDistrictId);
+        })
     }
 }

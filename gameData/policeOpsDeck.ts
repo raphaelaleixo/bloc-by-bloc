@@ -57,40 +57,41 @@ export const policeOpsDeck: PoliceOpsCard[] = [{
         target: OtherDistrictTypes.State,
     }
 },
-{
-    type: policeOpsCardTypes.moviment,
-    title: 'MOVE BY PRIORITY',
-    moviment: {
-        movimentType: policeOpsMovimentTypes.priority,
-    }
-},
-{
-    type: policeOpsCardTypes.moviment,
-    title: 'MOVE BY PRIORITY',
-    moviment: {
-        movimentType: policeOpsMovimentTypes.priority,
-    }
-},
-{
-    type: policeOpsCardTypes.moviment,
-    title: 'GO AFTER BLOCKS',
-    moviment: {
-        movimentType: policeOpsMovimentTypes.bloc,
-    }
-},
-{
-    type: policeOpsCardTypes.moviment,
-    title: 'GO AFTER OCCUPATIONS',
-    moviment: {
-        movimentType: policeOpsMovimentTypes.occupation,
-    }
-},
-{
-    title: 'LIGHT REINFORCEMENT',
-    type: policeOpsCardTypes.reinforcement,
-    reinforcement: reinforcement.light
-},
-{
-    title: 'STRATEGIC ROTATION',
-    type: policeOpsCardTypes.rotation
-}]
+// {
+//     type: policeOpsCardTypes.moviment,
+//     title: 'MOVE BY PRIORITY',
+//     moviment: {
+//         movimentType: policeOpsMovimentTypes.priority,
+//     }
+// },
+// {
+//     type: policeOpsCardTypes.moviment,
+//     title: 'MOVE BY PRIORITY',
+//     moviment: {
+//         movimentType: policeOpsMovimentTypes.priority,
+//     }
+// },
+// {
+//     type: policeOpsCardTypes.moviment,
+//     title: 'GO AFTER BLOCKS',
+//     moviment: {
+//         movimentType: policeOpsMovimentTypes.bloc,
+//     }
+// },
+// {
+//     type: policeOpsCardTypes.moviment,
+//     title: 'GO AFTER OCCUPATIONS',
+//     moviment: {
+//         movimentType: policeOpsMovimentTypes.occupation,
+//     }
+// },
+// {
+//     title: 'LIGHT REINFORCEMENT',
+//     type: policeOpsCardTypes.reinforcement,
+//     reinforcement: reinforcement.light
+// },
+// {
+//     title: 'STRATEGIC ROTATION',
+//     type: policeOpsCardTypes.rotation
+// }
+]

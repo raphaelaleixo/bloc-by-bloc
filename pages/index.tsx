@@ -23,7 +23,7 @@ export default function Home() {
       <Head>
         <title>Bloc By Bloc</title>
       </Head>
-      <main className="contents ">
+      <main className="flex flex-col gap-3">
         <button
           onClick={() => {
             police.drawPoliceCard(city);
@@ -34,7 +34,7 @@ export default function Home() {
         >
           Draw police ops card
         </button>
-        <div className="grid grid-cols-5 w-[40em] gap-2">
+        <div className="grid grid-cols-5 w-[40em] gap-3">
           {city?.blocks.map((line: CityBlock[]) =>
             line.map((district: CityBlock) => {
               return (
