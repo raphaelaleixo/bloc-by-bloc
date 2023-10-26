@@ -73,10 +73,11 @@ export default class Police {
         }
         const card = this.policeDeck.shift();
         if (card.type === policeOpsCardTypes.moviment) {
-            if (card.moviment.movimentType === policeOpsMovimentTypes.district) {
-                this.movePoliceBlocks(city, card.moviment.target as Faction | OtherDistrictTypes);
+            if (card.moviment.movimentType === policeOpsMovimentTypes.district || policeOpsMovimentTypes.priority) {
+                this.movePoliceBlocks(city, card.moviment.movimentType, card.moviment.target as Faction | OtherDistrictTypes);
             }
         }
+        
         if (card.type === policeOpsCardTypes.reinforcement) {
             const districtsWithVans = this.getDistrictsWithPoliceVans();
             districtsWithVans.forEach((district) => {
@@ -154,10 +155,10 @@ export default class Police {
         }
     }
 
-    movePoliceBlocks(city: City, districtType: Faction | OtherDistrictTypes, priority?: priority) {
+    movePoliceBlocks(city: City, type: policeOpsMovimentTypes, districtType?: Faction | OtherDistrictTypes, priority?: priority) {
         let moviments = [];
         this.getDistrictsWithPoliceBlocks().forEach(districtId => {
-            moviments = [...moviments, ...getPoliceBlockMoviments(city, districtId, districtType, this)];
+            moviments = [...moviments, ...getPoliceBlockMoviments(city, this, type, districtId, districtType)];
         });
         moviments.forEach(moviment => {
             const blockToMove = this.blocks.find(block => block.id === moviment.blockId);

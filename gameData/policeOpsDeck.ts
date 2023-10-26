@@ -57,20 +57,20 @@ export const policeOpsDeck: PoliceOpsCard[] = [{
         target: OtherDistrictTypes.State,
     }
 },
-// {
-//     type: policeOpsCardTypes.moviment,
-//     title: 'MOVE BY PRIORITY',
-//     moviment: {
-//         movimentType: policeOpsMovimentTypes.priority,
-//     }
-// },
-// {
-//     type: policeOpsCardTypes.moviment,
-//     title: 'MOVE BY PRIORITY',
-//     moviment: {
-//         movimentType: policeOpsMovimentTypes.priority,
-//     }
-// },
+{
+    type: policeOpsCardTypes.moviment,
+    title: 'MOVE BY PRIORITY',
+    moviment: {
+        movimentType: policeOpsMovimentTypes.priority,
+    }
+},
+{
+    type: policeOpsCardTypes.moviment,
+    title: 'MOVE BY PRIORITY',
+    moviment: {
+        movimentType: policeOpsMovimentTypes.priority,
+    }
+},
 // {
 //     type: policeOpsCardTypes.moviment,
 //     title: 'GO AFTER BLOCKS',

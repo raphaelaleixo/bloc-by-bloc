@@ -1,18 +1,24 @@
 import Police from ".";
 import { Faction } from "../../utils/constants";
 import { getAdjacentDistricts } from "../../utils/getAdjacentDistricts";
-import City from "../city";
+import City, { CityBlock } from "../city";
 import { OtherDistrictTypes } from "../district/constants";
+import { policeOpsMovimentTypes } from "./constants";
 
 type PoliceBlockMoviment = {
     blockId: number;
     targetDistrictId: number | string;
 }
 
-export const getPoliceBlockMoviments = (city: City, districtId: number | string, districtType: Faction | OtherDistrictTypes, policeInstance: Police) => {
+export const getPoliceBlockMoviments = (city: City, policeInstance: Police, movimentType: policeOpsMovimentTypes, districtId: number | string, districtType?: Faction | OtherDistrictTypes) => {
     const actualDistrict = districtId;
     const allAdjacentDistricts = getAdjacentDistricts(city, districtId);
-    const targetDistricts = allAdjacentDistricts.find((district => district.tile.districtType === districtType));
+    let targetDistricts: CityBlock;
+    if (movimentType === policeOpsMovimentTypes.district) {
+        targetDistricts = allAdjacentDistricts.find((district => district.tile.districtType === districtType));
+    } else if (movimentType === policeOpsMovimentTypes.priority) {
+        targetDistricts = allAdjacentDistricts.reduce((prev, current) => (prev && prev.tile.id > current.tile.id) ? prev : current);
+    }
     const moviments: PoliceBlockMoviment[] = [];
     if (targetDistricts) {
         const targetId = targetDistricts.tile.id;
