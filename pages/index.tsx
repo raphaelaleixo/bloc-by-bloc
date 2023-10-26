@@ -7,6 +7,7 @@ import CityTile from "../components/cityTile/cityTile";
 import { instanceToInstance } from "class-transformer";
 import PoliceBlocksMap from "../components/policeBlocks/policeBlocksMap";
 import { PoliceOpsCard } from "../classes/police/constants";
+import PoliceOpsDeck from "../components/policeBlocks/policeOpsDeck";
 
 export default function Home() {
   const [city, setCity] = useState<City | undefined>();
@@ -26,19 +27,7 @@ export default function Home() {
       </Head>
       <main className="flex align-top items-start gap-6">
         <div className="flex flex-col gap-5">
-          <div className={`w-[160px] h-[240px] p-2 rounded-md flex items-center justify-center ${policeOpsCard ? 'bg-slate-100' : ''} text-center`}>
-            {policeOpsCard?.title}
-          </div>
-          <button
-            onClick={() => {
-              setPoliceOpsCard(police.drawPoliceCard(city));
-              const newPolice = instanceToInstance(police);
-              setPolice(newPolice);
-            }}
-            className="bg-white"
-          >
-            Draw police ops card
-          </button>
+          <PoliceOpsDeck city={city} police={police} setPolice={setPolice} />
           <div className="w-[160px] h-[200px] rounded-md border-slate-100 border-dashed border-2 p-4">
             <div className="text-slate-100 mb-2 text-center">Staging Area</div>
             <div className="w-[full] flex flex-wrap gap-2 justify-center">
