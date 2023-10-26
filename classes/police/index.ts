@@ -100,6 +100,7 @@ export default class Police {
                 }
             })
         }
+        return card;
     }
 
     getPoliceBlocksByDistrict(): PoliceBlockMap {

@@ -24,6 +24,7 @@ export const getPoliceBlockMoviments = (city: City, policeInstance: Police, movi
         const targetId = targetDistricts.tile.id;
         const blocks = policeInstance.getBlocksInDistrict(actualDistrict);
         const totalBlocks = blocks.length;
+        // Add rules about not moving when we have an occupation;
         if (totalBlocks > 1) {
             const blocksToMove = totalBlocks - 1;
             for (let i = 0; i < blocksToMove; i++) {

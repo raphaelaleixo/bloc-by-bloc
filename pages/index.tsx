@@ -6,10 +6,12 @@ import Police from "../classes/police";
 import CityTile from "../components/cityTile/cityTile";
 import { instanceToInstance } from "class-transformer";
 import PoliceBlocksMap from "../components/policeBlocks/policeBlocksMap";
+import { PoliceOpsCard } from "../classes/police/constants";
 
 export default function Home() {
   const [city, setCity] = useState<City | undefined>();
   const [police, setPolice] = useState<Police | undefined>();
+  const [policeOpsCard, setPoliceOpsCard] = useState<PoliceOpsCard | undefined>();
   const [highightedTiles, setHighlightedTiles] = useState<CityBlock[]>([]);
 
   useEffect(() => {
@@ -22,19 +24,32 @@ export default function Home() {
       <Head>
         <title>Bloc By Bloc</title>
       </Head>
-      <main className="flex flex-col gap-3">
-        <button
-          onClick={() => {
-            police.drawPoliceCard(city);
-            const newPolice = instanceToInstance(police);
-            setPolice(newPolice);
-          }}
-          className="bg-white"
-        >
-          Draw police ops card
-        </button>
+      <main className="flex align-top items-start gap-6">
+        <div className="flex flex-col gap-5">
+          <div className={`w-[160px] h-[240px] p-2 rounded-md flex items-center justify-center ${policeOpsCard ? 'bg-slate-100' : ''} text-center`}>
+            {policeOpsCard?.title}
+          </div>
+          <button
+            onClick={() => {
+              setPoliceOpsCard(police.drawPoliceCard(city));
+              const newPolice = instanceToInstance(police);
+              setPolice(newPolice);
+            }}
+            className="bg-white"
+          >
+            Draw police ops card
+          </button>
+          <div className="w-[160px] h-[200px] rounded-md border-slate-100 border-dashed border-2 p-4">
+            <div className="text-slate-100 mb-2 text-center">Staging Area</div>
+            <div className="w-[full] flex flex-wrap gap-2 justify-center">
+              {new Array(police?.policeCount || 0).fill('i').map((_item, index) => (
+                <div key={index} className="w-4 h-4 bg-white shadow-md inline-block outline outline-1 outline-black" />
+              ))}
+            </div>
+          </div>
+        </div>
         <div className="w-[700px] h-[700px] relative">
-          <div className="grid grid-cols-5 w-full h-full gap-3 absolute">
+          <div className="grid grid-cols-5 w-full h-full gap-2 absolute">
             {city?.blocks.map((line: CityBlock[]) =>
               line.map((district: CityBlock) => {
                 return (
