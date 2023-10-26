@@ -21,6 +21,7 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.10.1",
     "react-simple-image-viewer": "^1.2.2",
+    "react-transition-group": "^4.4.5",
     "reflect-metadata": "0.1.13",
     "tailwindcss": "^3.3.3"
   },

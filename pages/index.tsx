@@ -5,6 +5,7 @@ import City, { CityBlock } from "../classes/city";
 import Police from "../classes/police";
 import CityTile from "../components/cityTile/cityTile";
 import { instanceToInstance } from "class-transformer";
+import PoliceBlocksMap from "../components/policeBlocks/policeBlocksMap";
 
 export default function Home() {
   const [city, setCity] = useState<City | undefined>();
@@ -15,8 +16,6 @@ export default function Home() {
     setCity(createNewCity());
     setPolice(new Police().initialize());
   }, []);
-
-
 
   return (
     <>
@@ -34,14 +33,17 @@ export default function Home() {
         >
           Draw police ops card
         </button>
-        <div className="grid grid-cols-5 w-[40em] gap-3">
-          {city?.blocks.map((line: CityBlock[]) =>
-            line.map((district: CityBlock) => {
-              return (
-                <CityTile city={city} tile={district.tile} police={police} key={district.tile.id} highightedTiles={highightedTiles} setHighlightedTiles={setHighlightedTiles} />
-              );
-            })
-          )}
+        <div className="w-[700px] h-[700px] relative">
+          <div className="grid grid-cols-5 w-full h-full gap-3 absolute">
+            {city?.blocks.map((line: CityBlock[]) =>
+              line.map((district: CityBlock) => {
+                return (
+                  <CityTile city={city} tile={district.tile} key={district.tile.id} highightedTiles={highightedTiles} setHighlightedTiles={setHighlightedTiles} />
+                );
+              })
+            )}
+          </div>
+          <PoliceBlocksMap city={city} police={police} />
         </div>
       </main>
     </>
