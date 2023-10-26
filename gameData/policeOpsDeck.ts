@@ -85,13 +85,18 @@ export const policeOpsDeck: PoliceOpsCard[] = [{
 //         movimentType: policeOpsMovimentTypes.occupation,
 //     }
 // },
-// {
-//     title: 'LIGHT REINFORCEMENT',
-//     type: policeOpsCardTypes.reinforcement,
-//     reinforcement: reinforcement.light
-// },
-// {
-//     title: 'STRATEGIC ROTATION',
-//     type: policeOpsCardTypes.rotation
-// }
+{
+    title: 'LIGHT REINFORCEMENT',
+    type: policeOpsCardTypes.reinforcement,
+    reinforcement: reinforcement.light
+},
+{
+    title: 'HEAVY REINFORCEMENT',
+    type: policeOpsCardTypes.reinforcement,
+    reinforcement: reinforcement.heavy
+},
+{
+    title: 'STRATEGIC ROTATION',
+    type: policeOpsCardTypes.rotation
+}
 ]

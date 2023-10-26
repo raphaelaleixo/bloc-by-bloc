@@ -9,6 +9,13 @@ import { Type } from "class-transformer";
 
 let id: number = 0;
 
+export interface PoliceBlockMap {
+    [key: string | number]: {
+        policeBlocks?: number,
+        policeVans?: number,
+    }
+}
+
 export class PoliceBlock {
     districtId: string | number;
     id: number;
@@ -70,15 +77,67 @@ export default class Police {
                 this.movePoliceBlocks(city, card.moviment.target as Faction | OtherDistrictTypes);
             }
         }
-        alert(`Police Squads with at least two blocks move to adjacent ${card.title} districts`);
+        if (card.type === policeOpsCardTypes.reinforcement) {
+            const districtsWithVans = this.getDistrictsWithPoliceVans();
+            districtsWithVans.forEach((district) => {
+                if (this.vans.find(van => van.districtId === district).hits === 0) {
+                    this.createPoliceBlock(district as number);
+                }
+            })
+        }
+        if (card.type === policeOpsCardTypes.rotation)  {
+            const policeBlocksByDistrict = this.getPoliceBlocksByDistrict();
+            const districtsWithPoliceBlocks = this.getDistrictsWithPoliceBlocks();
+
+            districtsWithPoliceBlocks.forEach(district => {
+                const maximum = policeBlocksByDistrict[district].policeBlocks;
+                if (policeBlocksByDistrict[district].policeBlocks > 5) {
+                    const targetBlocks = this.getBlocksInDistrict(district);
+                    for (let i = maximum; i > 5; i--) {
+                        this.removePoliceBlock(targetBlocks[i-1].id);
+                    }
+                }
+            })
+        }
+    }
+
+    getPoliceBlocksByDistrict(): PoliceBlockMap {
+        const blocksMap: Partial<PoliceBlockMap> = {};
+        const districtsWithPoliceBlocks = this.getDistrictsWithPoliceBlocks();
+        const districtsWithVans = this.getDistrictsWithPoliceVans();
+        districtsWithPoliceBlocks.forEach(district => {
+            const districtObject = blocksMap[district] || {};
+            blocksMap[district] = Object.assign(districtObject, {
+                policeBlocks: this.blocks.filter(block => block.districtId === district).length
+            });
+        })
+        districtsWithVans.forEach(district => {
+            const districtObject = blocksMap[district] || {};
+            blocksMap[district] = Object.assign(districtObject, {
+                policeVans: this.vans.filter(van => van.districtId === district).length
+            });
+        })
+        return blocksMap;
     }
 
     getDistrictsWithPoliceBlocks(): Array<string | number> {
         return Array.from(new Set(this.blocks.map((policeBlock) => policeBlock.districtId)));
     }
 
+    getDistrictsWithPoliceVans(): Array<string | number> {
+        return Array.from(new Set(this.vans.map((van) => van.districtId)));
+    }
+
     getBlocksInDistrict(districtId: number | string): PoliceBlock[] {
         return this.blocks.filter(block => block.districtId === districtId);
+    }
+
+    removePoliceBlock(blockId: number) {
+        const targetBlock = this.blocks.find(block => block.id === blockId);
+        if (targetBlock) {
+            this.blocks = this.blocks.filter(block => block.id !== targetBlock.id);
+            this.policeCount++;
+        }
     }
 
     createPoliceBlock(districtCode: number) {
