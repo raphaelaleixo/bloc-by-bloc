@@ -19,25 +19,25 @@ const TileInformation: React.FC<{ tile: District }> = ({ tile }) => {
             case (OtherDistrictTypes.State):
                 return 'text-white';
             default:
-                return 'text-zinc-500';
+                return 'text-zinc-300';
         }
     }, [tile.districtType])
 
 
     return (
-        <>
-            <div className="text-[0.35rem] leading-[0.5rem] text-zinc-400 font-bold relative z-10">
+        <div className="relative z-10 leading-tight text-zinc-300">
+            <div className="text-[0.5rem]">
                 <span>{tile.id}</span>
             </div>
-            <div className={`text-[0.5rem] w-1/2 text-zinc-400 leading-[0.5rem] font-bold uppercase relative z-10`}>
+            <div className={`text-xs w-2/3 leading-none font-bold uppercase`}>
                 <span>
                     {tile.title}
                 </span>
             </div>
-            <div className={`text-[0.35rem] ${textColor} font-bold relative z-10`}>
+            <div className={`text-[0.5rem] ${textColor} tracking-wider font-bold`}>
                 <span>{tile.districtType}</span>
             </div>
-        </>
+        </div>
     )
 }
 

@@ -1,11 +1,26 @@
 import Head from "next/head";
 import { useState, useEffect } from "react";
+import { Saira, Saira_Stencil_One } from 'next/font/google';
 import { createNewCity } from "../classes/city/createNewCity";
 import City, { CityBlock } from "../classes/city";
 import Police from "../classes/police";
 import CityTile from "../components/cityTile/cityTile";
 import PoliceBlocksMap from "../components/policeBlocks/policeBlocksMap";
 import PoliceOpsDeck from "../components/policeBlocks/policeOpsDeck";
+import StagingArea from "../components/policeBlocks/stagingArea";
+import PoliceMorale from "../components/policeBlocks/policeMorale";
+
+const saira = Saira({
+  subsets: ["latin"],
+  weight: 'variable',
+  variable: "--font-saira",
+});
+
+const sairaStencil = Saira_Stencil_One({
+  subsets: ["latin"],
+  weight: '400',
+  variable: "--font-saira-stencil",
+});
 
 export default function Home() {
   const [city, setCity] = useState<City | undefined>();
@@ -22,17 +37,11 @@ export default function Home() {
       <Head>
         <title>Bloc By Bloc</title>
       </Head>
-      <main className="flex align-top items-start gap-6">
+      <main className={`flex align-top items-start gap-6 ${saira.variable} ${sairaStencil.variable} font-saira font-condensed`}>
         <div className="flex flex-col gap-5">
           <PoliceOpsDeck city={city} police={police} setPolice={setPolice} />
-          <div className="w-[160px] h-[200px] rounded-md border-slate-100 border-dashed border-2 p-4">
-            <div className="text-slate-100 mb-2 text-center">Staging Area</div>
-            <div className="w-[full] flex flex-wrap gap-2 justify-center">
-              {new Array(police?.policeCount || 0).fill('i').map((_item, index) => (
-                <div key={index} className="w-4 h-4 bg-white shadow-md inline-block outline outline-1 outline-black" />
-              ))}
-            </div>
-          </div>
+          <StagingArea policeCount={police?.policeCount} />
+          <PoliceMorale police={police} />
         </div>
         <div className="w-[700px] h-[700px] relative">
           <div className="grid grid-cols-5 w-full h-full gap-2 absolute">

@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .font-condensed {
+    font-stretch: extra-condensed;
+  }
+}
+
 html {
   height: 100%;
   width: 100%;

@@ -27,6 +27,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        saira: ['var(--font-saira)'],
+        saira_stencil: ['var(--font-saira-stencil)'],
+      },
       colors: {
         'black': '#050505'
       }

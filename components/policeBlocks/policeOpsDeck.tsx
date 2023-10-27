@@ -6,23 +6,25 @@ import City from "../../classes/city";
 import PoliceOpsDeckCard from "./policeOpsDeckCard";
 
 const PoliceOpsDeck: React.FC<{ city: City, police: Police, setPolice: Function }> = ({ city, police, setPolice }) => {
-    const [policeOpsCard, setPoliceOpsCard] = useState<PoliceOpsCard | undefined>();
-    
-    return (
-        <>
+  const [policeOpsCard, setPoliceOpsCard] = useState<PoliceOpsCard | undefined>();
+
+  return (
+    <>
+      <div className="h-[240px]">
         <PoliceOpsDeckCard policeOpsCard={policeOpsCard} />
-        <button
-            onClick={() => {
-              setPoliceOpsCard(police.drawPoliceCard(city));
-              const newPolice = instanceToInstance(police);
-              setPolice(newPolice);
-            }}
-            className="bg-white"
-          >
-            Draw police ops card
-          </button>
-        </>
-    )
+      </div>
+      <button
+        onClick={() => {
+          setPoliceOpsCard(police.drawPoliceCard(city));
+          const newPolice = instanceToInstance(police);
+          setPolice(newPolice);
+        }}
+        className="bg-white"
+      >
+        Draw police ops card
+      </button>
+    </>
+  )
 }
 
 export default PoliceOpsDeck;
