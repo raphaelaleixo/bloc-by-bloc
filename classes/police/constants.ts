@@ -31,10 +31,7 @@ export interface moviment {
 
 export type PoliceOpsCard = {
     title: string,
-    contentBefore?: string,
     contentAfter?: string,
-    tagAfter?: Faction | OtherDistrictTypes,
-    extraInfo?: string,
     type: policeOpsCardTypes;
     moviment?: moviment;
     reinforcement?: reinforcement;

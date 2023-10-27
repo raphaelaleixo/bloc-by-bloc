@@ -4,15 +4,12 @@ import { createNewCity } from "../classes/city/createNewCity";
 import City, { CityBlock } from "../classes/city";
 import Police from "../classes/police";
 import CityTile from "../components/cityTile/cityTile";
-import { instanceToInstance } from "class-transformer";
 import PoliceBlocksMap from "../components/policeBlocks/policeBlocksMap";
-import { PoliceOpsCard } from "../classes/police/constants";
 import PoliceOpsDeck from "../components/policeBlocks/policeOpsDeck";
 
 export default function Home() {
   const [city, setCity] = useState<City | undefined>();
   const [police, setPolice] = useState<Police | undefined>();
-  const [policeOpsCard, setPoliceOpsCard] = useState<PoliceOpsCard | undefined>();
   const [highightedTiles, setHighlightedTiles] = useState<CityBlock[]>([]);
 
   useEffect(() => {

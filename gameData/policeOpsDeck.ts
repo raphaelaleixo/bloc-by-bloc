@@ -59,14 +59,16 @@ export const policeOpsDeck: PoliceOpsCard[] = [{
 },
 {
     type: policeOpsCardTypes.moviment,
-    title: 'MOVE BY PRIORITY',
+    title: 'DISTRICT PATROLS',
+    contentAfter: 'All groups of police squads advance into adjacent districts with the highest police ID',
     moviment: {
         movimentType: policeOpsMovimentTypes.priority,
     }
 },
 {
     type: policeOpsCardTypes.moviment,
-    title: 'MOVE BY PRIORITY',
+    title: 'DISTRICT PATROLS',
+    contentAfter: 'All groups of police squads advance into adjacent districts with the highest police ID',
     moviment: {
         movimentType: policeOpsMovimentTypes.priority,
     }
@@ -88,15 +90,24 @@ export const policeOpsDeck: PoliceOpsCard[] = [{
 {
     title: 'LIGHT REINFORCEMENT',
     type: policeOpsCardTypes.reinforcement,
+    contentAfter: '+1 police morale.\n\nAll police vans deploy 1 police squad.',
+    reinforcement: reinforcement.light
+},
+{
+    title: 'LIGHT REINFORCEMENT',
+    type: policeOpsCardTypes.reinforcement,
+    contentAfter: '+1 police morale.\n\nAll police vans deploy 1 police squad.',
     reinforcement: reinforcement.light
 },
 {
     title: 'HEAVY REINFORCEMENT',
     type: policeOpsCardTypes.reinforcement,
+    contentAfter: '+1 police morale.\n\nAll police vans deploy 1 police squad.\n\nIf fewer than 4 police vans are stationed in the city: Deploy 1 van to the district with the highest police ID that has at least 1 police squad but no van',
     reinforcement: reinforcement.heavy
 },
 {
     title: 'STRATEGIC ROTATION',
+    contentAfter: 'All groups of police squads reduce down to 5 max per district.\n\nExtra squads return to the staging area.',
     type: policeOpsCardTypes.rotation
 }
 ]
