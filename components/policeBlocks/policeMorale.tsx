@@ -44,13 +44,13 @@ const PoliceMorale: React.FC<{ police: Police }> = ({ police }) => {
     }, [level]);
 
     return (
-        <div className="text-zinc-300 font-black uppercase text-center">
+        <div className="text-zinc-300 font-bold uppercase text-center">
             <div className="text-xl">Police morale</div>
             <div className="flex flex-wrap w-[160px] justify-center">
                 {
                     moraleTrack.map((trackItem, index) => (
                         <div key={trackItem.text} className="w-1/2 p-2">
-                            <div className="font-saira_stencil text-xl leading-none">{trackItem.value}</div>
+                            <div className="font-saira_stencil font-normal text-xl leading-none">{trackItem.value}</div>
                             <div className="border border-cyan-500 h-3 relative">
                                 {
                                     level === index ? trackPiece : false

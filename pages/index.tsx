@@ -37,7 +37,7 @@ export default function Home() {
       <Head>
         <title>Bloc By Bloc</title>
       </Head>
-      <main className={`w-full h-full flex align-top justify-center items-start gap-6 ${saira.variable} ${sairaStencil.variable} font-saira font-condensed`}>
+      <main className={`w-full h-full flex align-top justify-center items-start gap-6 ${saira.variable} ${sairaStencil.variable} font-saira`}>
         <div className="flex flex-col gap-5">
           <PoliceOpsDeck city={city} police={police} setPolice={setPolice} />
           <StagingArea policeCount={police?.policeCount} />
