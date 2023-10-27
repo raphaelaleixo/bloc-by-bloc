@@ -13,7 +13,7 @@ const PoliceOpsDeckCard: React.FC<{ policeOpsCard: PoliceOpsCard }> = ({ policeO
     const bannerColor = policeOpsCard.moviment ? 'bg-cyan-500' : '';
 
     return  (
-        <div className="w-[160px] h-[240px] p-2 rounded-md flex flex-col justify-top bg-slate-100 text-center">
+        <div className="w-[160px] h-[240px] p-2 rounded-md flex flex-col justify-top bg-white text-center">
             <div className={`${bannerColor} uppercase text-[0.6em] leading-[0.75rem] p-1 text-white rounded-sm mb-4`}>{bannerInfo}</div>
             <div className="text-[0.6rem] leading-none">{contentBefore}</div>
             <div className="font-bold leading-none text-md my-2 uppercase">{title}</div>

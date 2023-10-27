@@ -21,7 +21,7 @@ body {
   display: flex;
   min-height: 100%;
   width: 100%;
-  align-items: top;
+  align-items: center;
   justify-content: flex-start;
   padding: 1em;
 }

@@ -19,7 +19,7 @@ const PoliceOpsDeck: React.FC<{ city: City, police: Police, setPolice: Function 
           const newPolice = instanceToInstance(police);
           setPolice(newPolice);
         }}
-        className="bg-white"
+        className="bg-cyan-300 rounded-sm text-xs uppercase leading-none p-2 font-bold"
       >
         Draw police ops card
       </button>
