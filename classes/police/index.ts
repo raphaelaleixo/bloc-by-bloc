@@ -72,6 +72,11 @@ export default class Police {
             this.shufflePoliceDeck(policeOpsDeck);
         }
         const card = this.policeDeck.shift();
+        
+        if (card.increaseMorale) {
+            this.increaseMorale();
+        }
+
         if (card.type === policeOpsCardTypes.moviment) {
             if (card.moviment.movimentType === policeOpsMovimentTypes.district || policeOpsMovimentTypes.priority) {
                 this.movePoliceBlocks(city, card.moviment.movimentType, card.moviment.target as Faction | OtherDistrictTypes);
@@ -165,5 +170,17 @@ export default class Police {
             const blockToMove = this.blocks.find(block => block.id === moviment.blockId);
             blockToMove.movePolice(moviment.targetDistrictId);
         })
+    }
+
+    increaseMorale() {
+        if (this.moraleIndex < 4) {
+            this.moraleIndex++
+        }
+    }
+
+    decreaseMorale() {
+        if (this.moraleIndex > 0) {
+            this.moraleIndex--
+        }
     }
 }

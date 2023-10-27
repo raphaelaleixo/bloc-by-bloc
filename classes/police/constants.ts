@@ -33,6 +33,7 @@ export type PoliceOpsCard = {
     title: string,
     contentAfter?: string,
     type: policeOpsCardTypes;
+    increaseMorale?: boolean,
     moviment?: moviment;
     reinforcement?: reinforcement;
 }

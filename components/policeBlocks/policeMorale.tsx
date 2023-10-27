@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import Police from "../../classes/police";
 
 type MoraleTrackItem = {
@@ -26,11 +27,21 @@ const moraleTrack: MoraleTrackItem[] = [
         text: 'Deadly',
         value: 3,
     },
-]
+];
+
+function getRandomIntInclusive() {
+    return Math.floor(Math.random() * (5)) - 3;
+}
+
 
 const PoliceMorale: React.FC<{ police: Police }> = ({ police }) => {
+    
     const level = police?.moraleIndex || 0;
-    const trackPiece = (<div className="absolute h-full w-full t-0 l-0 bg-white outline outline-2 outline-black rotate-[5deg]"></div>);
+    
+    const trackPiece = useMemo(() => {
+        const rotation = getRandomIntInclusive();
+        return (<div className="absolute h-full w-full t-0 l-0 bg-white outline outline-2 outline-black" style={{ rotate: `${rotation}deg` }}></div>);
+    }, [level]);
 
     return (
         <div className="text-zinc-300 font-black uppercase text-center">

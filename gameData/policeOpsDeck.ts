@@ -90,18 +90,21 @@ export const policeOpsDeck: PoliceOpsCard[] = [{
 {
     title: 'LIGHT REINFORCEMENT',
     type: policeOpsCardTypes.reinforcement,
+    increaseMorale: true,
     contentAfter: '+1 police morale.\n\nAll police vans deploy 1 police squad.',
     reinforcement: reinforcement.light
 },
 {
     title: 'LIGHT REINFORCEMENT',
     type: policeOpsCardTypes.reinforcement,
+    increaseMorale: true,
     contentAfter: '+1 police morale.\n\nAll police vans deploy 1 police squad.',
     reinforcement: reinforcement.light
 },
 {
     title: 'HEAVY REINFORCEMENT',
     type: policeOpsCardTypes.reinforcement,
+    increaseMorale: true,
     contentAfter: '+1 police morale.\n\nAll police vans deploy 1 police squad.\n\nIf fewer than 4 police vans are stationed in the city: Deploy 1 van to the district with the highest police ID that has at least 1 police squad but no van',
     reinforcement: reinforcement.heavy
 },
