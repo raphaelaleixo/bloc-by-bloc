@@ -1,16 +1,11 @@
 import { useMemo } from "react";
 import Police from "../../classes/police";
 import { moraleTrack } from "../../classes/police/constants";
-
-function getRandomIntInclusive(): number {
-    return Math.floor(Math.random() * (5)) - 3;
-}
-
+import { getRandomIntInclusive } from "../../utils/randomizers";
 
 const PoliceMorale: React.FC<{ police: Police }> = ({ police }) => {
     
     const level = police?.moraleIndex || 0;
-    
     const trackPiece = useMemo(() => {
         const rotation = getRandomIntInclusive();
         return (<div className="absolute h-full w-full t-0 l-0 bg-white outline outline-2 outline-black" style={{ rotate: `${-rotation}deg` }}></div>);

@@ -1,15 +1,12 @@
 import { useMemo } from "react";
 import District, { Highway } from "../../classes/district";
-import Police from "../../classes/police";
 import { getAdjacentDistricts } from "../../utils/getAdjacentDistricts";
 import City, { CityBlock } from "../../classes/city";
 import TileInformation from "./tileInformation";
 import OcupationSlot from "./ocupationSlot";
 import Roads from "./roads";
+import { getRandomIntInclusive } from "../../utils/randomizers";
 
-function getRandomIntInclusive() {
-    return Math.floor(Math.random() * (3)) - 1;
-}
 
 const CityTile: React.FC<{ city: City, tile: District | Highway, highightedTiles: CityBlock[], setHighlightedTiles: Function }> = ({ city, tile, highightedTiles, setHighlightedTiles }) => {
 

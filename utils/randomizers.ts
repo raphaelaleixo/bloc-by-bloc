@@ -10,3 +10,7 @@ export const shuffler = (arr: any[]) =>
     },
     [...arr]
   );
+
+export function getRandomIntInclusive(): number {
+    return Math.floor(Math.random() * (3)) - 1;
+}
