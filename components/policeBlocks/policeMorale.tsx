@@ -1,35 +1,8 @@
 import { useMemo } from "react";
 import Police from "../../classes/police";
+import { moraleTrack } from "../../classes/police/constants";
 
-type MoraleTrackItem = {
-    text: string,
-    value: number,
-}
-
-const moraleTrack: MoraleTrackItem[] = [
-    {
-        text: 'Timid',
-        value: 1,
-    },
-    {
-        text: 'Alert',
-        value: 2,
-    },
-    {
-        text: 'Bold',
-        value: 2,
-    },
-    {
-        text: 'Brutal',
-        value: 2,
-    },
-    {
-        text: 'Deadly',
-        value: 3,
-    },
-];
-
-function getRandomIntInclusive() {
+function getRandomIntInclusive(): number {
     return Math.floor(Math.random() * (5)) - 3;
 }
 
@@ -41,6 +14,7 @@ const PoliceMorale: React.FC<{ police: Police }> = ({ police }) => {
     const trackPiece = useMemo(() => {
         const rotation = getRandomIntInclusive();
         return (<div className="absolute h-full w-full t-0 l-0 bg-white outline outline-2 outline-black" style={{ rotate: `${-rotation}deg` }}></div>);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [level]);
 
     return (

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Police from "../../classes/police"
 import { PoliceOpsCard } from "../../classes/police/constants";
-import { instanceToInstance } from "class-transformer";
 import City from "../../classes/city";
 import PoliceOpsDeckCard from "./policeOpsDeckCard";
 
@@ -15,8 +14,8 @@ const PoliceOpsDeck: React.FC<{ city: City, police: Police, setPolice: Function 
       </div>
       <button
         onClick={() => {
-          setPoliceOpsCard(police.drawPoliceCard(city));
-          const newPolice = instanceToInstance(police);
+          const newPolice = police.clone();
+          setPoliceOpsCard(newPolice.drawPoliceCard(city));
           setPolice(newPolice);
         }}
         className="bg-cyan-300 rounded-sm text-xs uppercase leading-none p-2 font-bold"

@@ -5,7 +5,7 @@ import City from "../city";
 import { OtherDistrictTypes } from "../district/constants";
 import { PoliceOpsCard, policeOpsCardTypes, policeOpsMovimentTypes, priority, stateDistricts } from "./constants";
 import { getPoliceBlockMoviments } from "./movePoliceBlocks";
-import { Type } from "class-transformer";
+import { Type, instanceToInstance, instanceToPlain, serialize } from "class-transformer";
 
 let id: number = 0;
 
@@ -61,6 +61,14 @@ export default class Police {
         });
         this.shufflePoliceDeck(policeOpsDeck);
         return this;
+    }
+
+    clone() {
+        return instanceToInstance(this);
+    }
+
+    export() {
+        return JSON.stringify(instanceToPlain(this));
     }
 
     shufflePoliceDeck(deck: PoliceOpsCard[]) {
