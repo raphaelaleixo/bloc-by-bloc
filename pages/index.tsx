@@ -9,6 +9,8 @@ import PoliceBlocksMap from "../components/policeBlocks/policeBlocksMap";
 import PoliceOpsDeck from "../components/policeBlocks/policeOpsDeck";
 import StagingArea from "../components/policeBlocks/stagingArea";
 import PoliceMorale from "../components/policeBlocks/policeMorale";
+import { savePolice } from "../classes/api/savePolice";
+import usePolice from "../classes/hooks/usePolice";
 
 const saira = Saira({
   subsets: ["latin"],
@@ -24,22 +26,22 @@ const sairaStencil = Saira_Stencil_One({
 
 export default function Home() {
   const [city, setCity] = useState<City | undefined>();
-  const [police, setPolice] = useState<Police | undefined>();
   const [highightedTiles, setHighlightedTiles] = useState<CityBlock[]>([]);
+
+  const { police, policeActions } = usePolice();
 
   useEffect(() => {
     setCity(createNewCity());
-    setPolice(new Police().initialize());
   }, []);
 
-  return (
+  return city ? (
     <>
       <Head>
         <title>Bloc By Bloc</title>
       </Head>
       <main className={`w-full h-full flex align-top justify-center items-start gap-6 ${saira.variable} ${sairaStencil.variable} font-saira`}>
         <div className="flex flex-col gap-5">
-          <PoliceOpsDeck city={city} police={police} setPolice={setPolice} />
+          <PoliceOpsDeck city={city} police={police} drawPoliceCard={policeActions.drawPoliceCard} />
           <StagingArea policeCount={police?.policeCount} />
           <PoliceMorale police={police} />
         </div>
@@ -57,5 +59,5 @@ export default function Home() {
         </div>
       </main>
     </>
-  );
+  ) : false;
 }

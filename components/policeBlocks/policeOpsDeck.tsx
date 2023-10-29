@@ -4,19 +4,16 @@ import { PoliceOpsCard } from "../../classes/police/constants";
 import City from "../../classes/city";
 import PoliceOpsDeckCard from "./policeOpsDeckCard";
 
-const PoliceOpsDeck: React.FC<{ city: City, police: Police, setPolice: Function }> = ({ city, police, setPolice }) => {
-  const [policeOpsCard, setPoliceOpsCard] = useState<PoliceOpsCard | undefined>();
+const PoliceOpsDeck: React.FC<{ city: City, police: Police, drawPoliceCard: Function }> = ({ city, police, drawPoliceCard }) => {
 
   return (
     <>
       <div className="h-[240px]">
-        <PoliceOpsDeckCard policeOpsCard={policeOpsCard} />
+        <PoliceOpsDeckCard policeOpsCard={police.currentCard} />
       </div>
       <button
         onClick={() => {
-          const newPolice = police.clone();
-          setPoliceOpsCard(newPolice.drawPoliceCard(city));
-          setPolice(newPolice);
+          drawPoliceCard(city);
         }}
         className="bg-cyan-300 rounded-sm text-xs uppercase leading-none p-2 font-bold"
       >

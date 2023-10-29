@@ -39,11 +39,11 @@ export class PoliceVan extends PoliceBlock {
 }
 
 export default class Police {
-    moraleTrack = [1, 2, 2, 2, 3];
     moraleIndex = 0;
     policeCount: number = 30;
     vanCount: number = 4;
     policeDeck: PoliceOpsCard[] = [];
+    currentCard: PoliceOpsCard;
 
     @Type(() => PoliceBlock)
     blocks: PoliceBlock[] = [];
@@ -113,7 +113,7 @@ export default class Police {
                 }
             })
         }
-        return card;
+        this.currentCard = card;
     }
 
     getPoliceBlocksByDistrict(): PoliceBlockMap {
