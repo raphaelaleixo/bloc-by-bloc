@@ -10,7 +10,7 @@ import PoliceOpsDeck from "../components/policeBlocks/policeOpsDeck";
 import StagingArea from "../components/policeBlocks/stagingArea";
 import PoliceMorale from "../components/policeBlocks/policeMorale";
 import { savePolice } from "../classes/api/savePolice";
-import usePolice from "../classes/hooks/usePolice";
+import usePolice from "../hooks/usePolice";
 
 const saira = Saira({
   subsets: ["latin"],

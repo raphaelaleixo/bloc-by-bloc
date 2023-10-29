@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import Police from "../police";
-import City from "../city";
-import { savePolice } from "../api/savePolice";
+import Police from "../classes/police";
+import City from "../classes/city";
+import { savePolice } from "../classes/api/savePolice";
 import { onValue, ref } from "firebase/database";
-import database from "../api/firebase.api";
+import database from "../classes/api/firebase.api";
 import { instanceToPlain, plainToInstance } from "class-transformer";
 
 function usePolice() : { police: Police, policeActions: { drawPoliceCard: (city: City) => void }} {
@@ -27,6 +27,7 @@ function usePolice() : { police: Police, policeActions: { drawPoliceCard: (city:
     const drawPoliceCard = (city: City) => {
         const newPolice = police.clone();
         newPolice.drawPoliceCard(city);
+        // savePolice(newPolice);
         setPolice(newPolice);
     }
 
