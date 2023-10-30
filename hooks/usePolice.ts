@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import Police from "../classes/police";
 import City from "../classes/city";
-import { savePolice } from "../classes/api/api";
+import { savePolice } from "../api/api";
 import { onValue, ref } from "firebase/database";
-import database from "../classes/api/firebase.api";
+import database from "../api/firebase.api";
 import { instanceToPlain, plainToInstance } from "class-transformer";
 
 function usePolice(): { police: Police, policeActions: { drawPoliceCard: (city: City) => void } } {

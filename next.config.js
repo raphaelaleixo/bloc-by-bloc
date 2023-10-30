@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: false,
+  reactStrictMode: true,
   env: {
     REACT_APP_DATABASE_LINK: process.env.REACT_APP_DATABASE_LINK,
   },

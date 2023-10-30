@@ -1,8 +1,8 @@
 import { instanceToPlain } from "class-transformer"
 import { ref, set } from "firebase/database";
 import database from "./firebase.api";
-import Police from "../police";
-import City from "../city";
+import Police from "../classes/police";
+import City from "../classes/city";
 
 
 export const savePolice = (police: Police) => {
