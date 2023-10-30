@@ -1,9 +1,10 @@
 import { useMemo } from "react";
 import City, { DistrictCoordinate } from "../../classes/city";
-import Police, { PoliceBlock, PoliceBlockMap } from "../../classes/police";
+import Police, { PoliceBlockMap } from "../../classes/police";
+import { Block } from "../../utils/constants";
 import PoliceVan from "./policeVan";
 
-const getPoliceBlockCoordinate = (block: PoliceBlock, city: City, paddingAmmountX: number = 20, paddingAmmountY: number = 20) => {
+const getPoliceBlockCoordinate = (block: Block, city: City, paddingAmmountX: number = 20, paddingAmmountY: number = 20) => {
     const coordinates = city.getDistrictCoordinates();
     const targetCoordinates: DistrictCoordinate = coordinates.find(coordinate => coordinate.id === block.districtId);
     return {

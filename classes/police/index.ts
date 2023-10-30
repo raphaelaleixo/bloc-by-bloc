@@ -1,13 +1,13 @@
 import { policeOpsDeck } from "../../gameData/policeOpsDeck";
+import { Block } from "../../utils/constants";
 import { Faction } from "../../utils/constants";
 import { shuffler } from "../../utils/randomizers";
 import City from "../city";
 import { OtherDistrictTypes } from "../district/constants";
+import Player from "../player";
 import { PoliceOpsCard, policeOpsCardTypes, policeOpsMovimentTypes, priority, stateDistricts } from "./constants";
 import { getPoliceBlockMoviments } from "./movePoliceBlocks";
 import { Type, instanceToInstance, instanceToPlain, serialize } from "class-transformer";
-
-let id: number = 0;
 
 export interface PoliceBlockMap {
     [key: string | number]: {
@@ -16,21 +16,7 @@ export interface PoliceBlockMap {
     }
 }
 
-export class PoliceBlock {
-    districtId: string | number;
-    id: number;
-
-    constructor(districtId: number) {
-        this.districtId = districtId;
-        this.id = id++;
-    }
-
-    movePolice(districtCode: string | number) {
-        this.districtId = districtCode;
-    }
-}
-
-export class PoliceVan extends PoliceBlock {
+export class PoliceVan extends Block {
     hits: number = 0;
 
     constructor(districtId: number) {
@@ -45,8 +31,8 @@ export default class Police {
     policeDeck: PoliceOpsCard[] = [];
     currentCard: PoliceOpsCard;
 
-    @Type(() => PoliceBlock)
-    blocks: PoliceBlock[] = [];
+    @Type(() => Block)
+    blocks: Block[] = [];
 
     @Type(() => PoliceVan)
     vans: PoliceVan[] = [];
@@ -75,22 +61,25 @@ export default class Police {
         this.policeDeck = shuffler(deck);
     }
 
-    drawPoliceCard(city: City) {
+    drawPoliceCard(city: City, players: Player[]) {
         if (this.policeDeck.length === 0) {
             this.shufflePoliceDeck(policeOpsDeck);
         }
         const card = this.policeDeck.shift();
-        
+
         if (card.increaseMorale) {
             this.increaseMorale();
         }
 
         if (card.type === policeOpsCardTypes.moviment) {
             if (card.moviment.movimentType === policeOpsMovimentTypes.district || policeOpsMovimentTypes.priority) {
-                this.movePoliceBlocks(city, card.moviment.movimentType, card.moviment.target as Faction | OtherDistrictTypes);
+                this.movePoliceBlocks(city, players, card.moviment.movimentType, card.moviment.target as Faction | OtherDistrictTypes);
+            }
+            if (card.moviment.movimentType === policeOpsMovimentTypes.occupation) {
+                this.movePoliceBlocks(city, players, card.moviment.movimentType);
             }
         }
-        
+
         if (card.type === policeOpsCardTypes.reinforcement) {
             const districtsWithVans = this.getDistrictsWithPoliceVans();
             districtsWithVans.forEach((district) => {
@@ -99,7 +88,7 @@ export default class Police {
                 }
             })
         }
-        if (card.type === policeOpsCardTypes.rotation)  {
+        if (card.type === policeOpsCardTypes.rotation) {
             const policeBlocksByDistrict = this.getPoliceBlocksByDistrict();
             const districtsWithPoliceBlocks = this.getDistrictsWithPoliceBlocks();
 
@@ -108,12 +97,24 @@ export default class Police {
                 if (policeBlocksByDistrict[district].policeBlocks > 5) {
                     const targetBlocks = this.getBlocksInDistrict(district);
                     for (let i = maximum; i > 5; i--) {
-                        this.removePoliceBlock(targetBlocks[i-1].id);
+                        this.removePoliceBlock(targetBlocks[i - 1].id);
                     }
                 }
             })
         }
         this.currentCard = card;
+    }
+
+    getDistrictsWithOccupations(players: Player[]) {
+        const districts = [];
+        players.forEach(player => {
+            player.occupations.forEach(occupation => {
+                if (occupation.active && districts.includes(occupation.districtId) === false) {
+                        districts.push(occupation.districtId);
+                }
+            })
+        });
+        return districts;
     }
 
     getPoliceBlocksByDistrict(): PoliceBlockMap {
@@ -135,15 +136,15 @@ export default class Police {
         return blocksMap;
     }
 
-    getDistrictsWithPoliceBlocks(): Array<string | number> {
+    getDistrictsWithPoliceBlocks(): Array<number> {
         return Array.from(new Set(this.blocks.map((policeBlock) => policeBlock.districtId)));
     }
 
-    getDistrictsWithPoliceVans(): Array<string | number> {
+    getDistrictsWithPoliceVans(): Array<number> {
         return Array.from(new Set(this.vans.map((van) => van.districtId)));
     }
 
-    getBlocksInDistrict(districtId: number | string): PoliceBlock[] {
+    getBlocksInDistrict(districtId: number): Block[] {
         return this.blocks.filter(block => block.districtId === districtId);
     }
 
@@ -157,7 +158,7 @@ export default class Police {
 
     createPoliceBlock(districtCode: number) {
         if (this.policeCount > 0) {
-            this.blocks.push(new PoliceBlock(districtCode));
+            this.blocks.push(new Block(districtCode));
             this.policeCount--;
         }
     }
@@ -169,14 +170,14 @@ export default class Police {
         }
     }
 
-    movePoliceBlocks(city: City, type: policeOpsMovimentTypes, districtType?: Faction | OtherDistrictTypes, priority?: priority) {
+    movePoliceBlocks(city: City, players: Player[], type: policeOpsMovimentTypes, target?: Faction | OtherDistrictTypes, priority?: priority) {
         let moviments = [];
         this.getDistrictsWithPoliceBlocks().forEach(districtId => {
-            moviments = [...moviments, ...getPoliceBlockMoviments(city, this, type, districtId, districtType)];
+            moviments = [...moviments, ...getPoliceBlockMoviments(city, players, this, type, districtId, target)];
         });
         moviments.forEach(moviment => {
             const blockToMove = this.blocks.find(block => block.id === moviment.blockId);
-            blockToMove.movePolice(moviment.targetDistrictId);
+            blockToMove.moveBlock(moviment.targetDistrictId);
         })
     }
 

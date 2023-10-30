@@ -1,21 +1,27 @@
+import { isArray } from "util";
 import Police from ".";
 import { Faction } from "../../utils/constants";
 import { getAdjacentDistricts } from "../../utils/getAdjacentDistricts";
 import City, { CityBlock } from "../city";
 import { OtherDistrictTypes } from "../district/constants";
+import Player from "../player";
 import { policeOpsMovimentTypes } from "./constants";
 
 type PoliceBlockMoviment = {
     blockId: number;
-    targetDistrictId: number | string;
+    targetDistrictId: number;
 }
 
-export const getPoliceBlockMoviments = (city: City, policeInstance: Police, movimentType: policeOpsMovimentTypes, districtId: number | string, districtType?: Faction | OtherDistrictTypes) => {
+export const getPoliceBlockMoviments = (city: City, players: Player[], policeInstance: Police, movimentType: policeOpsMovimentTypes, districtId: number, target?: Faction | OtherDistrictTypes) => {
     const actualDistrict = districtId;
     const allAdjacentDistricts = getAdjacentDistricts(city, districtId);
+    const districtsWithOccupations = policeInstance.getDistrictsWithOccupations(players);
     let targetDistricts: CityBlock;
     if (movimentType === policeOpsMovimentTypes.district) {
-        targetDistricts = allAdjacentDistricts.find((district => district.tile.districtType === districtType));
+        targetDistricts = allAdjacentDistricts.find((district => district.tile.districtType === target));
+    } else if (movimentType === policeOpsMovimentTypes.occupation) {
+
+        targetDistricts = allAdjacentDistricts.find((district => districtsWithOccupations.includes(district.tile.id)));
     } else if (movimentType === policeOpsMovimentTypes.priority) {
         targetDistricts = allAdjacentDistricts.reduce((prev, current) => (prev && prev.tile.id > current.tile.id) ? prev : current);
     }
@@ -24,8 +30,7 @@ export const getPoliceBlockMoviments = (city: City, policeInstance: Police, movi
         const targetId = targetDistricts.tile.id;
         const blocks = policeInstance.getBlocksInDistrict(actualDistrict);
         const totalBlocks = blocks.length;
-        // Add rules about not moving when we have an occupation;
-        if (totalBlocks > 1) {
+        if (totalBlocks > 1 && districtsWithOccupations.includes(districtId) === false) {
             const blocksToMove = totalBlocks - 1;
             for (let i = 0; i < blocksToMove; i++) {
                 moviments.push({

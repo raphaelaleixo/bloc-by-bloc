@@ -28,14 +28,14 @@ class Tile {
     }
 }
 
-let highway_id = 0;
+let highway_id = -1;
 
 export class Highway extends Tile {
     connections: highwayConnections;
-    id: string;
+    id: number;
     constructor(code: Code, image: DistrictImage, type?: DistrictType) {
         super(code, image, type = OtherDistrictTypes.Highway);
-        this.id = `highway_${highway_id++}`;
+        this.id = highway_id--;
     }
     rotateDistrict() {
         const selectedRotation = randomSelect(rotations);

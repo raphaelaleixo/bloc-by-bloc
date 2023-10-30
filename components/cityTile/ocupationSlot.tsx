@@ -27,7 +27,7 @@ const OcupationSlot: React.FC<{ tile: District }> = ({ tile }) => {
     }
 
     return (
-        <div className={`absolute w-1/4 h-1/4 rounded-full right-[8%] top-[8%] border border-4 ${borderColor}`}></div>
+        <div className={`absolute w-1/4 h-1/4 rounded-full right-[8%] top-[8%] border-4 ${borderColor}`}></div>
     )
 }
 

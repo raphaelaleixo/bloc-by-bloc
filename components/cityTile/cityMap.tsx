@@ -8,16 +8,18 @@ import StagingArea from "../policeBlocks/stagingArea";
 import CityTile from "./cityTile";
 import useCity from "../../hooks/useCity";
 import usePolice from "../../hooks/usePolice";
+import usePlayers from "../../hooks/usePlayers";
 
 const CityMap: React.FC = () => {
     const { city } = useCity();
     const { police, policeActions } = usePolice();
+    const { players } = usePlayers();
     const [highightedTiles, setHighlightedTiles] = useState<CityBlock[]>([]);
     
     return city && police ? (
         <div className="contents">
             <div className="flex flex-col gap-5">
-                <PoliceOpsDeck city={city} police={police} drawPoliceCard={policeActions.drawPoliceCard} />
+                <PoliceOpsDeck city={city} police={police} players={players} drawPoliceCard={policeActions.drawPoliceCard} />
                 <StagingArea policeCount={police?.policeCount} />
                 <PoliceMorale police={police} />
             </div>

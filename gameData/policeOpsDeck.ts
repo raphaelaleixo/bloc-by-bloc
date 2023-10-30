@@ -80,13 +80,13 @@ export const policeOpsDeck: PoliceOpsCard[] = [{
 //         movimentType: policeOpsMovimentTypes.bloc,
 //     }
 // },
-// {
-//     type: policeOpsCardTypes.moviment,
-//     title: 'GO AFTER OCCUPATIONS',
-//     moviment: {
-//         movimentType: policeOpsMovimentTypes.occupation,
-//     }
-// },
+{
+    type: policeOpsCardTypes.moviment,
+    title: 'GO AFTER OCCUPATIONS',
+    moviment: {
+        movimentType: policeOpsMovimentTypes.occupation,
+    }
+},
 {
     title: 'LIGHT REINFORCEMENT',
     type: policeOpsCardTypes.reinforcement,
