@@ -10,17 +10,18 @@ function useCity() {
     const [city, setCity] = useState<City | undefined>();
 
     useEffect(() => {
-        const cityRef = ref(database, 'test/city');
-        onValue(cityRef, (snapshot) => {
-            const newCityData = snapshot.val();
-            const currentPoliceData = JSON.stringify(instanceToPlain(city));
-            if (newCityData && newCityData !== currentPoliceData) {
-                setCity(plainToInstance(City, JSON.parse(newCityData)));
-            } else if (city === undefined) {
-                setCity(createNewCity());
-            }
-        });
-    }, [city])
+        // const cityRef = ref(database, 'test/city');
+        // onValue(cityRef, (snapshot) => {
+        //     const newCityData = snapshot.val();
+        //     const currentPoliceData = JSON.stringify(instanceToPlain(city));
+        //     if (newCityData && newCityData !== currentPoliceData) {
+        //         setCity(plainToInstance(City, JSON.parse(newCityData)));
+        //     } else if (city === undefined) {
+        //         setCity(createNewCity());
+        //     }
+        // });
+        setCity(createNewCity());
+    }, [])
 
     return { city };
 }

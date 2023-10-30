@@ -10,22 +10,23 @@ function usePolice(): { police: Police, policeActions: { drawPoliceCard: (city: 
     const [police, setPolice] = useState<Police | undefined>();
 
     useEffect(() => {
-        const policeRef = ref(database, 'test/police');
-        onValue(policeRef, (snapshot) => {
-            const newPoliceData = snapshot.val();
-            const currentPoliceData = JSON.stringify(instanceToPlain(police));
-            if (newPoliceData && newPoliceData !== currentPoliceData) {
-                setPolice(plainToInstance(Police, JSON.parse(newPoliceData)));
-            } else if (police === undefined) {
-                setPolice(new Police().initialize());
-            }
-        });
-    }, [police]);
+        // const policeRef = ref(database, 'test/police');
+        // onValue(policeRef, (snapshot) => {
+        //     const newPoliceData = snapshot.val();
+        //     const currentPoliceData = JSON.stringify(instanceToPlain(police));
+        //     if (newPoliceData && newPoliceData !== currentPoliceData) {
+        //         setPolice(plainToInstance(Police, JSON.parse(newPoliceData)));
+        //     } else if (police === undefined) {
+        //         setPolice(new Police().initialize());
+        //     }
+        // });
+        setPolice(new Police().initialize());
+    }, []);
 
     const drawPoliceCard = (city: City) => {
         const newPolice = police.clone();
         newPolice.drawPoliceCard(city);
-        savePolice(newPolice);
+        setPolice(newPolice);
     }
 
     return {
