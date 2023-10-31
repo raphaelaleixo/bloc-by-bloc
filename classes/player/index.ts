@@ -71,4 +71,6 @@ export default class Player {
         }
         return this;
     }
+
+    get
 }

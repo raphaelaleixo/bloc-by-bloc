@@ -9,6 +9,7 @@ import CityTile from "./cityTile";
 import useCity from "../../hooks/useCity";
 import usePolice from "../../hooks/usePolice";
 import usePlayers from "../../hooks/usePlayers";
+import PlayerBlocksMap from "../playerBlocks/playerBlocksMap";
 
 const CityMap: React.FC = () => {
     const { city } = useCity();
@@ -33,6 +34,7 @@ const CityMap: React.FC = () => {
                         })
                     )}
                 </div>
+                <PlayerBlocksMap city={city} players={players} />
                 <PoliceBlocksMap city={city} police={police} />
             </div>
         </div>
