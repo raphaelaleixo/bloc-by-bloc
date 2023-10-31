@@ -11,7 +11,8 @@ import {
       metroStation: true,
       id: 1,
       code: "C",
-      image: ""
+      image: "",
+      roads: [false, true, true, true],
     },
     {
       districtType: OtherDistrictTypes.Commercial,
@@ -36,7 +37,8 @@ import {
       id: 5,
       code: "C",
       image: "",
-      title: "Garment Sweatshop"
+      title: "Garment Sweatshop",
+      roads: [false, true, true, true],
     },
     {
       districtType: Faction.Prisoners,
@@ -45,7 +47,8 @@ import {
       id: 4,
       code: "C",
       image: "",
-      title: "Overcrowded Jail"
+      title: "Overcrowded Jail",
+      roads: [false, true, true, true],
     },
     {
       districtType: Faction.Students,
@@ -54,7 +57,8 @@ import {
       id: 6,
       code: "C",
       image: "",
-      title: "Underfunded High School"
+      title: "Underfunded High School",
+      roads: [false, true, true, true],
     },
     {
       districtType: Faction.Neighbors,
@@ -63,7 +67,8 @@ import {
       id: 7,
       code: "C",
       image: "",
-      title: "Polluted Slum"
+      title: "Polluted Slum",
+      roads: [false, true, true, true],
     },
     {
       districtType: Faction.Neighbors,
@@ -167,7 +172,7 @@ import {
     {
       districtType: OtherDistrictTypes.State,
       difficulty: 6,
-      metroStation: false,
+      metroStation: true,
       id: 12,
       code: "A",
       image: "",

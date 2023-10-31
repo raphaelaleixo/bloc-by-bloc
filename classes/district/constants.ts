@@ -8,6 +8,7 @@ export interface DistrictConfiguration {
   code: "A" | "B" | "C";
   image: string | [string, string];
   title?: string;
+  roads?: boolean[];
 }
 
 export enum OtherDistrictTypes {

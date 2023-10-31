@@ -15,7 +15,6 @@ const CityMap: React.FC = () => {
     const { city } = useCity();
     const { police, policeActions } = usePolice();
     const { players } = usePlayers();
-    const [highightedTiles, setHighlightedTiles] = useState<CityBlock[]>([]);
     
     return city && police ? (
         <div className="contents">
@@ -29,7 +28,7 @@ const CityMap: React.FC = () => {
                     {city?.blocks.map((line: CityBlock[]) =>
                         line.map((district: CityBlock) => {
                             return (
-                                <CityTile city={city} tile={district.tile} key={district.tile.id} highightedTiles={highightedTiles} setHighlightedTiles={setHighlightedTiles} />
+                                <CityTile city={city} tile={district.tile} key={district.tile.id} />
                             );
                         })
                     )}

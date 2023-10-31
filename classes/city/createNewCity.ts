@@ -4,11 +4,11 @@ import { districtList } from "../../gameData/districts";
 
 export const createNewCity = (): City => {
     const districts: Array<District|Highway> = districtList.map((districtConf) => {
-        const { id, title, code, metroStation, districtType, difficulty } = districtConf;
+        const { id, title, code, metroStation, districtType, difficulty, roads } = districtConf;
         return new District(id, title, code, metroStation, districtType, difficulty, [
             "",
             "",
-        ]).rotateDistrict();
+        ], roads).rotateDistrict();
     });
 
     districts.push(new Highway("C", ['', '']).rotateDistrict());

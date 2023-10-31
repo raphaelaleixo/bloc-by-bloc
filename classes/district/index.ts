@@ -53,7 +53,7 @@ export default class District extends Tile {
     title?: string;
     liberated: boolean = false;
     hasOccupationSlot: boolean;
-    roads: boolean[] = [true, true, true, true];
+    roads: boolean[];
 
     @Type(() => ShoppingCenter)
     shoppingCenters: ShoppingCenter[];
@@ -69,13 +69,14 @@ export default class District extends Tile {
         districtType: DistrictType,
         difficulty: number,
         image: DistrictImage,
+        roads: boolean[] = [true, true, true, true],
     ) {
         super(code, image, districtType);
-        this.roads = metroStation ? [false, true, true, true] : this.roads;
+        this.roads = roads;
         this.id = id;
         this.title = title;
-        this.image = image,
-            this.difficulty = difficulty;
+        this.image = image;
+        this.difficulty = difficulty;
         this.metroStation = metroStation;
         this.districtType = districtType;
         this.shoppingCenters = generateShoppingCenters(districtType, metroStation);

@@ -1,7 +1,9 @@
 
 import City, { DistrictCoordinate } from "../../classes/city";
 import Player, { Occupation } from "../../classes/player";
-import { GiFist } from "react-icons/gi";
+import { FaHandFist } from "react-icons/fa6";
+import { getColor } from "../../utils/getColor";
+import { TailwindProperty } from "../../utils/constants";
 
 const getPlayerItemCoordinate = (occupation: Occupation, city: City, paddingAmmountX: number = 0, paddingAmmountY: number = 0) => {
     const coordinates = city.getDistrictCoordinates();
@@ -15,6 +17,8 @@ const getPlayerItemCoordinate = (occupation: Occupation, city: City, paddingAmmo
 }
 
 const PlayerBlocksMap: React.FC<{ city: City, players: Player[] }> = ({ city, players }) => {
+    const color = getColor(players[0].faction, TailwindProperty.Background);
+    
     return players[0].occupations.map(occupation => {
         if (occupation.active) {
             const coordinates = getPlayerItemCoordinate(occupation, city);
@@ -27,9 +31,9 @@ const PlayerBlocksMap: React.FC<{ city: City, players: Player[] }> = ({ city, pl
                         rotate: `${rotation}deg`
                     }}>
                     <div
-                        className="bg-green-500 rounded-full absolute w-1/4 h-1/4 top-[8%] right-[8%] shadow-md border-2 border-green-700 flex items-center justify-center"
+                        className={`${color} rounded-full absolute w-1/4 h-1/4 top-[8%] right-[8%] shadow-md border-2 border-black flex items-center justify-center`}
                     >
-                        <GiFist size="1.5em" />
+                        <FaHandFist size="1.2em" />
                     </div>
                 </div>
             )

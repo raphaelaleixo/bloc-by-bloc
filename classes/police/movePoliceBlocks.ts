@@ -1,4 +1,3 @@
-import { isArray } from "util";
 import Police from ".";
 import { Faction } from "../../utils/constants";
 import { getAdjacentDistricts } from "../../utils/getAdjacentDistricts";
@@ -21,7 +20,6 @@ export const getPoliceBlockMoviments = (city: City, players: Player[], policeIns
     if (movimentType === policeOpsMovimentTypes.district) {
         targetDistricts = allAdjacentDistricts.find((district => district.tile.districtType === target));
     } else if (movimentType === policeOpsMovimentTypes.occupation) {
-
         targetDistricts = allAdjacentDistricts.find((district => districtsWithOccupations.includes(district.tile.id)));
     } else if (movimentType === policeOpsMovimentTypes.priority) {
         targetDistricts = allAdjacentDistricts.reduce((prev, current) => (prev && prev.tile.id > current.tile.id) ? prev : current);

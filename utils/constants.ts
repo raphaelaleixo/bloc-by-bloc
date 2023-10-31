@@ -20,3 +20,9 @@ export class Block {
         this.districtId = districtCode;
     }
 }
+
+export enum TailwindProperty {
+    Text,
+    Border,
+    Background,
+}

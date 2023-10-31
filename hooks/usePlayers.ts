@@ -6,7 +6,7 @@ function usePlayers() {
     const [players, setPlayers] = useState<Player[] | undefined>();
 
     useEffect(() => {
-        const newPlayer = new Player(0, Faction.Neighbors).initialize().createOccupation(OccupationTypes.factionStart, 8);
+        const newPlayer = new Player(0, Faction.Workers).initialize().createOccupation(OccupationTypes.factionStart, 5);
         setPlayers([newPlayer]);
     }, []);
 
