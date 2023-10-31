@@ -16,6 +16,13 @@ const TileInformation: React.FC<{ tile: District }> = ({ tile }) => {
                 <div className="text-[0.5rem]">
                     <span>{tile.id}</span>
                 </div>
+                {
+                    tile instanceof District && tile.liberated ? (
+                        <div className={`text-[0.5rem] ${textColor} tracking-wider font-bold uppercase`}>
+                            <span>Liberated</span>
+                        </div>
+                    ) : false
+                }
                 <div className={`text-xs w-2/3 leading-none font-bold uppercase`}>
                     <span>
                         {tile.title}

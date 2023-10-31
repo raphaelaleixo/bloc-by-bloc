@@ -69,4 +69,14 @@ export default class City {
         this.blocks = cityBlocks;
         return this;
     }
+
+    liberateDistrict(districtId: number) {
+        this.blocks.forEach((line) => {
+            const targetDistrict = line.find(block => block.tile.id === districtId)?.tile;
+            console.log(targetDistrict);
+            if (targetDistrict && targetDistrict instanceof District) {
+                targetDistrict.liberateDistrict()
+            }
+        });
+    }
 }

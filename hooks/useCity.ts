@@ -20,7 +20,8 @@ function useCity() {
         //         setCity(createNewCity());
         //     }
         // });
-        setCity(createNewCity());
+        const newCity = createNewCity();
+        setCity(newCity);
     }, [])
 
     return { city };
