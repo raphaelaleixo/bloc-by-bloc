@@ -5,6 +5,7 @@ import District, { Highway } from "../district";
 import { Type } from "class-transformer";
 import Police from "../police";
 import Player from "../player";
+import { LootStatus } from "../shoppingCenter/constants";
 
 interface ObjectsInDistrict { vans: number | null, policeBlocks: number | null, blocks: number | null, occupation: number | null, };
 
@@ -59,8 +60,18 @@ export default class City {
             y++;
             x = 0;
         })
-
         return coordinates;
+    }
+
+    getDistrictById(districtId:number):District {
+        let district: District;
+        this.blocks.forEach((line) => {
+            const targetDistrict = line.find(block => block.tile.id === districtId)?.tile;
+            if (targetDistrict && targetDistrict instanceof District) {
+                district = targetDistrict;
+            }
+        });
+        return district;
     }
 
     getObjectsInDistrict(districtId: number, { police, players, player }: { police?: Police, players?: Player[], player?: Player }): ObjectsInDistrict {
@@ -97,12 +108,12 @@ export default class City {
     }
 
     liberateDistrict(districtId: number) {
-        this.blocks.forEach((line) => {
-            const targetDistrict = line.find(block => block.tile.id === districtId)?.tile;
-            console.log(targetDistrict);
-            if (targetDistrict && targetDistrict instanceof District) {
-                targetDistrict.liberateDistrict()
-            }
-        });
+        const targetDistrict = this.getDistrictById(districtId);
+        targetDistrict.liberateDistrict();
+    }
+
+    lootAction(districtId: number, loot: LootStatus) {
+        const targetDistrict = this.getDistrictById(districtId);
+        targetDistrict.lootShopping(loot);
     }
 }

@@ -6,6 +6,7 @@ import { Faction } from "../../utils/constants";
 import { generateShoppingCenters } from "../shoppingCenter/generateShoppingCenter";
 import { Type } from "class-transformer";
 import { Code } from "../../utils/constants";
+import { LootStatus } from "../shoppingCenter/constants";
 
 const rotations = [0, 90, 180, 270];
 type DistrictType = OtherDistrictTypes | Faction;
@@ -118,5 +119,16 @@ export default class District extends Tile {
             this.difficulty = this.difficulty - 1;
         }
         return this;
+    }
+
+    lootShopping(loot: LootStatus) {
+        const targetShopping = this.shoppingCenters.find(shopping => shopping.lootStatus === LootStatus.None);
+        if (targetShopping) {
+            if (loot === LootStatus.Graffiti) {
+                targetShopping.graffiti();
+            } else {
+                targetShopping.burn();
+            }
+        }
     }
 }
