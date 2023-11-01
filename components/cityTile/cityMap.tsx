@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { CityBlock } from "../../classes/city";
 import PoliceBlocksMap from "../policeBlocks/policeBlocksMap";
 import PoliceMorale from "../policeBlocks/policeMorale";
@@ -13,6 +14,7 @@ const CityMap: React.FC = () => {
     const { city } = useCity();
     const { police, policeActions } = usePolice();
     const { players } = usePlayers();
+    const [higlightedTiles, setHighlightedTiles] = useState<CityBlock[]>([]);
     
     return city && police ? (
         <div className="contents">
@@ -26,7 +28,7 @@ const CityMap: React.FC = () => {
                     {city?.blocks.map((line: CityBlock[]) =>
                         line.map((district: CityBlock) => {
                             return (
-                                <CityTile city={city} tile={district.tile} key={district.tile.id} />
+                                <CityTile city={city} tile={district.tile} key={district.tile.id} higlightedTiles={higlightedTiles} setHighlightedTiles={setHighlightedTiles} />
                             );
                         })
                     )}
