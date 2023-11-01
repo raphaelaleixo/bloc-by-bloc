@@ -7,6 +7,8 @@ import Roads from "./roads";
 import { getRandomIntInclusive } from "../../utils/randomizers";
 import { TailwindProperty } from "../../utils/constants";
 import { getColor } from "../../utils/getColor";
+import MetroStation from "./metroStation";
+import ShoppingCenters from "./shoppingCenters";
 
 
 const CityTile: React.FC<{ city: City, tile: District | Highway }> = ({ city, tile }) => {
@@ -22,6 +24,8 @@ const CityTile: React.FC<{ city: City, tile: District | Highway }> = ({ city, ti
             <div className="absolute h-full w-full bg-zinc-700 opacity-[0.7] top-0 left-0 z-0"></div>
             {tile instanceof District ? (<TileInformation tile={tile} />) : false}
             {tile instanceof District ? (<OcupationSlot tile={tile} />) : false}
+            {tile instanceof District ? (<MetroStation tile={tile} />) : false}
+            {tile instanceof District ? (<ShoppingCenters tile={tile} />) : false}
             <Roads tile={tile} />
         </div>
     )

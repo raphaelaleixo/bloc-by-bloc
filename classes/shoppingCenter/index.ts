@@ -1,7 +1,13 @@
 import { LootStatus } from "./constants";
 
+let id = 0;
 export default class ShoppingCenter {
   lootStatus: LootStatus = LootStatus.None;
+  id: number;
+
+  constructor() {
+    this.id = id++;
+  }
 
   burn() {
     if (this.lootStatus === LootStatus.None) {

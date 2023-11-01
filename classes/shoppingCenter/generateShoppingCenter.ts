@@ -21,9 +21,10 @@ export const generateShoppingCenters = (
         districtType,
         metroStation
     );
-    const shoppingCenterArray: Array<ShoppingCenter> = new Array(
-        shoppingCentersNumber
-    );
-    shoppingCenterArray.fill(new ShoppingCenter());
+    const shoppingCenterArray: Array<ShoppingCenter> = new Array();
+    for (let i = 0; i < shoppingCentersNumber; i++) {
+        shoppingCenterArray.push(new ShoppingCenter());
+    }
+
     return shoppingCenterArray;
 };
