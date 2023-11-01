@@ -40,21 +40,28 @@ export class Occupation {
     }
 }
 
+export interface BlockMap {
+    [key: string | number]: {
+        blocks?: number,
+    }
+}
+
 type PlayerNumber = 0 | 1 | 2 | 3;
 export default class Player {
     playerNumber: PlayerNumber;
     faction: Faction;
-    blocksCount: 10;
+    blockCount: number;
 
     @Type(() => Occupation)
     occupations: Occupation[] = [];
 
     @Type(() => Block)
-    blocks: Block[];
+    blocks: Block[] = [];
 
     constructor(playerNumber: PlayerNumber, faction: Faction) {
         this.playerNumber = playerNumber;
         this.faction = faction;
+        this.blockCount = 10;
     }
 
     initialize() {
@@ -64,10 +71,34 @@ export default class Player {
         return this;
     }
 
+    getDistrictsWithBlocks(): Array<number> {
+        return Array.from(new Set(this.blocks.map((block) => block.districtId)));
+    }
+
+    getBlocksByDistrict(): BlockMap {
+        const blocksMap: Partial<BlockMap> = {};
+        const districtsWithPoliceBlocks = this.getDistrictsWithBlocks();
+        districtsWithPoliceBlocks.forEach(district => {
+            const districtObject = blocksMap[district] || {};
+            blocksMap[district] = Object.assign(districtObject, {
+                blocks: this.blocks.filter(block => block.districtId === district).length
+            });
+        })
+        return blocksMap;
+    }
+
     createOccupation(type: OccupationTypes, districtId: number) {
         const targetOccupation = this.occupations.find(occupation => occupation.type === type && !occupation.active);
         if (targetOccupation) {
             targetOccupation.create(districtId);
+        }
+        return this;
+    }
+
+    createBlock(districtCode: number) {
+        if (this.blockCount > 0) {
+            this.blocks.push(new Block(districtCode));
+            this.blockCount--;
         }
         return this;
     }

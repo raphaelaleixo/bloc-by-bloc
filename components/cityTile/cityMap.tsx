@@ -1,6 +1,4 @@
-import { useState } from "react";
-import City, { CityBlock } from "../../classes/city";
-import Police from "../../classes/police";
+import { CityBlock } from "../../classes/city";
 import PoliceBlocksMap from "../policeBlocks/policeBlocksMap";
 import PoliceMorale from "../policeBlocks/policeMorale";
 import PoliceOpsDeck from "../policeBlocks/policeOpsDeck";
@@ -9,7 +7,7 @@ import CityTile from "./cityTile";
 import useCity from "../../hooks/useCity";
 import usePolice from "../../hooks/usePolice";
 import usePlayers from "../../hooks/usePlayers";
-import PlayerBlocksMap from "../playerBlocks/playerBlocksMap";
+import PlayersMap from "../playerBlocks/playersMap";
 
 const CityMap: React.FC = () => {
     const { city } = useCity();
@@ -33,7 +31,7 @@ const CityMap: React.FC = () => {
                         })
                     )}
                 </div>
-                <PlayerBlocksMap city={city} players={players} />
+                <PlayersMap city={city} players={players} />
                 <PoliceBlocksMap city={city} police={police} />
             </div>
         </div>

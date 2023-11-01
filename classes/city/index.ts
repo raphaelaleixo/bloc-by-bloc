@@ -3,6 +3,10 @@ import { Code } from "../../utils/constants";
 import { shuffler } from "../../utils/randomizers";
 import District, { Highway } from "../district";
 import { Type } from "class-transformer";
+import Police from "../police";
+import Player from "../player";
+
+interface ObjectsInDistrict { vans: number | null, policeBlocks: number | null, blocks: number | null, occupation: number | null, };
 
 export class CityBlock {
     code: Code;
@@ -57,6 +61,28 @@ export default class City {
         })
 
         return coordinates;
+    }
+
+    getObjectsInDistrict(districtId: number, { police, players, player }: { police?: Police, players?: Player[], player?: Player }): ObjectsInDistrict {
+        const objects: ObjectsInDistrict = { vans: null, policeBlocks: null, blocks: null, occupation: null };
+        if (police) {
+            objects.vans = police.vans.filter(van => van.districtId === districtId).length;
+            objects.policeBlocks = police.blocks.filter(block => block.districtId === districtId).length;
+        }
+        if (players) {
+            let blocks = 0;
+            let occupation = 0;
+            players.forEach(player => {
+                blocks = player.blocks.filter(block => block.districtId === districtId).length + blocks;
+                occupation = player.occupations.filter(occupation => occupation.districtId === districtId && occupation.active).length + occupation;
+            })
+            objects.blocks = blocks;
+            objects.occupation = occupation;
+        } else if (player) {
+            objects.blocks = player.blocks.filter(block => block.districtId === districtId).length;
+            objects.occupation = player.occupations.filter(occupation => occupation.districtId === districtId && occupation.active).length;
+        }
+        return objects;
     }
 
     createBlocks(districtList: Array<District | Highway>) {

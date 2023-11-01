@@ -27,7 +27,7 @@ const PoliceBlocksMap: React.FC<{ city: City, police: Police }> = ({ city, polic
                     return (
                         <div key={block.id} className="w-4 h-4 bg-white shadow-md outline outline-2 outline-black absolute transition-all duration-300" style={{ top: y, left: x }}>
                             {numberOfBlocks > 1 ? (
-                                <div className="w-4 h-4 rounded-full bg-red-500 text-white outline outline-1 outline-black text-[0.65rem] leading-[0] tabular-nums absolute flex items-center justify-center font-black right-[-1em] bottom-[-1em]">
+                                <div className="w-4 h-4 rounded-full bg-white text-zinc-700 outline outline-2 outline-black text-[0.65rem] leading-[0] tabular-nums absolute flex items-center justify-center font-black right-[-1em] bottom-[-1em]">
                                     {numberOfBlocks}
                                 </div>
                             ) : false}
