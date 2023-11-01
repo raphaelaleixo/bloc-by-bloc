@@ -24,6 +24,7 @@ function useCity() {
         const newCity = createNewCity();
         newCity.lootAction(5, LootStatus.Burned);
         newCity.lootAction(20, LootStatus.Graffiti);
+        newCity.liberateDistrict(9);
         setCity(newCity);
     }, [])
 

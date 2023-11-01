@@ -110,6 +110,9 @@ export default class City {
     liberateDistrict(districtId: number) {
         const targetDistrict = this.getDistrictById(districtId);
         targetDistrict.liberateDistrict();
+        targetDistrict.shoppingCenters.forEach(shopping => {
+            shopping.graffiti();
+        })
     }
 
     lootAction(districtId: number, loot: LootStatus) {
