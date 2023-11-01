@@ -176,7 +176,8 @@ import {
       id: 12,
       code: "A",
       image: "",
-      title: "Financial District"
+      title: "Financial District",
+      roads: [false, true, true, true],
     },
     {
       districtType: OtherDistrictTypes.State,

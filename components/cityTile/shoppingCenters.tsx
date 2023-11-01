@@ -3,7 +3,7 @@ import { FaCartShopping } from "react-icons/fa6";
 
 const ShoppingCenters: React.FC<{ tile: District }> = ({ tile }) => {
 
-    const shoppingCenterPositions = ['left-[10%] bottom-[10%]', 'left-[10%] top-[10%]', 'right-[10%] top-[10%]', 'right-[10%] bottom-[10%]'];
+    const shoppingCenterPositions = ['left-[15%] bottom-[15%]', 'left-[15%] top-[15%]', 'right-[15%] top-[15%]', 'right-[15%] bottom-[15%]'];
     const rotations = [0, 90, 180, 270];
 
     return tile.shoppingCenters.map((shoppingCenter, index) => (
