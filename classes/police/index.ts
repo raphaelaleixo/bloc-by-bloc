@@ -75,7 +75,7 @@ export default class Police {
             if (card.moviment.movimentType === policeOpsMovimentTypes.district || policeOpsMovimentTypes.priority) {
                 this.movePoliceBlocks(city, players, card.moviment.movimentType, card.moviment.target as Faction | OtherDistrictTypes);
             }
-            if (card.moviment.movimentType === policeOpsMovimentTypes.occupation) {
+            if (card.moviment.movimentType === policeOpsMovimentTypes.occupation || card.moviment.movimentType === policeOpsMovimentTypes.bloc) {
                 this.movePoliceBlocks(city, players, card.moviment.movimentType);
             }
         }
@@ -110,7 +110,19 @@ export default class Police {
         players.forEach(player => {
             player.occupations.forEach(occupation => {
                 if (occupation.active && districts.includes(occupation.districtId) === false) {
-                        districts.push(occupation.districtId);
+                    districts.push(occupation.districtId);
+                }
+            })
+        });
+        return districts;
+    }
+
+    getDistrictsWithBlocks(players: Player[]) {
+        const districts = [];
+        players.forEach(player => {
+            player.blocks.forEach(block => {
+                if (districts.includes(block.districtId) === false) {
+                    districts.push(block.districtId);
                 }
             })
         });
