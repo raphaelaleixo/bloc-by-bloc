@@ -14,7 +14,7 @@ type PoliceBlockMoviment = {
 export const getPoliceBlockMoviments = (city: City, players: Player[], policeInstance: Police, movimentType: policeOpsMovimentTypes, districtId: number, target?: Faction | OtherDistrictTypes) => {
     const allAdjacentDistricts = getAdjacentDistricts(city, districtId);
     const districtsWithOccupations = policeInstance.getDistrictsWithOccupations(players);
-    const districtsWithBlocks = policeInstance.getDistrictsWithBlocks(players);
+    const districtsWithBlocks = policeInstance.getDistrictsWithPlayerBlocks(players);
 
     let targetDistricts: CityBlock | undefined;
 

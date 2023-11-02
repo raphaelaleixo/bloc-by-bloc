@@ -57,16 +57,16 @@ const addAdjacentBlock = (city: City, blockArray: CityBlock[], direction: direct
     let targetBlock: CityBlock;
 
     if (direction === directions.left) {
-        targetBlock = city.blocks[y][x - 1];
+        targetBlock = city.cityBlocks[y][x - 1];
     }
     if (direction === directions.right) {
-        targetBlock = city.blocks[y][x + 1];
+        targetBlock = city.cityBlocks[y][x + 1];
     }
     if (direction === directions.down) {
-        targetBlock = city.blocks[y + 1][x];
+        targetBlock = city.cityBlocks[y + 1][x];
     }
     if (direction === directions.up) {
-        targetBlock = city.blocks[y - 1][x];
+        targetBlock = city.cityBlocks[y - 1][x];
     }
 
     if (!targetBlock) {
@@ -89,7 +89,7 @@ const addAdjacentBlock = (city: City, blockArray: CityBlock[], direction: direct
 
 export const getAdjacentDistricts = (city: City, originId: string | number,) => {
     const originCoordinates = city.getDistrictCoordinates().find(coordinate => coordinate.id === originId);
-    const originBlock = city.blocks.flat().find(block => block.tile.id === originId).tile;
+    const originBlock = city.cityBlocks.flat().find(block => block.tile.id === originId).tile;
     const adjacentTiles: CityBlock[] = [];
     const directions = getAllPossibleConnections(originBlock, originCoordinates);
     directions.forEach(direction => {

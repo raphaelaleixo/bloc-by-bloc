@@ -1,5 +1,6 @@
 import { Type } from "class-transformer";
-import { Block, Faction } from "../../utils/constants";
+import { Faction } from "../../utils/constants";
+import Entity from "../entities";
 
 export enum OccupationTypes {
     factionStart,
@@ -47,18 +48,16 @@ export interface BlockMap {
 }
 
 type PlayerNumber = 0 | 1 | 2 | 3;
-export default class Player {
+
+export default class Player extends Entity {
     playerNumber: PlayerNumber;
     faction: Faction;
-    blockCount: number;
 
     @Type(() => Occupation)
     occupations: Occupation[] = [];
 
-    @Type(() => Block)
-    blocks: Block[] = [];
-
     constructor(playerNumber: PlayerNumber, faction: Faction) {
+        super();
         this.playerNumber = playerNumber;
         this.faction = faction;
         this.blockCount = 10;
@@ -91,14 +90,6 @@ export default class Player {
         const targetOccupation = this.occupations.find(occupation => occupation.type === type && !occupation.active);
         if (targetOccupation) {
             targetOccupation.create(districtId);
-        }
-        return this;
-    }
-
-    createBlock(districtCode: number) {
-        if (this.blockCount > 0) {
-            this.blocks.push(new Block(districtCode));
-            this.blockCount--;
         }
         return this;
     }

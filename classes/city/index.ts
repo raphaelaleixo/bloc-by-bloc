@@ -1,13 +1,18 @@
 import { grid } from "../../gameData/cityGrid";
-import { Code } from "../../utils/constants";
+import { Block, Code } from "../../utils/constants";
 import { shuffler } from "../../utils/randomizers";
 import District, { Highway } from "../district";
 import { Type } from "class-transformer";
-import Police from "../police";
-import Player from "../player";
+import Police, { PoliceVan } from "../police";
+import Player, { Occupation } from "../player";
 import { LootStatus } from "../shoppingCenter/constants";
 
-interface ObjectsInDistrict { vans: number | null, policeBlocks: number | null, blocks: number | null, occupation: number | null, };
+interface ObjectsInDistrict { vans: PoliceVan[] | null, policeBlocks: Block[] | null, blocks: Block[] | null, occupations: Occupation[] | null, };
+
+export interface ObjectsMap {
+    [key: string | number]: ObjectsInDistrict
+}
+
 
 export class CityBlock {
     code: Code;
@@ -40,17 +45,17 @@ export type DistrictCoordinate = {
 
 export default class City {
     @Type(() => CityBlock)
-    blocks: CityBlock[][];
+    cityBlocks: CityBlock[][];
 
-    constructor(blocks?: CityBlock[][]) {
-        this.blocks = blocks || [];
+    constructor(cityBlocks?: CityBlock[][]) {
+        this.cityBlocks = cityBlocks || [];
     }
 
     getDistrictCoordinates() {
         const coordinates: DistrictCoordinate[] = [];
         let x = 0;
         let y = 0;
-        this.blocks.forEach((line) => {
+        this.cityBlocks.forEach((line) => {
             line.forEach((block) => {
                 coordinates.push({
                     x, y, id: block.tile.id
@@ -63,9 +68,9 @@ export default class City {
         return coordinates;
     }
 
-    getDistrictById(districtId:number):District {
+    getDistrictById(districtId: number): District {
         let district: District;
-        this.blocks.forEach((line) => {
+        this.cityBlocks.forEach((line) => {
             const targetDistrict = line.find(block => block.tile.id === districtId)?.tile;
             if (targetDistrict && targetDistrict instanceof District) {
                 district = targetDistrict;
@@ -75,35 +80,35 @@ export default class City {
     }
 
     getObjectsInDistrict(districtId: number, { police, players, player }: { police?: Police, players?: Player[], player?: Player }): ObjectsInDistrict {
-        const objects: ObjectsInDistrict = { vans: null, policeBlocks: null, blocks: null, occupation: null };
+        const objects: ObjectsInDistrict = { vans: null, policeBlocks: null, blocks: null, occupations: null };
         if (police) {
-            objects.vans = police.vans.filter(van => van.districtId === districtId).length;
-            objects.policeBlocks = police.blocks.filter(block => block.districtId === districtId).length;
+            objects.vans = police.vans.filter(van => van.districtId === districtId);
+            objects.policeBlocks = police.blocks.filter(block => block.districtId === districtId);
         }
         if (players) {
-            let blocks = 0;
-            let occupation = 0;
+            let blocks = [];
+            let occupations = [];
             players.forEach(player => {
-                blocks = player.blocks.filter(block => block.districtId === districtId).length + blocks;
-                occupation = player.occupations.filter(occupation => occupation.districtId === districtId && occupation.active).length + occupation;
+                blocks = [...blocks, ...player.blocks.filter(block => block.districtId === districtId)];
+                occupations = [...occupations, ...player.occupations.filter(occupation => occupation.districtId === districtId && occupation.active)]
             })
             objects.blocks = blocks;
-            objects.occupation = occupation;
+            objects.occupations = occupations;
         } else if (player) {
-            objects.blocks = player.blocks.filter(block => block.districtId === districtId).length;
-            objects.occupation = player.occupations.filter(occupation => occupation.districtId === districtId && occupation.active).length;
+            objects.blocks = player.blocks.filter(block => block.districtId === districtId);
+            objects.occupations = player.occupations.filter(occupation => occupation.districtId === districtId && occupation.active);
         }
         return objects;
     }
 
-    createBlocks(districtList: Array<District | Highway>) {
+    createTiles(districtList: Array<District | Highway>) {
         const shuffled = shuffler(districtList);
         const cityBlocks = grid.map((gridLine: Code[]) => gridLine.map((gridItem: Code) => {
             const targetIndex = shuffled.findIndex((item: District) => item.code === gridItem);
             const targetBlock = shuffled.splice(targetIndex, 1);
             return new CityBlock(gridItem).addTile(targetBlock[0]);
         }))
-        this.blocks = cityBlocks;
+        this.cityBlocks = cityBlocks;
         return this;
     }
 

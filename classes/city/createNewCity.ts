@@ -16,7 +16,7 @@ export const createNewCity = (): City => {
     districts.push(new Highway("C", ['', '']).rotateDistrict());
 
     const myCity = new City();
-    myCity.createBlocks(districts);
+    myCity.createTiles(districts);
 
     return myCity;
 }

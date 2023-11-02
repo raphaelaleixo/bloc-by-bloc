@@ -24,7 +24,7 @@ const FactionMap: React.FC<{ city: City, player: Player }> = ({ city, player }) 
             {player.occupations.map(occupation => {
                 if (occupation.active) {
                     const coordinates = getPlayerItemCoordinate(occupation, city);
-                    const rotation = city.blocks.flat().find(block => block.tile.id === occupation.districtId)?.tile.rotation;
+                    const rotation = city.cityBlocks.flat().find(block => block.tile.id === occupation.districtId)?.tile.rotation;
                     return (
                         <div key={occupation.id} className="w-[133px] h-[133px] absolute pointer-events-none"
                             style={{
@@ -46,7 +46,7 @@ const FactionMap: React.FC<{ city: City, player: Player }> = ({ city, player }) 
             {
                 player.blocks.map(block => {
                     const { x, y } = getPlayerItemCoordinate(block, city, 70, 70);
-                    const numberOfBlocks = city.getObjectsInDistrict(block.districtId, { player }).blocks;
+                    const numberOfBlocks = city.getObjectsInDistrict(block.districtId, { player }).blocks.length;
                     const color = getColor(player.faction, TailwindProperty.Background);
                     return (
                         <div key={block.id}

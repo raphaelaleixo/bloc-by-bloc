@@ -4,10 +4,12 @@ import { Faction } from "../../utils/constants";
 import { shuffler } from "../../utils/randomizers";
 import City from "../city";
 import { OtherDistrictTypes } from "../district/constants";
+import Entity from "../entities";
 import Player from "../player";
-import { PoliceOpsCard, policeOpsCardTypes, policeOpsMovimentTypes, priority, stateDistricts } from "./constants";
+import { PoliceOpsCard, policeOpsMovimentTypes, priority, stateDistricts } from "./constants";
+import { handlePoliceOpsCard } from "./handlePoliceOpsCard";
 import { getPoliceBlockMoviments } from "./movePoliceBlocks";
-import { Type, instanceToInstance, instanceToPlain, serialize } from "class-transformer";
+import { Type } from "class-transformer";
 
 export interface PoliceBlockMap {
     [key: string | number]: {
@@ -24,37 +26,29 @@ export class PoliceVan extends Block {
     }
 }
 
-export default class Police {
+export default class Police extends Entity {
     moraleIndex = 0;
-    policeCount: number = 30;
     vanCount: number = 4;
     policeDeck: PoliceOpsCard[] = [];
     currentCard: PoliceOpsCard;
 
-    @Type(() => Block)
-    blocks: Block[] = [];
-
     @Type(() => PoliceVan)
     vans: PoliceVan[] = [];
 
+    constructor() {
+        super();
+        this.blockCount = 30;
+    }
 
     initialize() {
         stateDistricts.forEach(district => {
-            this.createPoliceBlock(district);
-            this.createPoliceBlock(district);
-            this.createPoliceBlock(district);
+            this.createBlock(district);
+            this.createBlock(district);
+            this.createBlock(district);
             this.createPoliceVan(district);
         });
         this.shufflePoliceDeck(policeOpsDeck);
         return this;
-    }
-
-    clone() {
-        return instanceToInstance(this);
-    }
-
-    export() {
-        return JSON.stringify(instanceToPlain(this));
     }
 
     shufflePoliceDeck(deck: PoliceOpsCard[]) {
@@ -66,42 +60,7 @@ export default class Police {
             this.shufflePoliceDeck(policeOpsDeck);
         }
         const card = this.policeDeck.shift();
-
-        if (card.increaseMorale) {
-            this.increaseMorale();
-        }
-
-        if (card.type === policeOpsCardTypes.moviment) {
-            if (card.moviment.movimentType === policeOpsMovimentTypes.district || policeOpsMovimentTypes.priority) {
-                this.movePoliceBlocks(city, players, card.moviment.movimentType, card.moviment.target as Faction | OtherDistrictTypes);
-            }
-            if (card.moviment.movimentType === policeOpsMovimentTypes.occupation || card.moviment.movimentType === policeOpsMovimentTypes.bloc) {
-                this.movePoliceBlocks(city, players, card.moviment.movimentType);
-            }
-        }
-
-        if (card.type === policeOpsCardTypes.reinforcement) {
-            const districtsWithVans = this.getDistrictsWithPoliceVans();
-            districtsWithVans.forEach((district) => {
-                if (this.vans.find(van => van.districtId === district).hits === 0) {
-                    this.createPoliceBlock(district as number);
-                }
-            })
-        }
-        if (card.type === policeOpsCardTypes.rotation) {
-            const policeBlocksByDistrict = this.getPoliceBlocksByDistrict();
-            const districtsWithPoliceBlocks = this.getDistrictsWithPoliceBlocks();
-
-            districtsWithPoliceBlocks.forEach(district => {
-                const maximum = policeBlocksByDistrict[district].policeBlocks;
-                if (policeBlocksByDistrict[district].policeBlocks > 5) {
-                    const targetBlocks = this.getBlocksInDistrict(district);
-                    for (let i = maximum; i > 5; i--) {
-                        this.removePoliceBlock(targetBlocks[i - 1].id);
-                    }
-                }
-            })
-        }
+        handlePoliceOpsCard(card, this, city, players);
         this.currentCard = card;
     }
 
@@ -117,7 +76,7 @@ export default class Police {
         return districts;
     }
 
-    getDistrictsWithBlocks(players: Player[]) {
+    getDistrictsWithPlayerBlocks(players: Player[]) {
         const districts = [];
         players.forEach(player => {
             player.blocks.forEach(block => {
@@ -131,7 +90,7 @@ export default class Police {
 
     getPoliceBlocksByDistrict(): PoliceBlockMap {
         const blocksMap: Partial<PoliceBlockMap> = {};
-        const districtsWithPoliceBlocks = this.getDistrictsWithPoliceBlocks();
+        const districtsWithPoliceBlocks = this.getDistrictsWithBlocks();
         const districtsWithVans = this.getDistrictsWithPoliceVans();
         districtsWithPoliceBlocks.forEach(district => {
             const districtObject = blocksMap[district] || {};
@@ -148,31 +107,9 @@ export default class Police {
         return blocksMap;
     }
 
-    getDistrictsWithPoliceBlocks(): Array<number> {
-        return Array.from(new Set(this.blocks.map((policeBlock) => policeBlock.districtId)));
-    }
 
     getDistrictsWithPoliceVans(): Array<number> {
         return Array.from(new Set(this.vans.map((van) => van.districtId)));
-    }
-
-    getBlocksInDistrict(districtId: number): Block[] {
-        return this.blocks.filter(block => block.districtId === districtId);
-    }
-
-    removePoliceBlock(blockId: number) {
-        const targetBlock = this.blocks.find(block => block.id === blockId);
-        if (targetBlock) {
-            this.blocks = this.blocks.filter(block => block.id !== targetBlock.id);
-            this.policeCount++;
-        }
-    }
-
-    createPoliceBlock(districtCode: number) {
-        if (this.policeCount > 0) {
-            this.blocks.push(new Block(districtCode));
-            this.policeCount--;
-        }
     }
 
     createPoliceVan(districtCode: number) {
@@ -184,7 +121,7 @@ export default class Police {
 
     movePoliceBlocks(city: City, players: Player[], type: policeOpsMovimentTypes, target?: Faction | OtherDistrictTypes, priority?: priority) {
         let moviments = [];
-        this.getDistrictsWithPoliceBlocks().forEach(districtId => {
+        this.getDistrictsWithBlocks().forEach(districtId => {
             moviments = [...moviments, ...getPoliceBlockMoviments(city, players, this, type, districtId, target)];
         });
         moviments.forEach(moviment => {
