@@ -1,13 +1,15 @@
 import { Block } from "../../utils/constants";
 import { Type, instanceToInstance, instanceToPlain } from "class-transformer";
+import Police from "../police";
+import Player from "../player";
 
 export default class Entity {
     blockCount: number;
     @Type(() => Block)
     blocks: Block[] = [];
 
-    clone(): Entity {
-        return instanceToInstance(this);
+    clone(): this {
+        return instanceToInstance(this) as this;
     }
 
     export(): string {
@@ -22,7 +24,7 @@ export default class Entity {
         return Array.from(new Set(this.blocks.map((block) => block.districtId)));
     }
 
-    removeBlock(blockId: number): Entity {
+    removeBlock(blockId: number): this {
         const targetBlock = this.blocks.find(block => block.id === blockId);
         if (targetBlock) {
             this.blocks = this.blocks.filter(block => block.id !== targetBlock.id);
@@ -31,7 +33,7 @@ export default class Entity {
         return this;
     }
 
-    createBlock(districtCode: number): Entity {
+    createBlock(districtCode: number): this {
         if (this.blockCount > 0) {
             this.blocks.push(new Block(districtCode));
             this.blockCount--;
