@@ -1,4 +1,4 @@
-import District from "../../classes/district"
+import District from "../../../classes/district"
 import { FaTrainSubway } from "react-icons/fa6";
 
 const MetroStation: React.FC<{ tile: District }> = ({ tile }) => {

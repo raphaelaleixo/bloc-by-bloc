@@ -1,8 +1,9 @@
-import City, { DistrictCoordinate } from "../../classes/city";
-import Player, { Occupation } from "../../classes/player";
-import { Block, TailwindProperty } from "../../utils/constants";
-import { getColor } from "../../utils/getColor";
+import City, { DistrictCoordinate } from "../../../classes/city";
+import Player, { Occupation } from "../../../classes/player";
+import { Block, TailwindProperty } from "../../../utils/constants";
+import { getColor } from "../../../utils/getColor";
 import { FaHandFist } from "react-icons/fa6";
+import BlockPiece from "../board/block";
 
 const getPlayerItemCoordinate = (item: Occupation | Block, city: City, paddingAmmountX: number = 0, paddingAmmountY: number = 0) => {
     const coordinates = city.getDistrictCoordinates();
@@ -49,19 +50,13 @@ const FactionMap: React.FC<{ city: City, player: Player }> = ({ city, player }) 
                     const numberOfBlocks = city.getObjectsInDistrict(block.districtId, { player }).blocks.length;
                     const color = getColor(player.faction, TailwindProperty.Background);
                     return (
-                        <div key={block.id}
-                            className={`w-4 h-4 ${color} shadow-md outline outline-2 outline-black absolute transition-all duration-300  pointer-events-none`}
-                            style={{
-                                top: y + coordinateAdjustments[player.playerNumber].y,
-                                left: x + coordinateAdjustments[player.playerNumber].x
-                            }}
-                        >
-                            {numberOfBlocks > 1 ? (
-                                <div className={`w-4 h-4 rounded-full ${color} text-white outline outline-2 outline-black text-[0.65rem] leading-[0] tabular-nums absolute flex items-center justify-center font-black right-[-1em] bottom-[-1em]`}>
-                                    {numberOfBlocks}
-                                </div>
-                            ) : false}
-                        </div>
+                        <BlockPiece
+                            key={block.id}
+                            faction={player.faction}
+                            numberOfBlocks={numberOfBlocks}
+                            x={x + coordinateAdjustments[player.playerNumber].x}
+                            y={y + coordinateAdjustments[player.playerNumber].y}
+                        />
                     )
                 })
             }

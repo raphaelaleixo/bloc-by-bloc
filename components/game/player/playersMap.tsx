@@ -1,6 +1,6 @@
 
-import City from "../../classes/city";
-import Player from "../../classes/player";
+import City from "../../../classes/city";
+import Player from "../../../classes/player";
 import FactionMap from "./factionMap";
 
 

@@ -1,7 +1,7 @@
 import { useMemo } from "react";
-import Police from "../../classes/police";
-import { moraleTrack } from "../../classes/police/constants";
-import { getRandomIntInclusive } from "../../utils/randomizers";
+import Police from "../../../classes/police";
+import { moraleTrack } from "../../../classes/police/constants";
+import { getRandomIntInclusive } from "../../../utils/randomizers";
 
 const PoliceMorale: React.FC<{ police: Police }> = ({ police }) => {
     

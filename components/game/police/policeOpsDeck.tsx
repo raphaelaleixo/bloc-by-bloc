@@ -1,9 +1,9 @@
 import { useState } from "react";
-import Police from "../../classes/police"
-import { PoliceOpsCard } from "../../classes/police/constants";
-import City from "../../classes/city";
+import Police from "../../../classes/police"
+import { PoliceOpsCard } from "../../../classes/police/constants";
+import City from "../../../classes/city";
 import PoliceOpsDeckCard from "./policeOpsDeckCard";
-import Player from "../../classes/player";
+import Player from "../../../classes/player";
 
 const PoliceOpsDeck: React.FC<{ city: City, police: Police, players: Player[], drawPoliceCard: Function }> = ({ city, police, players, drawPoliceCard }) => {
 

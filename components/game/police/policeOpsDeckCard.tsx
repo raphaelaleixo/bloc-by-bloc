@@ -1,4 +1,4 @@
-import { PoliceOpsCard, policeOpsMovimentTypes } from "../../classes/police/constants";
+import { PoliceOpsCard, policeOpsMovimentTypes } from "../../../classes/police/constants";
 
 const PoliceOpsDeckCard: React.FC<{ policeOpsCard: PoliceOpsCard }> = ({ policeOpsCard }) => {
 

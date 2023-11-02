@@ -1,7 +1,7 @@
-import District from "../../classes/district"
+import District from "../../../classes/district"
 import { FaCartShopping } from "react-icons/fa6";
 import { GiSmallFire, GiAnarchy } from "react-icons/gi";
-import { LootStatus } from "../../classes/shoppingCenter/constants";
+import { LootStatus } from "../../../classes/shoppingCenter/constants";
 
 const getColor = (lootStatus: LootStatus) => {
     switch (lootStatus) {

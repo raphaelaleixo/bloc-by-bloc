@@ -1,8 +1,8 @@
 import { useMemo } from "react";
-import District, { Highway } from "../../classes/district"
-import { Faction, TailwindProperty } from "../../utils/constants";
-import { OtherDistrictTypes } from "../../classes/district/constants";
-import { getColor } from "../../utils/getColor";
+import District, { Highway } from "../../../classes/district"
+import { Faction, TailwindProperty } from "../../../utils/constants";
+import { OtherDistrictTypes } from "../../../classes/district/constants";
+import { getColor } from "../../../utils/getColor";
 
 const TileInformation: React.FC<{ tile: District }> = ({ tile }) => {
     const textColor = useMemo(() => {

@@ -1,7 +1,7 @@
 import { useMemo } from "react";
-import District from "../../classes/district"
-import { TailwindProperty } from "../../utils/constants";
-import { getColor } from "../../utils/getColor";
+import District from "../../../classes/district"
+import { TailwindProperty } from "../../../utils/constants";
+import { getColor } from "../../../utils/getColor";
 
 const OcupationSlot: React.FC<{ tile: District }> = ({ tile }) => {
 

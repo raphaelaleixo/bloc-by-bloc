@@ -1,4 +1,4 @@
-import District, { Highway } from "../../classes/district"
+import District, { Highway } from "../../../classes/district"
 
 const Roads: React.FC<{ tile: District | Highway }> = ({ tile }) => {
     return tile instanceof Highway ? (

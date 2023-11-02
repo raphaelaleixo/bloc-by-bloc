@@ -1,15 +1,15 @@
 import { useMemo } from "react";
-import District, { Highway } from "../../classes/district";
-import City, { CityBlock } from "../../classes/city";
+import District, { Highway } from "../../../classes/district";
+import City, { CityBlock } from "../../../classes/city";
 import TileInformation from "./tileInformation";
 import OcupationSlot from "./ocupationSlot";
 import Roads from "./roads";
-import { getRandomIntInclusive } from "../../utils/randomizers";
-import { TailwindProperty } from "../../utils/constants";
-import { getColor } from "../../utils/getColor";
+import { getRandomIntInclusive } from "../../../utils/randomizers";
+import { TailwindProperty } from "../../../utils/constants";
+import { getColor } from "../../../utils/getColor";
 import MetroStation from "./metroStation";
 import ShoppingCenters from "./shoppingCenters";
-import { getAdjacentDistricts } from "../../utils/getAdjacentDistricts";
+import { getAdjacentDistricts } from "../../../utils/getAdjacentDistricts";
 
 
 const CityTile: React.FC<{ city: City, tile: District | Highway, higlightedTiles: CityBlock[], setHighlightedTiles: Function }> = ({ city, tile, higlightedTiles, setHighlightedTiles }) => {

@@ -11,6 +11,6 @@ export const shuffler = (arr: any[]) =>
     [...arr]
   );
 
-export function getRandomIntInclusive(): number {
-    return Math.floor(Math.random() * (3)) - 1;
+export function getRandomIntInclusive(max: number = 3): number {
+    return Math.floor(Math.random() * (max)) - (max - 2);
 }
