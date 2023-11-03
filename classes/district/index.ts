@@ -20,11 +20,9 @@ export enum highwayConnections {
 class Tile {
     code: Code;
     rotation: 0 | 90 | 180 | 270 = 0;
-    image: DistrictImage;
     districtType: DistrictType;
-    constructor(code: Code, image: DistrictImage, type: DistrictType) {
+    constructor(code: Code, type: DistrictType) {
         this.code = code;
-        this.image = image;
         this.districtType = type;
     }
 }
@@ -35,7 +33,7 @@ export class Highway extends Tile {
     connections: highwayConnections;
     id: number;
     constructor(code: Code, image: DistrictImage, type?: DistrictType) {
-        super(code, image, type = OtherDistrictTypes.Highway);
+        super(code, type = OtherDistrictTypes.Highway);
         this.id = highway_id--;
     }
     rotateDistrict() {
@@ -51,7 +49,7 @@ export default class District extends Tile {
     difficulty: number;
     metroStation: boolean;
     id: number;
-    title?: string;
+    title: string = '';
     liberated: boolean = false;
     hasOccupationSlot: boolean;
     roads: boolean[];
@@ -69,14 +67,12 @@ export default class District extends Tile {
         metroStation: boolean,
         districtType: DistrictType,
         difficulty: number,
-        image: DistrictImage,
         roads: boolean[] = [true, true, true, true],
     ) {
-        super(code, image, districtType);
+        super(code, districtType);
         this.roads = roads;
         this.id = id;
         this.title = title;
-        this.image = image;
         this.difficulty = difficulty;
         this.metroStation = metroStation;
         this.districtType = districtType;

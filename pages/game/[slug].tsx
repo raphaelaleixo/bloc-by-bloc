@@ -6,12 +6,13 @@ import { useEffect } from "react";
 import useCity from "../../hooks/useCity";
 import CityMap from "../../components/game/board/cityMap";
 import usePolice from "../../hooks/usePolice";
+import dynamic from "next/dynamic";
 
 export async function getStaticPaths() {
     const games = await loadAllGames();
     return {
         paths: games.map((game) => `/game/${game.room}`),
-        fallback: false,
+        fallback: true,
     };
 }
 
@@ -38,4 +39,4 @@ const GamePage: NextPage<{ loadedGame: Game }> = ({ loadedGame }) => {
     )
 };
 
-export default GamePage;
+export default dynamic(() => Promise.resolve(GamePage), { ssr: false });
