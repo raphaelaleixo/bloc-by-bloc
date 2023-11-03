@@ -14,7 +14,7 @@ async function getLoadedGame(roomId: string) {
     return game;
 }
 
-const GamePage: NextPage<{ loadedGame: Game }> = ({ loadedGame }) => {
+const GamePage: NextPage<> = () => {
     const searchParams = useSearchParams()
     const room = searchParams.get('room');
     const { gameActions } = useGame();
@@ -25,8 +25,8 @@ const GamePage: NextPage<{ loadedGame: Game }> = ({ loadedGame }) => {
         }
     }, [room, gameActions]);
 
-    const { city } = useCity(loadedGame?.room);
-    const { police, policeActions } = usePolice(loadedGame?.room);
+    const { city } = useCity(room);
+    const { police, policeActions } = usePolice(room);
 
     return city && police ? (
         <CityMap city={city} police={police} policeActions={policeActions} />
