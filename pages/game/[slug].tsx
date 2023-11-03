@@ -1,21 +1,20 @@
 import { NextPage } from "next";
 import Game from "../../classes/game";
-import { loadAllGames, loadGame } from "../../api/api";
+import { loadGame } from "../../api/api";
 import useGame from "../../hooks/useGame";
 import { useEffect } from "react";
 import useCity from "../../hooks/useCity";
 import CityMap from "../../components/game/board/cityMap";
 import usePolice from "../../hooks/usePolice";
-import dynamic from "next/dynamic";
 
 
 export async function getServerSideProps({ params }) {
     const loadedGame = await loadGame(params.slug);
-  
+
     return {
-      props: { loadedGame },
+        props: { loadedGame },
     };
-  }
+}
 
 const GamePage: NextPage<{ loadedGame: Game }> = ({ loadedGame }) => {
 
@@ -34,4 +33,4 @@ const GamePage: NextPage<{ loadedGame: Game }> = ({ loadedGame }) => {
     )
 };
 
-export default dynamic(() => Promise.resolve(GamePage), { ssr: false });
+export default GamePage;
