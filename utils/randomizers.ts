@@ -12,5 +12,9 @@ export const shuffler = (arr: any[]) =>
   );
 
 export function getRandomIntInclusive(max: number = 3): number {
-    return Math.floor(Math.random() * (max)) - (max - 2);
+  return Math.floor(Math.random() * (max)) - (max - 2);
+}
+
+export function createRoomId(): string {
+  return Math.random().toString(36).substring(2, 7).toUpperCase();
 }
