@@ -14,7 +14,7 @@ async function getLoadedGame(roomId: string) {
     return game;
 }
 
-const GamePage: NextPage<> = () => {
+const GamePage: NextPage = () => {
     const searchParams = useSearchParams()
     const room = searchParams.get('room');
     const { gameActions } = useGame();
