@@ -10,6 +10,7 @@ import { PoliceOpsCard, policeOpsMovimentTypes, priority, stateDistricts } from 
 import { handlePoliceOpsCard } from "./handlePoliceOpsCard";
 import { getPoliceBlockMoviments } from "./movePoliceBlocks";
 import { Type } from "class-transformer";
+import PoliceOpsDeck from "./policeOpsDeck";
 
 export interface PoliceBlockMap {
     [key: string | number]: {
@@ -29,7 +30,6 @@ export class PoliceVan extends Block {
 export default class Police extends Entity {
     moraleIndex = 0;
     vanCount: number = 4;
-    policeDeck: PoliceOpsCard[] = [];
     currentCard: PoliceOpsCard;
 
     @Type(() => PoliceVan)
@@ -47,19 +47,11 @@ export default class Police extends Entity {
             this.createBlock(district);
             this.createPoliceVan(district);
         });
-        this.shufflePoliceDeck(policeOpsDeck);
         return this;
     }
 
-    shufflePoliceDeck(deck: PoliceOpsCard[]) {
-        this.policeDeck = shuffler(deck);
-    }
-
-    drawPoliceCard(city: City, players: Player[]) {
-        if (this.policeDeck.length === 0) {
-            this.shufflePoliceDeck(policeOpsDeck);
-        }
-        const card = this.policeDeck.shift();
+    drawPoliceCard(policeOpsDeck: PoliceOpsDeck, city: City, players: Player[]) {
+        const card = policeOpsDeck.draw();
         handlePoliceOpsCard(card, this, city, players);
         this.currentCard = card;
     }

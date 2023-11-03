@@ -5,9 +5,11 @@ import { getGameRef, savePolice } from "../api/api";
 import { onValue } from "firebase/database";
 import { instanceToPlain, plainToInstance } from "class-transformer";
 import Player from "../classes/player";
+import PoliceOpsDeck from "../classes/police/policeOpsDeck";
 
 function usePolice(roomId: string): { police: Police, policeActions: { drawPoliceCard: (city: City, players: Player[]) => void } } {
     const [police, setPolice] = useState<Police | undefined>();
+    const policeOpsDeck = new PoliceOpsDeck();
 
     useEffect(() => {
         const gameRef = getGameRef(roomId);
@@ -20,20 +22,20 @@ function usePolice(roomId: string): { police: Police, policeActions: { drawPolic
                 savePolice(new Police().initialize(), roomId);
             }
         });
-    }, [roomId, police]);
+    }, [police, roomId]);
 
-    const drawPoliceCard = (city: City, players: Player[]) => {
-        const newPolice = police.clone();
-        newPolice.drawPoliceCard(city, players);
-        savePolice(newPolice, roomId);
-    }
+const drawPoliceCard = (city: City, players: Player[]) => {
+    const newPolice = police.clone();
+    newPolice.drawPoliceCard(policeOpsDeck, city, players);
+    savePolice(newPolice, roomId);
+}
 
-    return {
-        police,
-        policeActions: {
-            drawPoliceCard,
-        }
+return {
+    police,
+    policeActions: {
+        drawPoliceCard,
     }
+}
 }
 
 export default usePolice;

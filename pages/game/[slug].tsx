@@ -33,8 +33,6 @@ const GamePage: NextPage<{ loadedGame: Game }> = ({ loadedGame }) => {
     const { city } = useCity(loadedGame.room);
     const { police, policeActions } = usePolice(loadedGame.room);
 
-    console.log(police);
-
     return (
         <CityMap city={city} police={police} policeActions={policeActions} />
     )
