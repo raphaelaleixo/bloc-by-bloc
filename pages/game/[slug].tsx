@@ -10,6 +10,7 @@ import usePolice from "../../hooks/usePolice";
 
 export async function getServerSideProps({ params }) {
     const loadedGame = await loadGame(params.slug);
+    console.log(loadedGame);
 
     return {
         props: { loadedGame },
