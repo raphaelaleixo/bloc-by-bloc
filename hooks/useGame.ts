@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Game from "../classes/game";
-import { loadGame, saveGame } from "../api/api";
+import { saveGame } from "../api/api";
+import { plainToInstance } from "class-transformer";
 
 function useGame() {
     const [game, setGame] = useState<Game | undefined>();
@@ -10,8 +11,8 @@ function useGame() {
         setGame(game);
     }
 
-    const loadSavedGame = (roomId: string) => {
-        setGame(loadGame(roomId));
+    const loadSavedGame = (localGame: Game) => {
+        setGame(plainToInstance(Game, localGame));
     }
 
     return { game, gameActions: { createNewGame, loadSavedGame } };

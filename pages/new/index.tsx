@@ -1,8 +1,11 @@
 import { Button, Popover } from "antd";
 import NewGameOptions from "../../components/app/main/newGame";
 import Attribution from "../../components/app/main/attribution";
+import useGame from "../../hooks/useGame";
 
-export default function New() {
+export default function New():JSX.Element {
+    const { game, gameActions } = useGame();
+    console.log(game);
     return (
         <div>
             <div className="text-white uppercase flex flex-col">

@@ -1,18 +1,15 @@
 import { useState } from "react";
-import { CityBlock } from "../../../classes/city";
+import City, { CityBlock } from "../../../classes/city";
 import PoliceBlocksMap from "../police/policeBlocksMap";
 import PoliceMorale from "../police/policeMorale";
 import PoliceOpsDeck from "../police/policeOpsDeck";
 import StagingArea from "../police/stagingArea";
 import CityTile from "./cityTile";
-import useCity from "../../../hooks/useCity";
-import usePolice from "../../../hooks/usePolice";
 import usePlayers from "../../../hooks/usePlayers";
 import PlayersMap from "../player/playersMap";
+import Police from "../../../classes/police";
 
-const CityMap: React.FC = () => {
-    const { city } = useCity();
-    const { police, policeActions } = usePolice();
+const CityMap: React.FC<{city: City, police: Police, policeActions: any }> = ({ city, police, policeActions }) => {
     const { players } = usePlayers();
     const [higlightedTiles, setHighlightedTiles] = useState<CityBlock[]>([]);
     
