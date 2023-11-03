@@ -15,7 +15,7 @@ const NewGameOptions: React.FC = ({ }) => {
 
     useEffect(() => {
         if (game?.room) {
-            router.push(`/game/${game.room}`)
+            router.push(`/game?room=${game.room}`)
         }
     }, [router, game]);
 

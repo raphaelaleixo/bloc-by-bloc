@@ -13,7 +13,7 @@ const CityMap: React.FC<{city: City, police: Police, policeActions: any }> = ({ 
     const { players } = usePlayers();
     const [higlightedTiles, setHighlightedTiles] = useState<CityBlock[]>([]);
     
-    return city && police ? (
+    return players ? (
         <div className="contents">
             <div className="flex flex-col gap-5">
                 <PoliceOpsDeck city={city} police={police} players={players} drawPoliceCard={policeActions.drawPoliceCard} />

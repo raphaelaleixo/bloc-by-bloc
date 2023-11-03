@@ -6,32 +6,31 @@ import { useEffect } from "react";
 import useCity from "../../hooks/useCity";
 import CityMap from "../../components/game/board/cityMap";
 import usePolice from "../../hooks/usePolice";
+import { useSearchParams } from "next/navigation";
 
 
-export async function getServerSideProps({ params }) {
-    const loadedGame = await loadGame(params.slug);
-    console.log(loadedGame);
-
-    return {
-        props: { loadedGame },
-    };
+async function getLoadedGame(roomId: string) {
+    const game = await loadGame(roomId)
+    return game;
 }
 
 const GamePage: NextPage<{ loadedGame: Game }> = ({ loadedGame }) => {
+    const searchParams = useSearchParams()
+    const room = searchParams.get('room');
+    const { gameActions } = useGame();
 
-    const { game, gameActions } = useGame();
     useEffect(() => {
-        if (!game) {
-            gameActions.loadSavedGame(loadedGame);
+        if (room) {
+            gameActions.loadSavedGame(getLoadedGame(room))
         }
-    }, [game, gameActions, loadedGame]);
+    }, [room, gameActions]);
 
-    const { city } = useCity(loadedGame.room);
-    const { police, policeActions } = usePolice(loadedGame.room);
+    const { city } = useCity(loadedGame?.room);
+    const { police, policeActions } = usePolice(loadedGame?.room);
 
-    return (
+    return city && police ? (
         <CityMap city={city} police={police} policeActions={policeActions} />
-    )
+    ) : false;
 };
 
 export default GamePage;

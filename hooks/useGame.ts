@@ -11,8 +11,10 @@ function useGame() {
         setGame(game);
     }
 
-    const loadSavedGame = (localGame: Game) => {
-        setGame(plainToInstance(Game, localGame));
+    const loadSavedGame = (localGame: Promise<Game>) => {
+        localGame.then((value) => {
+            setGame(plainToInstance(Game, value));
+        })
     }
 
     return { game, gameActions: { createNewGame, loadSavedGame } };
