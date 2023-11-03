@@ -8,19 +8,14 @@ import CityMap from "../../components/game/board/cityMap";
 import usePolice from "../../hooks/usePolice";
 import dynamic from "next/dynamic";
 
-export async function getStaticPaths() {
-    const games = await loadAllGames();
-    return {
-        paths: games.map((game) => `/game/${game.room}`),
-        fallback: true,
-    };
-}
 
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
     const loadedGame = await loadGame(params.slug);
-    return { props: { loadedGame } };
-}
-
+  
+    return {
+      props: { loadedGame },
+    };
+  }
 
 const GamePage: NextPage<{ loadedGame: Game }> = ({ loadedGame }) => {
 
