@@ -20,7 +20,7 @@ export const saveGame = (game: Game) => {
     const newGame = instanceToPlain(game);
     const gameListRef = ref(database, 'data');
     const newGameRef = child(gameListRef, game.room);
-    set(newGameRef, { newGame });
+    set(newGameRef, { game: newGame });
 }
 
 export const loadAllGames = async () => {

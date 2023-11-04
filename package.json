@@ -13,7 +13,7 @@
     "antd": "^5.10.3",
     "autoprefixer": "^10.4.14",
     "class-transformer": "0.5.1",
-    "eslint": "8.37.0",
+    "eslint": "^8.2.0",
     "eslint-config-next": "13.3.0",
     "firebase": "^10.5.2",
     "framer-motion": "^10.15.0",
@@ -31,6 +31,11 @@
   "devDependencies": {
     "@types/node": "^20.8.7",
     "@types/react": "^18.2.31",
+    "eslint-config-airbnb": "19.0.4",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
     "sass": "^1.62.0",
     "typescript": "^5.2.2"
   }
