@@ -1,10 +1,27 @@
-import { Button, Popover } from "antd";
+import { Button, Popover, Spin } from "antd";
 import NewGameOptions from "../components/app/main/newGame";
 import Attribution from "../components/app/main/attribution";
+import useGame from "../hooks/useGame";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import Game from "../classes/game";
 
-export default function New():JSX.Element {  
+export default function Homepage(): JSX.Element {
+    const { game, gameActions } = useGame();
+    const router = useRouter();
+    const [isLoading, setIsLoading] = useState(false);
+
+    const createGame = async (game: Game) => {
+        setIsLoading(true);
+        gameActions.createNewGame(game);
+    }
+
+    if (game?.room) {
+        router.push(`/game?room=${game.room}`)
+    }
+
     return (
-        <div>
+        <Spin spinning={isLoading}>
             <div className="text-white uppercase flex flex-col">
                 <h1 className="flex items-center font-black leading-none">
                     <span className="text-5xl">Bloc</span>
@@ -18,7 +35,7 @@ export default function New():JSX.Element {
                         trigger="click"
                         getPopupContainer={(triggerNode: HTMLElement) => triggerNode.parentElement}
                         content={(
-                            <NewGameOptions />
+                            <NewGameOptions createGame={createGame} />
                         )}>
                         <Button type="primary" size="large" className="uppercase">New game</Button>
                     </Popover>
@@ -26,6 +43,6 @@ export default function New():JSX.Element {
                 </div>
             </div>
             <Attribution />
-        </div>
+        </Spin>
     );
 }
