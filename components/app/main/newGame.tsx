@@ -1,13 +1,11 @@
-import { Button, Segmented } from "antd"
-import useGame, { GameActions } from "../../../hooks/useGame";
-import Game from "../../../classes/game";
-import { createRoomId } from "../../../utils/randomizers";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { Button, Segmented } from 'antd';
+import { useState } from 'react';
+import Game from '../../../classes/game/';
+import { createRoomId } from '../../../utils/randomizers';
 
 const options = [{
     label: 'Players',
-    value: [1, 2, 3, 4]
+    value: [1, 2, 3, 4],
 },
 {
     label: 'Difficulty level',
@@ -24,9 +22,9 @@ const options = [{
     }, {
         label: 'Expert',
         value: 4,
-    }]
-}
-]
+    }],
+},
+];
 
 const NewGameOptions: React.FC<{ createGame(game: Game): void }> = ({ createGame }) => {
     const [playerNumber, setPlayerNumber] = useState<number>(1);
@@ -36,16 +34,17 @@ const NewGameOptions: React.FC<{ createGame(game: Game): void }> = ({ createGame
     return (
         <div className="flex flex-col gap-4 w-80 p-2 pb-4 items-start">
             {
-                options.map(option => (
+                options.map((option) => (
                     <div key={option.label} className="flex flex-col gap-2 normal-case w-full">
                         <label className="text-white font-medium">
                             {option.label}
                         </label>
                         <Segmented
-                            block options={option.value}
+                            block
+                            options={option.value}
                             value={option.label === 'Players' ? playerNumber : difficulty}
                             onChange={(value) => {
-                                option.label === 'Players' ? setPlayerNumber(value as number) : setDifficulty(value as number)
+                                option.label === 'Players' ? setPlayerNumber(value as number) : setDifficulty(value as number);
                             }}
                         />
                     </div>
@@ -60,7 +59,7 @@ const NewGameOptions: React.FC<{ createGame(game: Game): void }> = ({ createGame
                 Start
             </Button>
         </div>
-    )
-}
+    );
+};
 
 export default NewGameOptions;
