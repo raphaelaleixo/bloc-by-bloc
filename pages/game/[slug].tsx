@@ -13,7 +13,7 @@ async function getLoadedGame(roomId: string) {
 
 const GamePage: NextPage = () => {
   const router = useRouter();
-  const room = router.query.slug.toString();
+  const room = router?.query?.slug.toString();
   const { game, gameActions } = useGame();
 
   const { city } = useCity(game);
