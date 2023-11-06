@@ -1,16 +1,15 @@
-import { useMemo } from "react";
-import District, { Highway } from "../../../classes/district"
-import { Faction, TailwindProperty } from "../../../utils/constants";
-import { OtherDistrictTypes } from "../../../classes/district/constants";
-import { getColor } from "../../../utils/getColor";
+import { useMemo } from 'react';
+import District from '../../../classes/District';
+import { TailwindProperty } from '../../../utils/constants';
+import getColor from '../../../utils/getColor';
 
 const TileInformation: React.FC<{ tile: District }> = ({ tile }) => {
-    const textColor = useMemo(() => {
-        return getColor(tile.districtType, TailwindProperty.Text);
-    }, [tile.districtType])
+  const textColor = useMemo(() => getColor(
+    tile.districtType,
+    TailwindProperty.Text,
+  ), [tile.districtType]);
 
-
-    return (
+  return (
         <>
             <div className="relative z-10 leading-tight text-zinc-300">
                 {
@@ -20,7 +19,7 @@ const TileInformation: React.FC<{ tile: District }> = ({ tile }) => {
                         </div>
                     ) : false
                 }
-                <div className={`text-[0.65em] w-2/3 leading-none font-bold uppercase`}>
+                <div className={'text-[0.65em] w-2/3 leading-none font-bold uppercase'}>
                     <span>
                         {tile.title}
                     </span>
@@ -36,7 +35,7 @@ const TileInformation: React.FC<{ tile: District }> = ({ tile }) => {
                 {tile.id}
             </div>
         </>
-    )
-}
+  );
+};
 
 export default TileInformation;

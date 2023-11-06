@@ -1,8 +1,9 @@
-import { LootStatus } from "./constants";
+import { LootStatus } from '../utils/constants';
 
 let id = 0;
 export default class ShoppingCenter {
   lootStatus: LootStatus = LootStatus.None;
+
   id: number;
 
   constructor() {

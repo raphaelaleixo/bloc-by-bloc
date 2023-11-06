@@ -1,18 +1,17 @@
-import { useMemo } from "react";
-import Police from "../../../classes/police";
-import { moraleTrack } from "../../../classes/police/constants";
-import { getRandomIntInclusive } from "../../../utils/randomizers";
+import { useMemo } from 'react';
+import Police from '../../../classes/Police';
+import { moraleTrack } from '../../../utils/constants';
+import { getRandomIntInclusive } from '../../../utils/randomizers';
 
 const PoliceMorale: React.FC<{ police: Police }> = ({ police }) => {
-    
-    const level = police?.moraleIndex || 0;
-    const trackPiece = useMemo(() => {
-        const rotation = getRandomIntInclusive();
-        return (<div className="absolute h-full w-full t-0 l-0 bg-white outline outline-2 outline-black" style={{ rotate: `${-rotation}deg` }}></div>);
+  const level = police?.moraleIndex || 0;
+  const trackPiece = useMemo(() => {
+    const rotation = getRandomIntInclusive();
+    return (<div className="absolute h-full w-full t-0 l-0 bg-white outline outline-2 outline-black" style={{ rotate: `${-rotation}deg` }}></div>);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [level]);
+  }, [level]);
 
-    return (
+  return (
         <div className="text-zinc-300 font-bold uppercase text-center">
             <div className="text-xl">Police morale</div>
             <div className="flex flex-wrap w-[160px] justify-center">
@@ -31,7 +30,7 @@ const PoliceMorale: React.FC<{ police: Police }> = ({ police }) => {
                 }
             </div>
         </div>
-    )
-}
+  );
+};
 
 export default PoliceMorale;

@@ -1,44 +1,47 @@
-import { useEffect, useState } from "react";
-import Police from "../classes/police";
-import City from "../classes/city";
-import { getGameRef, savePolice } from "../api/api";
-import { onValue } from "firebase/database";
-import { instanceToPlain, plainToInstance } from "class-transformer";
-import Player from "../classes/player";
-import PoliceOpsDeck from "../classes/police/policeOpsDeck";
-import Game from "../classes/game";
+import { useEffect, useState } from 'react';
+import { onValue } from 'firebase/database';
+import { instanceToPlain, plainToInstance } from 'class-transformer';
+import Police from '../classes/Police';
+import City from '../classes/City';
+import { getGameRef, savePolice } from '../api/api';
+import Player from '../classes/Player';
+import PoliceOpsDeck from '../classes/PoliceOpsDeck';
+import Game from '../classes/Game';
 
-function usePolice(game: Game): { police: Police, policeActions: { drawPoliceCard: (city: City, players: Player[]) => void } } {
-    const [police, setPolice] = useState<Police | undefined>();
-    const policeOpsDeck = new PoliceOpsDeck();
+function usePolice(game: Game): {
+  police: Police,
+  policeActions: { drawPoliceCard: (city: City, players: Player[]) => void }
+} {
+  const [police, setPolice] = useState<Police | undefined>();
+  const policeOpsDeck = new PoliceOpsDeck();
 
-    useEffect(() => {
-        if (game?.room) {
-            const gameRef = getGameRef(game.room);
-            onValue(gameRef, (snapshot) => {
-                const newPoliceData = snapshot.val()?.police;
-                const currentPoliceData = JSON.stringify(instanceToPlain(police));
-                if (newPoliceData && newPoliceData !== currentPoliceData) {
-                    setPolice(plainToInstance(Police, JSON.parse(newPoliceData)));
-                } else if (police === undefined) {
-                    savePolice(new Police().initialize(), game.room);
-                }
-            });
+  useEffect(() => {
+    if (game?.room) {
+      const gameRef = getGameRef(game.room);
+      onValue(gameRef, (snapshot) => {
+        const newPoliceData = snapshot.val()?.police;
+        const currentPoliceData = JSON.stringify(instanceToPlain(police));
+        if (newPoliceData && newPoliceData !== currentPoliceData) {
+          setPolice(plainToInstance(Police, JSON.parse(newPoliceData)));
+        } else if (police === undefined) {
+          savePolice(new Police().initialize(), game.room);
         }
-    }, [game?.room, police]);
-
-    const drawPoliceCard = (city: City, players: Player[]) => {
-        const newPolice = police.clone();
-        newPolice.drawPoliceCard(policeOpsDeck, city, players);
-        savePolice(newPolice, game.room);
+      });
     }
+  }, [game?.room, police]);
 
-    return {
-        police,
-        policeActions: {
-            drawPoliceCard,
-        }
-    }
+  const drawPoliceCard = (city: City, players: Player[]) => {
+    const newPolice = police.clone();
+    newPolice.drawPoliceCard(policeOpsDeck, city, players);
+    savePolice(newPolice, game.room);
+  };
+
+  return {
+    police,
+    policeActions: {
+      drawPoliceCard,
+    },
+  };
 }
 
 export default usePolice;

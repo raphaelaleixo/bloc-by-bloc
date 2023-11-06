@@ -1,26 +1,26 @@
-import { Button, Popover, Spin } from "antd";
-import NewGameOptions from "../components/app/main/newGame";
-import Attribution from "../components/app/main/attribution";
-import useGame from "../hooks/useGame";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import Game from "../classes/game";
+import { Button, Popover, Spin } from 'antd';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import NewGameOptions from '../components/app/main/newGame';
+import Attribution from '../components/app/main/attribution';
+import useGame from '../hooks/useGame';
+import Game from '../classes/Game';
 
 export default function Homepage(): JSX.Element {
-    const { game, gameActions } = useGame();
-    const router = useRouter();
-    const [isLoading, setIsLoading] = useState(false);
+  const { game, gameActions } = useGame();
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
-    const createGame = async (game: Game) => {
-        setIsLoading(true);
-        gameActions.createNewGame(game);
-    }
+  const createGame = async (newGame: Game) => {
+    setIsLoading(true);
+    gameActions.createNewGame(newGame);
+  };
 
-    if (game?.room) {
-        router.push(`/game?room=${game.room}`)
-    }
+  if (game?.room) {
+    router.push(`/game?room=${game.room}`);
+  }
 
-    return (
+  return (
         <Spin spinning={isLoading}>
             <div className="text-white uppercase flex flex-col">
                 <h1 className="flex items-center font-black leading-none">
@@ -44,5 +44,5 @@ export default function Homepage(): JSX.Element {
             </div>
             <Attribution />
         </Spin>
-    );
+  );
 }

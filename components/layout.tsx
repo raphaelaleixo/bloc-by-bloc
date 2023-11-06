@@ -1,20 +1,19 @@
-import Head from "next/head";
+import Head from 'next/head';
 import { Saira, Saira_Stencil_One } from 'next/font/google';
 
 const saira = Saira({
-    subsets: ["latin"],
-    weight: 'variable',
-    variable: "--font-saira",
+  subsets: ['latin'],
+  weight: 'variable',
+  variable: '--font-saira',
 });
 
 const sairaStencil = Saira_Stencil_One({
-    subsets: ["latin"],
-    weight: '400',
-    variable: "--font-saira-stencil",
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-saira-stencil',
 });
 
-const Layout: React.FC<{children: JSX.Element }> = ({ children }) => {
-    return (
+const Layout: React.FC<{ children: JSX.Element }> = ({ children }) => (
         <>
             <Head>
                 <title>Bloc by Bloc</title>
@@ -23,7 +22,6 @@ const Layout: React.FC<{children: JSX.Element }> = ({ children }) => {
                 {children}
             </main>
         </>
-    )
-}
+);
 
 export default Layout;

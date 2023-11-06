@@ -1,37 +1,37 @@
 import { Button, Segmented } from 'antd';
 import { useState } from 'react';
-import Game from '../../../classes/game/';
+import Game from '../../../classes/Game';
 import { createRoomId } from '../../../utils/randomizers';
 
 const options = [{
-    label: 'Players',
-    value: [1, 2, 3, 4],
+  label: 'Players',
+  value: [1, 2, 3, 4],
 },
 {
-    label: 'Difficulty level',
-    value: [{
-        label: 'Easy',
-        value: 1,
-    }, {
-        label: 'Medium',
-        value: 2,
-    },
-    {
-        label: 'Hard',
-        value: 3,
-    }, {
-        label: 'Expert',
-        value: 4,
-    }],
+  label: 'Difficulty level',
+  value: [{
+    label: 'Easy',
+    value: 1,
+  }, {
+    label: 'Medium',
+    value: 2,
+  },
+  {
+    label: 'Hard',
+    value: 3,
+  }, {
+    label: 'Expert',
+    value: 4,
+  }],
 },
 ];
 
 const NewGameOptions: React.FC<{ createGame(game: Game): void }> = ({ createGame }) => {
-    const [playerNumber, setPlayerNumber] = useState<number>(1);
-    const [difficulty, setDifficulty] = useState<number>(1);
-    const roomId = createRoomId();
+  const [playerNumber, setPlayerNumber] = useState<number>(1);
+  const [difficulty, setDifficulty] = useState<number>(1);
+  const roomId = createRoomId();
 
-    return (
+  return (
         <div className="flex flex-col gap-4 w-80 p-2 pb-4 items-start">
             {
                 options.map((option) => (
@@ -44,7 +44,8 @@ const NewGameOptions: React.FC<{ createGame(game: Game): void }> = ({ createGame
                             options={option.value}
                             value={option.label === 'Players' ? playerNumber : difficulty}
                             onChange={(value) => {
-                                option.label === 'Players' ? setPlayerNumber(value as number) : setDifficulty(value as number);
+                              // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+                              option.label === 'Players' ? setPlayerNumber(value as number) : setDifficulty(value as number);
                             }}
                         />
                     </div>
@@ -59,7 +60,7 @@ const NewGameOptions: React.FC<{ createGame(game: Game): void }> = ({ createGame
                 Start
             </Button>
         </div>
-    );
+  );
 };
 
 export default NewGameOptions;
