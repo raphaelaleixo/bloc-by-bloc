@@ -9,6 +9,7 @@ import CityTile from './cityTile';
 import usePlayers from '../../../hooks/usePlayers';
 import PlayersMap from '../player/playersMap';
 import Police from '../../../classes/Police';
+import getAdjacentDistricts from '../../../utils/getAdjacentDistricts';
 
 const CityMap: React.FC<{
   city: City, police: Police, policeActions: any
@@ -16,8 +17,16 @@ const CityMap: React.FC<{
   const { players } = usePlayers();
   const [higlightedTiles, setHighlightedTiles] = useState<CityBlock[]>([]);
 
+  const highlightTiles = (tileId: number) => {
+    if (tileId) {
+      setHighlightedTiles(getAdjacentDistricts(city, tileId));
+    } else {
+      setHighlightedTiles([]);
+    }
+  };
+
   return players ? (
-        <div className="contents">
+        <div className="contents select-none">
             <div className="flex flex-col gap-5">
                 <PoliceOpsDeck
                     city={city}
@@ -31,11 +40,10 @@ const CityMap: React.FC<{
                 <div className="grid grid-cols-5 w-full h-full gap-2 absolute">
                     {city?.cityBlocks.map((line: CityBlock[]) => line.map((district: CityBlock) => (
                         <CityTile
-                            city={city}
                             tile={district.tile}
                             key={district.tile.id}
                             higlightedTiles={higlightedTiles}
-                            setHighlightedTiles={setHighlightedTiles} />
+                            setHighlightedTiles={highlightTiles} />
                     )))}
                 </div>
                 <PlayersMap city={city} players={players} />

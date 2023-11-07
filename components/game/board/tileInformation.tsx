@@ -11,7 +11,7 @@ const TileInformation: React.FC<{ tile: District }> = ({ tile }) => {
 
   return (
         <>
-            <div className="relative z-10 leading-tight text-zinc-300">
+            <div className="relative leading-tight text-zinc-300">
                 {
                     tile instanceof District && tile.liberated ? (
                         <div className={`text-[0.5rem] ${textColor} tracking-wider font-bold uppercase`}>

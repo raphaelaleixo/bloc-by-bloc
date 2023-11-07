@@ -8,7 +8,7 @@ import Player from '../classes/Player';
 import { OccupationTypes, Faction } from '../utils/constants';
 import Players from '../classes/Players';
 
-function usePlayers(game: Game): { players: Players } {
+function usePlayers(): { players: Players } {
   const [players, setPlayers] = useState<Players | undefined>();
 
   useEffect(() => {

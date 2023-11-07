@@ -1,10 +1,10 @@
 import Police from '../../../classes/Police';
 import City from '../../../classes/City';
 import PoliceOpsDeckCard from './policeOpsDeckCard';
-import Player from '../../../classes/Player';
+import Players from '../../../classes/Players';
 
 const PoliceOpsDeck: React.FC<{
-  city: City, police: Police, players: Player[], drawPoliceCard: Function
+  city: City, police: Police, players: Players, drawPoliceCard: Function
 }> = ({
   city, police, players, drawPoliceCard,
 }) => (
