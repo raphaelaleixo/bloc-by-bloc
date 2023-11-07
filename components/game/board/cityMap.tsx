@@ -42,7 +42,7 @@ const CityMap: React.FC<{
                 <PoliceBlocksMap city={city} police={police} />
             </div>
         </div>
-  ) : false;
+  ) : <div></div>;
 };
 
 export default CityMap;
