@@ -4,13 +4,13 @@ import { instanceToPlain, plainToInstance } from 'class-transformer';
 import Police from '../classes/Police';
 import City from '../classes/City';
 import { getGameRef, savePolice } from '../api/api';
-import Player from '../classes/Player';
 import PoliceOpsDeck from '../classes/PoliceOpsDeck';
 import Game from '../classes/Game';
+import Players from '../classes/Players';
 
 function usePolice(game: Game): {
   police: Police,
-  policeActions: { drawPoliceCard: (city: City, players: Player[]) => void }
+  policeActions: { drawPoliceCard: (city: City, players: Players) => void }
 } {
   const [police, setPolice] = useState<Police | undefined>();
   const policeOpsDeck = new PoliceOpsDeck();
@@ -30,7 +30,7 @@ function usePolice(game: Game): {
     }
   }, [game?.room, police]);
 
-  const drawPoliceCard = (city: City, players: Player[]) => {
+  const drawPoliceCard = (city: City, players: Players) => {
     const newPolice = police.clone();
     newPolice.drawPoliceCard(policeOpsDeck, city, players);
     savePolice(newPolice, game.room);

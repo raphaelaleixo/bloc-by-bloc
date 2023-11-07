@@ -13,14 +13,18 @@ export default class Player extends Entity {
   @Type(() => Occupation)
     occupations: Occupation[] = [];
 
-  constructor(playerNumber: PlayerNumber, faction: Faction) {
+  constructor(playerNumber: PlayerNumber) {
     super();
     this.playerNumber = playerNumber;
-    this.faction = faction;
     this.blockCount = 10;
   }
 
-  initialize() {
+  addFaction(faction: Faction): this {
+    this.faction = faction;
+    return this;
+  }
+
+  initialize(): this {
     availableOccupations.forEach((occupation) => {
       this.occupations.push(new Occupation(occupation));
     });
@@ -43,7 +47,7 @@ export default class Player extends Entity {
     return blocksMap;
   }
 
-  createOccupation(type: OccupationTypes, districtId: number) {
+  createOccupation(type: OccupationTypes, districtId: number): this {
     const targetOccupation = this.occupations
       .find((occupation) => occupation.type === type && !occupation.active);
     if (targetOccupation) {

@@ -4,11 +4,11 @@ import {
 import getAdjacentDistricts from './getAdjacentDistricts';
 import City from '../classes/City';
 import CityBlock from '../classes/CityBlock';
-import Player from '../classes/Player';
+import Players from '../classes/Players';
 
-function getDistrictsWithOccupations(players: Player[]) {
+function getDistrictsWithOccupations(players: Players) {
   const districts = [];
-  players.forEach((player) => {
+  players.listOfPlayers.forEach((player) => {
     player.occupations.forEach((occupation) => {
       if (occupation.active && districts.includes(occupation.districtId) === false) {
         districts.push(occupation.districtId);
@@ -18,9 +18,9 @@ function getDistrictsWithOccupations(players: Player[]) {
   return districts;
 }
 
-function getDistrictsWithPlayerBlocks(players: Player[]) {
+function getDistrictsWithPlayerBlocks(players: Players) {
   const districts = [];
-  players.forEach((player) => {
+  players.listOfPlayers.forEach((player) => {
     player.blocks.forEach((block) => {
       if (districts.includes(block.districtId) === false) {
         districts.push(block.districtId);
@@ -32,7 +32,7 @@ function getDistrictsWithPlayerBlocks(players: Player[]) {
 
 const getPoliceBlockMoviments = (
   city: City,
-  players: Player[],
+  players: Players,
   blocksInDistrict: Block[],
   movimentType: PoliceOpsMovimentTypes,
   districtId: number,

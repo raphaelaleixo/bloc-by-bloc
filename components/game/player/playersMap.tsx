@@ -1,11 +1,11 @@
 import City from '../../../classes/City';
-import Player from '../../../classes/Player';
+import Players from '../../../classes/Players';
 import FactionMap from './factionMap';
 
-const PlayersMap: React.FC<{ city: City, players: Player[] }> = ({ city, players }) => (
+const PlayersMap: React.FC<{ city: City, players: Players }> = ({ city, players }) => (
         <>
             {
-                players.map((player) => (
+                players.listOfPlayers.map((player) => (
                     <FactionMap player={player} city={city} key={player.playerNumber} />
                 ))
             }

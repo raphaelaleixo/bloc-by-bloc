@@ -27,7 +27,8 @@ export enum TailwindProperty {
   Border,
   Background,
 }
-export type DistrictType = OtherDistrictTypes | Faction; export const rotations = [0, 90, 180, 270];
+export type DistrictType = OtherDistrictTypes | Faction;
+export const rotations = [0, 90, 180, 270];
 export type DistrictImage = [string, string];
 export enum HighwayConnections {
   ldtr,
@@ -142,15 +143,17 @@ export interface PoliceBlockMap {
 export type PoliceBlockMoviment = {
   blockId: number;
   targetDistrictId: number;
-};export enum LootStatus {
-  None = "NONE",
-  Burned = "BURNED",
-  Graffiti = "GRAFFITI"
-}
-export enum Directions {
-    right,
-    down,
-    left,
-    up
+};
+
+export enum LootStatus {
+  None = 'NONE',
+  Burned = 'BURNED',
+  Graffiti = 'GRAFFITI',
 }
 
+export enum Directions {
+  right,
+  down,
+  left,
+  up,
+}

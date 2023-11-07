@@ -31,7 +31,7 @@ const GamePage: NextPage = () => {
 
   return city && police ? (
         <CityMap city={city} police={police} policeActions={policeActions} />
-  ) : false;
+  ) : <div></div>;
 };
 
 export default GamePage;
