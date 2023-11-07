@@ -157,3 +157,9 @@ export enum Directions {
   left,
   up,
 }
+
+export enum GameStates {
+  Setup,
+  Night,
+  Day,
+}
