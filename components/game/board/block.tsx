@@ -16,7 +16,7 @@ const BlockPiece: React.FC<{
     setRotation(getRandomIntInclusive(5));
   }, []);
 
-  const absolutePositionStyles = isNaN(x) && isNaN(y) ? '' : 'absolute transition-all duration-300';
+  const absolutePositionStyles = x === undefined && y === undefined ? '' : 'absolute transition-all duration-300';
   const bgColor = faction ? getColor(faction, TailwindProperty.Background) : 'bg-white';
 
   return (
