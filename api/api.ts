@@ -6,6 +6,7 @@ import database from './firebase.api';
 import Police from '../classes/Police';
 import City from '../classes/City';
 import Game from '../classes/Game';
+import Players from '../classes/Players';
 
 export const savePolice = (police: Police, roomId: string) => {
   const jsonString = JSON.stringify(instanceToPlain(police));
@@ -13,8 +14,13 @@ export const savePolice = (police: Police, roomId: string) => {
 };
 
 export const saveCity = (city: City, roomId: string) => {
-  const cityJSON = JSON.stringify(instanceToPlain(city));
-  set(ref(database, `data/${roomId}/city`), cityJSON);
+  const jsonString = JSON.stringify(instanceToPlain(city));
+  set(ref(database, `data/${roomId}/city`), jsonString);
+};
+
+export const savePlayers = (players: Players, roomId: string) => {
+  const jsonString = JSON.stringify(instanceToPlain(players));
+  set(ref(database, `data/${roomId}/players`), jsonString);
 };
 
 export const saveGame = (game: Game) => {

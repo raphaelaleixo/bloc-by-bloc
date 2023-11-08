@@ -5,6 +5,7 @@ import useGame from '../../hooks/useGame';
 import useCity from '../../hooks/useCity';
 import CityMap from '../../components/game/board/cityMap';
 import usePolice from '../../hooks/usePolice';
+import usePlayers from '../../hooks/usePlayers';
 
 async function getLoadedGame(roomId: string) {
   const game = await loadGame(roomId);
@@ -18,20 +19,28 @@ const GamePage: NextPage = () => {
 
   const { city } = useCity(game);
   const { police, policeActions } = usePolice(game);
+  const { players } = usePlayers(game);
 
   if (!game) {
     gameActions.loadSavedGame(getLoadedGame(room));
     return (
-            <div className="text-white">
-                <h1 className="text-4xl font-black uppercase">No game found</h1>
-                <p className="text-sm text-zinc-300">{`There is no game with the code "${room?.toUpperCase()}".`}</p>
-            </div>
+      <div className="text-white">
+        <h1 className="text-4xl font-black uppercase">No game found</h1>
+        <p className="text-sm text-zinc-300">{`There is no game with the code "${room?.toUpperCase()}".`}</p>
+      </div>
     );
   }
 
   return city && police ? (
-        <CityMap city={city} police={police} policeActions={policeActions} />
-  ) : <div></div>;
+    <CityMap
+      city={city}
+      police={police}
+      policeActions={policeActions}
+      players={players}
+    />
+  ) : (
+    <div></div>
+  );
 };
 
 export default GamePage;
