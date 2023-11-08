@@ -1,4 +1,4 @@
-import { Block } from '../utils/constants';
+import Block from './Block';
 
 class PoliceVan extends Block {
   hits: number = 0;

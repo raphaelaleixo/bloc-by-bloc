@@ -1,5 +1,5 @@
 import { Type, instanceToInstance, instanceToPlain } from 'class-transformer';
-import { Block } from '../utils/constants';
+import Block from './Block';
 
 export default class Entity {
   blockCount: number;

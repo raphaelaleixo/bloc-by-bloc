@@ -1,6 +1,10 @@
 import {
-  PoliceBlockMoviment, Faction, OtherDistrictTypes, PoliceOpsMovimentTypes, Block,
+  PoliceBlockMoviment,
+  Faction,
+  OtherDistrictTypes,
+  PoliceOpsMovimentTypes,
 } from './constants';
+import Block from '../classes/Block';
 import getAdjacentDistricts from './getAdjacentDistricts';
 import City from '../classes/City';
 import CityBlock from '../classes/CityBlock';
@@ -10,7 +14,10 @@ function getDistrictsWithOccupations(players: Players) {
   const districts = [];
   players.listOfPlayers.forEach((player) => {
     player.occupations.forEach((occupation) => {
-      if (occupation.active && districts.includes(occupation.districtId) === false) {
+      if (
+        occupation.active
+        && districts.includes(occupation.districtId) === false
+      ) {
         districts.push(occupation.districtId);
       }
     });
@@ -45,17 +52,18 @@ const getPoliceBlockMoviments = (
   let targetDistricts: CityBlock | undefined;
 
   if (movimentType === PoliceOpsMovimentTypes.district) {
-    targetDistricts = allAdjacentDistricts
-      .find(((district) => district.tile.districtType === target));
+    targetDistricts = allAdjacentDistricts.find(
+      (district) => district.tile.districtType === target,
+    );
   } else if (movimentType === PoliceOpsMovimentTypes.occupation) {
-    targetDistricts = allAdjacentDistricts
-      .find(((district) => districtsWithOccupations.includes(district.tile.id)));
+    targetDistricts = allAdjacentDistricts.find((district) => districtsWithOccupations
+      .includes(district.tile.id));
   } else if (movimentType === PoliceOpsMovimentTypes.bloc) {
-    targetDistricts = allAdjacentDistricts
-      .find(((district) => districtsWithBlocks.includes(district.tile.id)));
+    targetDistricts = allAdjacentDistricts.find((district) => districtsWithBlocks
+      .includes(district.tile.id));
   } else if (movimentType === PoliceOpsMovimentTypes.priority) {
-    targetDistricts = allAdjacentDistricts
-      .reduce((prev, current) => ((prev && prev.tile.id > current.tile.id) ? prev : current));
+    targetDistricts = allAdjacentDistricts.reduce((prev, current) => (prev
+      && prev.tile.id > current.tile.id ? prev : current));
   }
 
   const moviments: PoliceBlockMoviment[] = [];
@@ -64,7 +72,10 @@ const getPoliceBlockMoviments = (
     const targetId = targetDistricts.tile.id;
     const blocks = blocksInDistrict;
     const totalBlocks = blocks.length;
-    if (totalBlocks > 1 && districtsWithOccupations.includes(districtId) === false) {
+    if (
+      totalBlocks > 1
+      && districtsWithOccupations.includes(districtId) === false
+    ) {
       const blocksToMove = totalBlocks - 1;
       for (let i = 0; i < blocksToMove; i++) {
         moviments.push({

@@ -1,8 +1,8 @@
 import { instanceToInstance } from 'class-transformer';
-import { GameStates } from '../utils/constants';
+import { Faction, GameStates } from '../utils/constants';
 
 export default class Game {
-  players: number;
+  players: Faction[];
 
   difficulty: number;
 
@@ -10,7 +10,7 @@ export default class Game {
 
   state: GameStates = GameStates.Setup;
 
-  constructor(players: number, difficulty: number, room: string) {
+  constructor(players: Faction[], difficulty: number, room: string) {
     this.players = players;
     this.difficulty = difficulty;
     this.room = room;
