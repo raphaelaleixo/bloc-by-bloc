@@ -10,6 +10,8 @@ export default class Player extends Entity {
 
   faction: Faction;
 
+  setupFinished: boolean = false;
+
   @Type(() => Occupation)
     occupations: Occupation[] = [];
 
@@ -28,6 +30,11 @@ export default class Player extends Entity {
     availableOccupations.forEach((occupation) => {
       this.occupations.push(new Occupation(occupation));
     });
+    return this;
+  }
+
+  finishSetup(): this {
+    this.setupFinished = true;
     return this;
   }
 
