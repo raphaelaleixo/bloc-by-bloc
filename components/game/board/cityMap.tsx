@@ -13,7 +13,6 @@ import getAdjacentDistricts from '../../../utils/getAdjacentDistricts';
 import findFactionDistricts from '../../../utils/findFactionDistricts';
 import Players from '../../../classes/Players';
 import { PlayerActions } from '../../../hooks/usePlayers';
-import { OccupationTypes } from '../../../utils/constants';
 
 const CityMap: React.FC<{
   city: City;
@@ -71,9 +70,8 @@ const CityMap: React.FC<{
                 <Button
                   key={district}
                   onClick={() => {
-                    playerActions.createOccupation(
+                    playerActions.setupPlayer(
                       player.playerNumber,
-                      OccupationTypes.factionStart,
                       district,
                     );
                   }
