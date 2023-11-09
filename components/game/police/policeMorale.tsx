@@ -8,16 +8,15 @@ const PoliceMorale: React.FC<{ police: Police }> = ({ police }) => {
   const trackPiece = useMemo(() => {
     const rotation = getRandomIntInclusive();
     return (<div className="absolute h-full w-full t-0 l-0 bg-white outline outline-2 outline-black" style={{ rotate: `${-rotation}deg` }}></div>);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [level]);
 
   return (
-        <div className="text-zinc-300 font-bold uppercase text-center">
-            <div className="text-xl">Police morale</div>
-            <div className="flex flex-wrap w-[160px] justify-center">
+        <div className="text-zinc-300 font-bold uppercase text-center flex justify-center">
+            <div className="text-xl rotate-180" style={{ writingMode: 'vertical-rl' }}>Police morale</div>
+            <div className="flex flex-col-reverse justify-center">
                 {
                     moraleTrack.map((trackItem, index) => (
-                        <div key={trackItem.text} className="w-1/2 p-2">
+                        <div key={trackItem.text} className="p-2 w-16 aspect-square -rotate-90">
                             <div className="font-saira_stencil font-normal text-xl leading-none">{trackItem.value}</div>
                             <div className="border border-cyan-500 h-3 relative">
                                 {

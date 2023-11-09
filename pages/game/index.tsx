@@ -3,7 +3,7 @@ import { useSearchParams } from 'next/navigation';
 import { loadGame } from '../../api/api';
 import useGame from '../../hooks/useGame';
 import useCity from '../../hooks/useCity';
-import CityMap from '../../components/game/board/cityMap';
+import GameBoard from '../../components/game/board/gameBoard';
 import usePolice from '../../hooks/usePolice';
 import usePlayers from '../../hooks/usePlayers';
 
@@ -32,7 +32,7 @@ const GamePage: NextPage = () => {
   }
 
   return city && police ? (
-    <CityMap
+    <GameBoard
       city={city}
       police={police}
       policeActions={policeActions}
