@@ -21,6 +21,10 @@ export type PlayerActions = {
     type: OccupationTypes,
     districtId: number
   ) => void;
+  createBlock: (
+    playerNumber: PlayerNumber,
+    districtId: number
+  ) => void;
 };
 
 function usePlayers(game: Game): {
@@ -54,7 +58,13 @@ function usePlayers(game: Game): {
     savePlayers(newPlayers, game.room);
   };
 
-  return { players, playerActions: { createOccupation } };
+  const createBlock = (playerNumber: PlayerNumber, districtId: number) => {
+    const newPlayers = players.clone();
+    newPlayers.createBlock(playerNumber, districtId);
+    savePlayers(newPlayers, game.room);
+  };
+
+  return { players, playerActions: { createOccupation, createBlock } };
 }
 
 export default usePlayers;

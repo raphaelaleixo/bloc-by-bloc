@@ -23,6 +23,12 @@ export default class Players {
     return this;
   }
 
+  createBlock(playerNumber: PlayerNumber, districtId: number) {
+    const targetPlayer = this.findPlayer(playerNumber);
+    targetPlayer.createBlock(districtId);
+    return this;
+  }
+
   createOccupation(playerNumber: PlayerNumber, type: OccupationTypes, districtId: number): this {
     const targetPlayer = this.findPlayer(playerNumber);
     targetPlayer.createOccupation(type, districtId);
