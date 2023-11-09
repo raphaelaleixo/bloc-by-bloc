@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Button } from 'antd';
 import City from '../../../classes/City';
 import CityBlock from '../../../classes/CityBlock';
 import PoliceBlocksMap from '../police/policeBlocksMap';
@@ -10,9 +9,9 @@ import CityTile from './cityTile';
 import PlayersMap from '../player/playersMap';
 import Police from '../../../classes/Police';
 import getAdjacentDistricts from '../../../utils/getAdjacentDistricts';
-import findFactionDistricts from '../../../utils/findFactionDistricts';
 import Players from '../../../classes/Players';
 import { PlayerActions } from '../../../hooks/usePlayers';
+import SetupPlayer from '../player/setupPlayer';
 
 const CityMap: React.FC<{
   city: City;
@@ -27,8 +26,9 @@ const CityMap: React.FC<{
 
   const highlightTiles = (tileId: number) => {
     if (tileId) {
-      setHighlightedTiles(getAdjacentDistricts(city, tileId)
-        .map((district) => district.tile.id));
+      setHighlightedTiles(
+        getAdjacentDistricts(city, tileId).map((district) => district.tile.id),
+      );
     } else {
       setHighlightedTiles([]);
     }
@@ -60,31 +60,11 @@ const CityMap: React.FC<{
         <PlayersMap city={city} players={players} />
         <PoliceBlocksMap city={city} police={police} />
       </div>
-      <div className="text-white">
-        {players.listOfPlayers.map((player) => {
-          const possibleDistricts = findFactionDistricts(player.faction);
-          return (
-            <div key={player.playerNumber}>
-              <h2>Setup {`${player.faction}`}</h2>
-              {possibleDistricts.map((district) => (
-                <Button
-                  key={district}
-                  onClick={() => {
-                    playerActions.setupPlayer(
-                      player.playerNumber,
-                      district,
-                    );
-                  }
-                  }
-                  onMouseOver={() => setHighlightedTiles([district])}
-                >
-                  {district}
-                </Button>
-              ))}
-            </div>
-          );
-        })}
-      </div>
+      <SetupPlayer
+        playerActions={playerActions}
+        players={players}
+        setHighlightedTiles={setHighlightedTiles}
+      />
     </div>
   ) : (
     <div></div>
