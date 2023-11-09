@@ -22,7 +22,7 @@ function useCity(game: Game) {
         }
       });
     }
-  }, [game?.room, city]);
+  }, [game?.room]);
 
   return { city };
 }

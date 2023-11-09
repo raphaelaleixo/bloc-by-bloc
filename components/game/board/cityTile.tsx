@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 import District from '../../../classes/District';
 import Highway from '../../../classes/Highway';
-import CityBlock from '../../../classes/CityBlock';
 import TileInformation from './tileInformation';
 import OcupationSlot from './ocupationSlot';
 import Roads from './roads';
@@ -13,17 +12,15 @@ import ShoppingCenters from './shoppingCenters';
 
 const CityTile: React.FC<{
   tile: District | Highway,
-  higlightedTiles: CityBlock[],
+  higlightedTiles: number[],
   setHighlightedTiles: Function
 }> = ({
   tile, higlightedTiles, setHighlightedTiles,
 }) => {
   const randomRotation = useMemo(() => getRandomIntInclusive(), []);
 
-  const isHighlighted = useMemo(() => {
-    const ids = higlightedTiles.map((block: CityBlock) => block.tile.id);
-    return ids.includes(tile.id);
-  }, [higlightedTiles, tile.id]);
+  const isHighlighted = useMemo(() => higlightedTiles
+    .includes(tile.id), [higlightedTiles, tile.id]);
 
   return (
         <div

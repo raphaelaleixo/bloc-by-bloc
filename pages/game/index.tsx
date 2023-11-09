@@ -19,7 +19,7 @@ const GamePage: NextPage = () => {
 
   const { city } = useCity(game);
   const { police, policeActions } = usePolice(game);
-  const { players } = usePlayers(game);
+  const { players, playerActions } = usePlayers(game);
 
   if (!game) {
     gameActions.loadSavedGame(getLoadedGame(room));
@@ -37,6 +37,7 @@ const GamePage: NextPage = () => {
       police={police}
       policeActions={policeActions}
       players={players}
+      playerActions={playerActions}
     />
   ) : (
     <div></div>

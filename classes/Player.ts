@@ -19,6 +19,7 @@ export default class Player extends Entity {
     super();
     this.playerNumber = playerNumber;
     this.blockCount = 10;
+    this.createInitialOccupations();
   }
 
   addFaction(faction: Faction): this {
@@ -26,11 +27,10 @@ export default class Player extends Entity {
     return this;
   }
 
-  initialize(): this {
+  private createInitialOccupations() {
     availableOccupations.forEach((occupation) => {
       this.occupations.push(new Occupation(occupation));
     });
-    return this;
   }
 
   finishSetup(): this {

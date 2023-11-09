@@ -28,7 +28,7 @@ function usePolice(game: Game): {
         }
       });
     }
-  }, [game?.room, police]);
+  }, [game?.room]);
 
   const drawPoliceCard = (city: City, players: Players) => {
     const newPolice = police.clone();
