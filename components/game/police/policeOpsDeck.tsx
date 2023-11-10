@@ -16,12 +16,7 @@ const PoliceOpsDeck: React.FC<{
   const shouldDrawCard = police.currentCard.length < moraleTrack[police.moraleIndex].value;
 
   return (
-    <>
-      <div className="h-[240px]">
-        {police.currentCard.map((card) => (
-          <PoliceOpsDeckCard key={card.title} policeOpsCard={card} />
-        ))}
-      </div>
+    <div className="flex flex-wrap gap-2 items-start">
       {shouldDrawCard ? (
         <button
           onClick={() => {
@@ -41,7 +36,12 @@ const PoliceOpsDeck: React.FC<{
           Go to player actions
         </button>
       )}
-    </>
+      <div className="w-[160px] h-[240px]">
+        {police.currentCard.map((card) => (
+          <PoliceOpsDeckCard key={card.title} policeOpsCard={card} />
+        ))}
+      </div>
+    </div>
   );
 };
 

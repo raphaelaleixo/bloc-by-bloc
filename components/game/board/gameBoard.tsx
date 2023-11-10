@@ -11,7 +11,7 @@ import computeGameStep from '../../../utils/computeGameStep';
 import { GameStates } from '../../../utils/constants';
 import CityMap from './cityMap';
 import Countdown from './countdown';
-import PoliceOpsDeck from '../police/policeOpsDeck';
+import PlayerAid from './playerAid/playerAid';
 
 const GameBoard: React.FC<{
   city: City;
@@ -60,13 +60,13 @@ const GameBoard: React.FC<{
           setHighlightedTiles={setHighlightedTiles}
         />
       ) : (
-        <div className="w-full bg-cyan-100 p-6 flex flex-col gap-6">
-          <h2 className="m-0 font-extrabold uppercase text-2xl">Police</h2>
-          <PoliceOpsDeck
-            city={city}
+        <div className="w-full flex flex-col gap-4">
+          <PlayerAid
             players={players}
+            playerActions={playerActions}
             police={police}
             policeActions={policeActions}
+            city={city}
           />
         </div>
       )}
