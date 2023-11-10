@@ -10,7 +10,7 @@ import SetupPlayer from '../player/setupPlayer';
 // import computeGameStep from '../../../utils/computeGameStep';
 // import { GameStates } from '../../../utils/constants';
 import CityMap from './cityMap';
-import PoliceTank from '../police/policeTank';
+import Countdown from './countdown';
 
 const GameBoard: React.FC<{
   city: City;
@@ -38,8 +38,6 @@ const GameBoard: React.FC<{
     }
   };
 
-  console.log(police);
-
   // const gameStep: GameStates = useMemo(
   //   () => computeGameStep(players),
   //   [players],
@@ -58,23 +56,7 @@ const GameBoard: React.FC<{
         highlightTiles={highlightTiles}
         higlightedTiles={higlightedTiles}
       />
-      <div className="px-2 flex flex-col items-center h-[700px] justify-between">
-        <div className="vertical text-amber-500 font-bold uppercase">
-          Countdown
-        </div>
-        {Array.from(Array(10), (_, index) => 10 - index).map((number) => (
-          <div
-            key={number}
-            className="text-amber-500 relative font-black rotate-90 flex items-center justify-center w-10 h-10 border-2 border-dashed border-amber-500 rounded-full"
-          >
-            {number}
-            { police.countdown === number ? (
-              <PoliceTank className="absolute w-20 -rotate-90"/>
-            ) : false
-            }
-          </div>
-        ))}
-      </div>
+      <Countdown police={police} />
       <SetupPlayer
         playerActions={playerActions}
         players={players}
