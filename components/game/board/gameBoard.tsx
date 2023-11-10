@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import City from '../../../classes/City';
 import PoliceMorale from '../police/policeMorale';
 import StagingArea from '../police/stagingArea';
@@ -6,9 +6,9 @@ import Police from '../../../classes/Police';
 import getAdjacentDistricts from '../../../utils/getAdjacentDistricts';
 import Players from '../../../classes/Players';
 import { PlayerActions } from '../../../hooks/usePlayers';
-import SetupPlayer from '../player/setupPlayer';
-// import computeGameStep from '../../../utils/computeGameStep';
-// import { GameStates } from '../../../utils/constants';
+import SetupPlayer from '../player/setupPlayer/setupPlayer';
+import computeGameStep from '../../../utils/computeGameStep';
+import { GameStates } from '../../../utils/constants';
 import CityMap from './cityMap';
 import Countdown from './countdown';
 import PoliceOpsDeck from '../police/policeOpsDeck';
@@ -20,11 +20,7 @@ const GameBoard: React.FC<{
   policeActions: any;
   playerActions: PlayerActions;
 }> = ({
-  city,
-  police,
-  policeActions,
-  players,
-  playerActions,
+  city, police, policeActions, players, playerActions,
 }) => {
   const [higlightedTiles, setHighlightedTiles] = useState<number[]>([]);
 
@@ -38,10 +34,10 @@ const GameBoard: React.FC<{
     }
   };
 
-  // const gameStep: GameStates = useMemo(
-  //   () => computeGameStep(players),
-  //   [players],
-  // );
+  const gameStep: GameStates = useMemo(
+    () => computeGameStep(players),
+    [players],
+  );
 
   return players ? (
     <div className="w-full flex gap-6 select-none p-3 items-start">
@@ -57,20 +53,23 @@ const GameBoard: React.FC<{
         higlightedTiles={higlightedTiles}
       />
       <Countdown police={police} />
-      <div className="w-full bg-cyan-100 p-6 flex flex-col gap-6">
-        <h2 className="m-0 font-extrabold uppercase text-2xl">Police</h2>
-        <PoliceOpsDeck
-          city={city}
+      {gameStep === GameStates.Setup ? (
+        <SetupPlayer
+          playerActions={playerActions}
           players={players}
-          police={police}
-          drawPoliceCard={policeActions.drawPoliceCard}
+          setHighlightedTiles={setHighlightedTiles}
         />
-      </div>
-      <SetupPlayer
-        playerActions={playerActions}
-        players={players}
-        setHighlightedTiles={setHighlightedTiles}
-      />
+      ) : (
+        <div className="w-full bg-cyan-100 p-6 flex flex-col gap-6">
+          <h2 className="m-0 font-extrabold uppercase text-2xl">Police</h2>
+          <PoliceOpsDeck
+            city={city}
+            players={players}
+            police={police}
+            drawPoliceCard={policeActions.drawPoliceCard}
+          />
+        </div>
+      )}
     </div>
   ) : (
     <div></div>
