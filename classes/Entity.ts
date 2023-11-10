@@ -4,6 +4,8 @@ import Block from './Block';
 export default class Entity {
   blockCount: number;
 
+  actionTaken: boolean = false;
+
   @Type(() => Block)
     blocks: Block[] = [];
 
@@ -37,6 +39,11 @@ export default class Entity {
       this.blocks.push(new Block(districtCode));
       this.blockCount--;
     }
+    return this;
+  }
+
+  toggleActions(bool: boolean): this {
+    this.actionTaken = bool;
     return this;
   }
 }

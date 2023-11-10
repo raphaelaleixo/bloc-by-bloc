@@ -5,12 +5,16 @@ import {
 import Entity from './Entity';
 import Occupation from './Occupation';
 
+type DiceValues = 1 | 2 | 3 | 4 | 5 | 6;
+
 export default class Player extends Entity {
   playerNumber: PlayerNumber;
 
   faction: Faction;
 
   setupFinished: boolean = false;
+
+  diceValues: null | DiceValues[];
 
   @Type(() => Occupation)
     occupations: Occupation[] = [];

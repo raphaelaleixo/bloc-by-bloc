@@ -11,6 +11,7 @@ import SetupPlayer from '../player/setupPlayer';
 // import { GameStates } from '../../../utils/constants';
 import CityMap from './cityMap';
 import Countdown from './countdown';
+import PoliceOpsDeck from '../police/policeOpsDeck';
 
 const GameBoard: React.FC<{
   city: City;
@@ -21,7 +22,6 @@ const GameBoard: React.FC<{
 }> = ({
   city,
   police,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   policeActions,
   players,
   playerActions,
@@ -57,6 +57,15 @@ const GameBoard: React.FC<{
         higlightedTiles={higlightedTiles}
       />
       <Countdown police={police} />
+      <div className="w-full bg-cyan-100 p-6 flex flex-col gap-6">
+        <h2 className="m-0 font-extrabold uppercase text-2xl">Police</h2>
+        <PoliceOpsDeck
+          city={city}
+          players={players}
+          police={police}
+          drawPoliceCard={policeActions.drawPoliceCard}
+        />
+      </div>
       <SetupPlayer
         playerActions={playerActions}
         players={players}
