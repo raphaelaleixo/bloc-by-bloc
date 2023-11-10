@@ -6,6 +6,9 @@
   .font-condensed {
     font-stretch: extra-condensed;
   }
+  .vertical {
+    writing-mode: vertical-lr;
+  }
 }
 
 html {

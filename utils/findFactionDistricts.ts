@@ -1,8 +1,7 @@
 import districtList from '../gameData/districts';
-import { Faction } from './constants';
+import { DistrictConfiguration, Faction } from './constants';
 
-export default function findFactionDistricts(faction: Faction): number[] {
+export default function findFactionDistricts(faction: Faction): DistrictConfiguration[] {
   return districtList
-    .filter((district) => district.districtType === faction)
-    .map((district) => district.id);
+    .filter((district) => district.districtType === faction);
 }

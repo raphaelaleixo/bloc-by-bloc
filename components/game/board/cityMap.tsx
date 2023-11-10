@@ -15,7 +15,7 @@ const CityMap: React.FC<{
 }> = ({
   city, players, police, highlightTiles, higlightedTiles,
 }) => (
-  <div className="w-[700px] h-[700px] relative">
+  <div className="min-w-[700px] w-[700px] h-[700px] relative">
     <div className="grid grid-cols-5 w-full h-full gap-2 absolute">
       {city?.cityBlocks.map((line: CityBlock[]) => line
         .map((district: CityBlock) => (

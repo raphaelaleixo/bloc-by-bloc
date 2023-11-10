@@ -82,6 +82,8 @@ export default class Police extends Entity {
   @Type(() => PoliceVan)
     vans: PoliceVan[] = [];
 
+  countdown: number = 10;
+
   constructor() {
     super();
     this.blockCount = 30;
