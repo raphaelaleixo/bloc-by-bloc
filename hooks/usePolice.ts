@@ -8,9 +8,14 @@ import PoliceOpsDeck from '../classes/PoliceOpsDeck';
 import Game from '../classes/Game';
 import Players from '../classes/Players';
 
+export type PoliceActions = {
+  drawPoliceCard: (city: City, players: Players) => void;
+  finishNightimeStep: () => void;
+};
+
 function usePolice(game: Game): {
-  police: Police,
-  policeActions: { drawPoliceCard: (city: City, players: Players) => void }
+  police: Police;
+  policeActions: PoliceActions;
 } {
   const [police, setPolice] = useState<Police | undefined>();
   const policeOpsDeck = new PoliceOpsDeck();
@@ -36,10 +41,17 @@ function usePolice(game: Game): {
     savePolice(newPolice, game.room);
   };
 
+  const finishNightimeStep = () => {
+    const newPolice = police.clone();
+    newPolice.finishNightimeStep();
+    savePolice(newPolice, game.room);
+  };
+
   return {
     police,
     policeActions: {
       drawPoliceCard,
+      finishNightimeStep,
     },
   };
 }

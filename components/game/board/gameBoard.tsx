@@ -66,7 +66,7 @@ const GameBoard: React.FC<{
             city={city}
             players={players}
             police={police}
-            drawPoliceCard={policeActions.drawPoliceCard}
+            policeActions={policeActions}
           />
         </div>
       )}

@@ -77,7 +77,7 @@ export default class Police extends Entity {
 
   vanCount: number = 4;
 
-  currentCard: PoliceOpsCard;
+  currentCard: PoliceOpsCard[] = [];
 
   @Type(() => PoliceVan)
     vans: PoliceVan[] = [];
@@ -102,7 +102,13 @@ export default class Police extends Entity {
   drawPoliceCard(deck: PoliceOpsDeck, city: City, players: Players) {
     const card = deck.draw();
     handlePoliceOpsCard(card, this, city, players);
-    this.currentCard = card;
+    this.currentCard.push(card);
+  }
+
+  finishNightimeStep(): this {
+    this.actionTaken = true;
+    this.currentCard = [];
+    return this;
   }
 
   getPoliceBlocksByDistrict(): PoliceBlockMap {

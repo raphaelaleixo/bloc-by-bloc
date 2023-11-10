@@ -31,7 +31,7 @@ const TileInformation: React.FC<{ tile: District }> = ({ tile }) => {
             <div className="font-saira_stencil text-zinc-500 absolute top-1/2 left-1/2 z-10 -translate-x-1/2 -translate-y-1/2 rotate-45 text-sm">
                 {tile.difficulty}
             </div>
-            <div className="text-zinc-500 font-bold absolute bottom-0 right-1 z-10 text-[0.5em]">
+            <div className="text-zinc-100 font-bold absolute bottom-0 right-1 z-10 text-[0.5em]">
                 {tile.id}
             </div>
         </>
