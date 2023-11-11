@@ -4,10 +4,11 @@ import Police from '../../../../classes/Police';
 import { PlayerActions } from '../../../../hooks/usePlayers';
 import { PoliceActions } from '../../../../hooks/usePolice';
 import City from '../../../../classes/City';
-import { AvailablePlayers, POLICE } from '../../../../utils/constants';
 import PlayerAidMenu from './playerAidMenu';
 import PlayerAidProps from './PlayerAidProps';
 import PoliceAid from './policeAid';
+import { Faction } from '../../../../utils/constants';
+import NextStep from './nextStep';
 
 const PlayerAid: React.FC<{
   players: Players;
@@ -18,23 +19,22 @@ const PlayerAid: React.FC<{
 }> = ({
   players, playerActions, police, policeActions, city,
 }) => {
-  const [actualPlayer, setActualPlayer] = useState<AvailablePlayers>(POLICE);
-  const availablePlayers: AvailablePlayers[] = useMemo(
-    () => [POLICE, ...players.listOfPlayers.map((player) => player.faction)],
+  const [actualPlayer, setActualPlayer] = useState<Faction | undefined>();
+  const [isPoliceTurn, setPoliceTurn] = useState<boolean>(true);
+
+  const availablePlayers: Faction[] = useMemo(
+    () => players.listOfPlayers.map((player) => player.faction),
     [players],
   );
 
   useEffect(() => {
-    if (police.actionTaken) {
-      const nextPlayer = players.listOfPlayers.find(
-        (player) => player.actionTaken === false,
-      )?.faction;
-      if (nextPlayer) {
-        setActualPlayer(nextPlayer);
-      }
-    } else {
-      setActualPlayer(POLICE);
+    const nextPlayer = players.listOfPlayers.find(
+      (player) => player.actionTaken === false,
+    )?.faction;
+    if (nextPlayer) {
+      setActualPlayer(nextPlayer);
     }
+    setPoliceTurn(!police.actionTaken);
   }, [police, players]);
 
   const aidProps: PlayerAidProps = {
@@ -44,14 +44,15 @@ const PlayerAid: React.FC<{
     policeActions,
     police,
     players,
+    isPoliceTurn,
   };
 
   const TargetAidComponent = useMemo(() => {
-    if (actualPlayer === POLICE) {
+    if (isPoliceTurn) {
       return PoliceAid;
     }
     return false;
-  }, [actualPlayer]);
+  }, [isPoliceTurn]);
 
   return (
     <div className="flex flex-col gap-2">
@@ -60,6 +61,7 @@ const PlayerAid: React.FC<{
         availablePlayers={availablePlayers}
       />
       {TargetAidComponent ? <TargetAidComponent {...aidProps} /> : false}
+      <NextStep {...aidProps} />
     </div>
   );
 };

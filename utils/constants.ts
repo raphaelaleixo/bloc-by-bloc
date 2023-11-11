@@ -146,6 +146,4 @@ export enum GameStates {
   Setup,
   Night,
   Day,
-} export type AvailablePlayers = Faction | 'POLICE';
-
-export const POLICE = 'POLICE';
+}

@@ -3,7 +3,25 @@ import City from '../../../classes/City';
 import PoliceOpsDeckCard from './policeOpsDeckCard';
 import Players from '../../../classes/Players';
 import { PoliceActions } from '../../../hooks/usePolice';
-import { moraleTrack } from '../../../utils/constants';
+import { getRandomIntInclusive } from '../../../utils/randomizers';
+
+const policeOpsInfo = (
+  <div className="text-xs flex flex-col px-2 gap-3">
+    <p>
+      <b>2 or more squads</b> in the same district are a group
+    </p>
+    <p>
+      <b>Groups of squads</b> follow orders to advance into adjacent districts &
+      leave 1 solo squad behind
+    </p>
+    <p>
+      <b>Solo squads</b> hold their position
+    </p>
+    <p>
+      <b>Squads in districts with occupations</b> hold their position
+    </p>
+  </div>
+);
 
 const PoliceOpsDeck: React.FC<{
   city: City;
@@ -13,34 +31,34 @@ const PoliceOpsDeck: React.FC<{
 }> = ({
   city, police, players, policeActions,
 }) => {
-  const shouldDrawCard = police.currentCard.length < moraleTrack[police.moraleIndex].value;
+  const shouldDrawCard = police.currentCard.length < police.cardsToDraw;
 
   return (
-    <div className="flex flex-wrap gap-2 items-start">
-      {shouldDrawCard ? (
+    <div className="flex flex-wrap gap-4 items-start relative">
+      <div className="min-w-[160px] h-[240px] border-2 border-dashed border-cyan-500 rounded-md p-4 flex items-center" />
+      <div className="flex flex-col gap-4 items-start max-w-[240px]">
         <button
+          disabled={!shouldDrawCard}
           onClick={() => {
             policeActions.drawPoliceCard(city, players);
           }}
-          className="bg-cyan-300 rounded-sm text-xs uppercase leading-none p-2 font-bold"
+          className="bg-cyan-300 rounded-sm text-xs uppercase leading-none p-2 font-bold disabled:bg-cyan-200 disabled:text-cyan-300"
         >
           Draw police ops card
         </button>
-      ) : (
-        <button
-          onClick={() => {
-            policeActions.finishNightimeStep();
-          }}
-          className="bg-cyan-300 rounded-sm text-xs uppercase leading-none p-2 font-bold"
-        >
-          Go to player actions
-        </button>
-      )}
-      <div className="w-[160px] h-[240px]">
-        {police.currentCard.map((card) => (
-          <PoliceOpsDeckCard key={card.title} policeOpsCard={card} />
-        ))}
+        { policeOpsInfo }
       </div>
+      {police.currentCard.map((card) => (
+        <div
+          key={card.title}
+          className="absolute top-0 left-0"
+          style={{
+            rotate: `${getRandomIntInclusive(5)}deg`,
+          }}
+        >
+          <PoliceOpsDeckCard policeOpsCard={card} />
+        </div>
+      ))}
     </div>
   );
 };

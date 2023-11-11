@@ -3,6 +3,7 @@ import {
   Faction, OtherDistrictTypes, PoliceOpsCard, PoliceOpsMovimentTypes, Priority, stateDistricts,
   PoliceBlockMap,
   PoliceOpsCardTypes,
+  moraleTrack,
 } from '../utils/constants';
 import City from './City';
 import Entity from './Entity';
@@ -79,6 +80,8 @@ export default class Police extends Entity {
 
   currentCard: PoliceOpsCard[] = [];
 
+  cardsToDraw = 1;
+
   @Type(() => PoliceVan)
     vans: PoliceVan[] = [];
 
@@ -108,6 +111,7 @@ export default class Police extends Entity {
   finishNightimeStep(): this {
     this.actionTaken = true;
     this.currentCard = [];
+    this.cardsToDraw = moraleTrack[this.moraleIndex].value;
     return this;
   }
 
