@@ -147,4 +147,8 @@ export enum GameStates {
   Setup,
   Night,
   Day,
-}
+}export type SelectedDice = {
+  totalValue: number;
+  diceIndex: number[];
+};
+
