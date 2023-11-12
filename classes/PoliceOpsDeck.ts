@@ -5,8 +5,9 @@ import { PoliceOpsCard } from '../utils/constants';
 export default class PoliceOpsDeck {
   cards: PoliceOpsCard[] = [];
 
-  initialize() {
+  initialize(): this {
     this.shuffleDeck();
+    return this;
   }
 
   shuffleDeck() {

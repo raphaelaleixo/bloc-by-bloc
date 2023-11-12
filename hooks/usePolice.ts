@@ -18,7 +18,7 @@ function usePolice(game: Game): {
   policeActions: PoliceActions;
 } {
   const [police, setPolice] = useState<Police | undefined>();
-  const policeOpsDeck = new PoliceOpsDeck();
+  const policeOpsDeck = new PoliceOpsDeck().initialize();
 
   useEffect(() => {
     if (game?.room) {

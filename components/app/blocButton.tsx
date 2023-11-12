@@ -36,7 +36,7 @@ const BlocButton: React.FC<{
             += `${getColor(faction, TailwindProperty.Border)} ${getColor(faction, TailwindProperty.Text)} border-2 text-white disabled:border-zinc-300 disabled:text-zinc-300`;
     } else {
       baseClass
-            += 'border-2 border-white text-white disabled:border-zinc-700 text-zinc-700';
+            += 'border-2 border-white text-white disabled:border-zinc-700 disabled:text-zinc-700';
     }
     return baseClass;
   }, [primary, faction, isPolice, large]);
