@@ -9,6 +9,7 @@ import PlayerAidProps from './PlayerAidProps';
 import PoliceAid from './policeAid';
 import { Faction } from '../../../../utils/constants';
 import NextStep from './nextStep';
+import FactionAid from './factionAid';
 
 const PlayerAid: React.FC<{
   players: Players;
@@ -51,7 +52,7 @@ const PlayerAid: React.FC<{
     if (isPoliceTurn) {
       return PoliceAid;
     }
-    return false;
+    return FactionAid;
   }, [isPoliceTurn]);
 
   return (

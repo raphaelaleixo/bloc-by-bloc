@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import PlayerAidProps from './PlayerAidProps';
+import BlocButton from '../../../app/blocButton';
 
 type NextAction = {
   available: boolean;
@@ -41,13 +42,14 @@ const NextStep: React.FC<PlayerAidProps> = ({
   }, [isPoliceTurn, police, policeActions]);
 
   return (
-    <button
+    <BlocButton
+      large
       onClick={() => nextAction.action()}
       disabled={!nextAction.available}
-      className="text-sm text-zinc-100 uppercase font-medium p-2 px-4 border-2 border-zinc-100 rounded-md self-start disabled:border-zinc-700 disabled:text-zinc-600"
+      className="self-start mt-4"
     >
       Next Step: {nextPlayer.toLocaleUpperCase()}
-    </button>
+    </BlocButton>
   );
 };
 

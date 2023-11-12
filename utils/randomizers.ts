@@ -17,3 +17,7 @@ export function getRandomIntInclusive(max: number = 3): number {
 export function createRoomId(): string {
   return Math.random().toString(36).substring(2, 7).toUpperCase();
 }
+
+export function getRandomNumber(min: number, max: number):number {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}

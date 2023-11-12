@@ -21,14 +21,9 @@ export type PlayerActions = {
     type: OccupationTypes,
     districtId: number
   ) => void;
-  createBlock: (
-    playerNumber: PlayerNumber,
-    districtId: number
-  ) => void;
-  setupPlayer: (
-    playerNumber: PlayerNumber,
-    districtId: number
-  ) => void;
+  createBlock: (playerNumber: PlayerNumber, districtId: number) => void;
+  setupPlayer: (playerNumber: PlayerNumber, districtId: number) => void;
+  rollDice: (playerNumber: PlayerNumber) => void;
 };
 
 function usePlayers(game: Game): {
@@ -71,7 +66,11 @@ function usePlayers(game: Game): {
   const setupPlayer = (playerNumber: PlayerNumber, districtId: number) => {
     const numberOfBlocks = 1 + (4 - players.listOfPlayers.length);
     const playersClone = players.clone();
-    playersClone.createOccupation(playerNumber, OccupationTypes.factionStart, districtId);
+    playersClone.createOccupation(
+      playerNumber,
+      OccupationTypes.factionStart,
+      districtId,
+    );
     for (let i = 0; i < numberOfBlocks; i++) {
       playersClone.createBlock(playerNumber, districtId);
     }
@@ -79,7 +78,21 @@ function usePlayers(game: Game): {
     savePlayers(playersClone, game.room);
   };
 
-  return { players, playerActions: { createOccupation, createBlock, setupPlayer } };
+  const rollDice = (playerNumber: PlayerNumber) => {
+    const playersClone = players.clone();
+    playersClone.rollDice(playerNumber);
+    savePlayers(playersClone, game.room);
+  };
+
+  return {
+    players,
+    playerActions: {
+      createOccupation,
+      createBlock,
+      setupPlayer,
+      rollDice,
+    },
+  };
 }
 
 export default usePlayers;

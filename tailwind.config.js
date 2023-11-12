@@ -15,7 +15,7 @@ const backfaceVisibility = plugin(function({addUtilities}) {
 module.exports = {
   safelist: [
     {
-      pattern: /(bg|text|border)-(green|orange|yellow|purple|fuchsia|white|zinc)-(300|500)/,
+      pattern: /(bg|text|border)-(green|orange|yellow|purple|fuchsia|white|zinc)-(100|300|500)/,
     },
   ],
   content: [

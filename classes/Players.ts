@@ -35,6 +35,18 @@ export default class Players {
     return this;
   }
 
+  rollDice(playerNumber: PlayerNumber): this {
+    const targetPlayer = this.findPlayer(playerNumber);
+    const targetPlayerFactionStart = targetPlayer.occupations
+      .find((occupation) => occupation.type === OccupationTypes.factionStart && occupation.active);
+
+    if (targetPlayerFactionStart) {
+      targetPlayer.createBlock(targetPlayerFactionStart.districtId);
+    }
+    targetPlayer.rollDice();
+    return this;
+  }
+
   clone(): this {
     return instanceToInstance(this) as this;
   }

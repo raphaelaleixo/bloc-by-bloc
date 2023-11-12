@@ -4,8 +4,16 @@ import {
 } from '../utils/constants';
 import Entity from './Entity';
 import Occupation from './Occupation';
+import { getRandomNumber } from '../utils/randomizers';
 
-type DiceValues = 1 | 2 | 3 | 4 | 5 | 6;
+const getDiceCount = (blocCount: number): number => {
+  if (blocCount >= 9) {
+    return 5;
+  } if (blocCount >= 5) {
+    return 4;
+  }
+  return 3;
+};
 
 export default class Player extends Entity {
   playerNumber: PlayerNumber;
@@ -14,7 +22,7 @@ export default class Player extends Entity {
 
   setupFinished: boolean = false;
 
-  diceValues: null | DiceValues[];
+  diceValues: number[] = [];
 
   @Type(() => Occupation)
     occupations: Occupation[] = [];
@@ -63,6 +71,14 @@ export default class Player extends Entity {
       .find((occupation) => occupation.type === type && !occupation.active);
     if (targetOccupation) {
       targetOccupation.create(districtId);
+    }
+    return this;
+  }
+
+  rollDice(): this {
+    const diceCount = getDiceCount(this.blocks.length);
+    for (let i = 0; i < diceCount; i++) {
+      this.diceValues.push(getRandomNumber(1, 6));
     }
     return this;
   }

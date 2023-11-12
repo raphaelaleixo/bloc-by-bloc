@@ -4,6 +4,7 @@ import PoliceOpsDeckCard from './policeOpsDeckCard';
 import Players from '../../../classes/Players';
 import { PoliceActions } from '../../../hooks/usePolice';
 import { getRandomIntInclusive } from '../../../utils/randomizers';
+import BlocButton from '../../app/blocButton';
 
 const policeOpsInfo = (
   <div className="text-xs flex flex-col px-2 gap-3">
@@ -37,15 +38,17 @@ const PoliceOpsDeck: React.FC<{
     <div className="flex flex-wrap gap-4 items-start relative">
       <div className="min-w-[160px] h-[240px] border-2 border-dashed border-cyan-500 rounded-md p-4 flex items-center" />
       <div className="flex flex-col gap-4 items-start max-w-[240px]">
-        <button
+        <BlocButton
+          isPolice
+          primary
           disabled={!shouldDrawCard}
           onClick={() => {
             policeActions.drawPoliceCard(city, players);
           }}
-          className="bg-cyan-300 rounded-sm text-xs uppercase leading-none p-2 font-bold disabled:bg-cyan-200 disabled:text-cyan-300"
+          className=""
         >
           Draw police ops card
-        </button>
+        </BlocButton>
         { policeOpsInfo }
       </div>
       {police.currentCard.map((card) => (

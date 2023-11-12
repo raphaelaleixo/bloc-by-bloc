@@ -1,4 +1,4 @@
-import { Button, Radio, Tag } from 'antd';
+import { Radio } from 'antd';
 import getColor from '../../../../utils/getColor';
 import {
   DistrictConfiguration,
@@ -6,6 +6,7 @@ import {
 } from '../../../../utils/constants';
 import { PlayerActions } from '../../../../hooks/usePlayers';
 import Player from '../../../../classes/Player';
+import BlocButton from '../../../app/blocButton';
 
 const Selection: React.FC<{
   currentPlayerSelection: {
@@ -29,15 +30,14 @@ const Selection: React.FC<{
       key={currentPlayerSelection.selectedPlayer.playerNumber}
       className="flex flex-col items-start gap-2 min-w-[200px] mr-4 mb-8"
     >
-      <Tag
-        bordered={false}
+      <div
         className={`${getColor(
           currentPlayerSelection.selectedPlayer.faction,
-          TailwindProperty.Background,
-        )} font-extrabold`}
+          TailwindProperty.Text,
+        )} font-extrabold text-xs`}
       >
         {currentPlayerSelection.selectedPlayer.faction}
-      </Tag>
+      </div>
       <Radio.Group
         className="flex flex-col gap-2"
         onChange={(e) => {
@@ -56,9 +56,11 @@ const Selection: React.FC<{
           </Radio>
         ))}
       </Radio.Group>
-      <Button
+      <BlocButton
+        primary
+        className='my-4'
+        faction={currentPlayerSelection.selectedPlayer.faction}
         disabled={selectedDistrict === undefined}
-        type="link"
         onClick={() => {
           playerActions.setupPlayer(
             currentPlayerSelection.selectedPlayer.playerNumber,
@@ -69,7 +71,7 @@ const Selection: React.FC<{
         {
             currentPlayerSelection.isLast ? 'Start game' : 'Select'
         }
-      </Button>
+      </BlocButton>
     </div>
   </div>
 );

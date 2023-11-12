@@ -55,6 +55,24 @@ const getColor = (districtType: Faction | OtherDistrictTypes, property: Tailwind
         return 'bg-zinc-300';
     }
   }
+  if (property === TailwindProperty.LightBackground) {
+    switch (districtType) {
+      case (Faction.Neighbors):
+        return 'bg-green-100';
+      case (Faction.Prisoners):
+        return 'bg-orange-100';
+      case (Faction.Workers):
+        return 'bg-yellow-100';
+      case (Faction.Students):
+        return 'bg-purple-100';
+      case (OtherDistrictTypes.Public):
+        return 'bg-fuchsia-300';
+      case (OtherDistrictTypes.State):
+        return 'bg-white';
+      default:
+        return 'bg-zinc-300';
+    }
+  }
   return '';
 };
 

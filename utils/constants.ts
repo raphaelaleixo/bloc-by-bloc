@@ -10,6 +10,7 @@ export enum TailwindProperty {
   Text,
   Border,
   Background,
+  LightBackground,
 }
 export type DistrictType = OtherDistrictTypes | Faction;
 export const rotations = [0, 90, 180, 270];
