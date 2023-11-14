@@ -108,10 +108,15 @@ export default class Police extends Entity {
     this.currentCard.push(card);
   }
 
-  finishNightimeStep(): this {
+  finishNightTimeStep(): this {
     this.actionTaken = true;
     this.currentCard = [];
     this.cardsToDraw = moraleTrack[this.moraleIndex].value;
+    return this;
+  }
+
+  startNightTimeStep(): this {
+    this.actionTaken = false;
     return this;
   }
 

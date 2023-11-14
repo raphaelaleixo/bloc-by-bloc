@@ -10,7 +10,8 @@ import Players from '../classes/Players';
 
 export type PoliceActions = {
   drawPoliceCard: (city: City, players: Players) => void;
-  finishNightimeStep: () => void;
+  finishNightTimeStep: () => void;
+  startNightTimeStep: () => void;
 };
 
 function usePolice(game: Game): {
@@ -41,9 +42,15 @@ function usePolice(game: Game): {
     savePolice(newPolice, game.room);
   };
 
-  const finishNightimeStep = () => {
+  const finishNightTimeStep = () => {
     const newPolice = police.clone();
-    newPolice.finishNightimeStep();
+    newPolice.finishNightTimeStep();
+    savePolice(newPolice, game.room);
+  };
+
+  const startNightTimeStep = () => {
+    const newPolice = police.clone();
+    newPolice.startNightTimeStep();
     savePolice(newPolice, game.room);
   };
 
@@ -51,7 +58,8 @@ function usePolice(game: Game): {
     police,
     policeActions: {
       drawPoliceCard,
-      finishNightimeStep,
+      finishNightTimeStep,
+      startNightTimeStep,
     },
   };
 }

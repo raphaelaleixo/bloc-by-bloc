@@ -47,6 +47,24 @@ export default class Players {
     return this;
   }
 
+  skipActions(playerNumber: PlayerNumber): this {
+    const targetPlayer = this.findPlayer(playerNumber);
+    targetPlayer.skipActions();
+    return this;
+  }
+
+  finishNightTimeStep(playerNumber: PlayerNumber): this {
+    const targetPlayer = this.findPlayer(playerNumber);
+    targetPlayer.finishNightTimeStep();
+    return this;
+  }
+
+  startNightTimeStep(playerNumber: PlayerNumber): this {
+    const targetPlayer = this.findPlayer(playerNumber);
+    targetPlayer.startNightTimeStep();
+    return this;
+  }
+
   clone(): this {
     return instanceToInstance(this) as this;
   }

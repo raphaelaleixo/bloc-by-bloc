@@ -24,6 +24,9 @@ export type PlayerActions = {
   createBlock: (playerNumber: PlayerNumber, districtId: number) => void;
   setupPlayer: (playerNumber: PlayerNumber, districtId: number) => void;
   rollDice: (playerNumber: PlayerNumber) => void;
+  skipActions: (playerNumber: PlayerNumber) => void;
+  finishNightTimeStep: (playerNumber: PlayerNumber) => void;
+  startNightTimeStep: (playerNumber: PlayerNumber) => void;
 };
 
 function usePlayers(game: Game): {
@@ -84,6 +87,24 @@ function usePlayers(game: Game): {
     savePlayers(playersClone, game.room);
   };
 
+  const skipActions = (playerNumber: PlayerNumber) => {
+    const playersClone = players.clone();
+    playersClone.skipActions(playerNumber);
+    savePlayers(playersClone, game.room);
+  };
+
+  const finishNightTimeStep = (playerNumber: PlayerNumber) => {
+    const playersClone = players.clone();
+    playersClone.finishNightTimeStep(playerNumber);
+    savePlayers(playersClone, game.room);
+  };
+
+  const startNightTimeStep = (playerNumber: PlayerNumber) => {
+    const playersClone = players.clone();
+    playersClone.startNightTimeStep(playerNumber);
+    savePlayers(playersClone, game.room);
+  };
+
   return {
     players,
     playerActions: {
@@ -91,6 +112,9 @@ function usePlayers(game: Game): {
       createBlock,
       setupPlayer,
       rollDice,
+      skipActions,
+      finishNightTimeStep,
+      startNightTimeStep,
     },
   };
 }

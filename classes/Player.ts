@@ -24,6 +24,8 @@ export default class Player extends Entity {
 
   diceValues: number[] = [];
 
+  usedDice: number[] = [];
+
   @Type(() => Occupation)
     occupations: Occupation[] = [];
 
@@ -50,6 +52,17 @@ export default class Player extends Entity {
     return this;
   }
 
+  finishNightTimeStep(): this {
+    this.actionTaken = true;
+    this.usedDice = [];
+    this.diceValues = [];
+    return this;
+  }
+
+  startNightTimeStep(): this {
+    return this;
+  }
+
   getDistrictsWithBlocks(): Array<number> {
     return Array.from(new Set(this.blocks.map((block) => block.districtId)));
   }
@@ -72,6 +85,11 @@ export default class Player extends Entity {
     if (targetOccupation) {
       targetOccupation.create(districtId);
     }
+    return this;
+  }
+
+  skipActions(): this {
+    this.usedDice = this.diceValues.map((_, index) => index);
     return this;
   }
 

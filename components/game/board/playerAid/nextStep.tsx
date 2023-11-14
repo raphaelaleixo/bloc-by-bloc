@@ -13,33 +13,48 @@ const NextStep: React.FC<PlayerAidProps> = ({
   police,
   policeActions,
   players,
+  playerActions,
 }) => {
+  const currentPlayer = useMemo(
+    () => players.listOfPlayers.find((player) => player.faction === actualPlayer),
+    [players, actualPlayer],
+  );
+
   const nextPlayer = useMemo(() => {
-    if (isPoliceTurn) {
-      return `${actualPlayer} turn`;
-    }
     const currentPlayerIndex = players.listOfPlayers.findIndex(
       (player) => player.faction === actualPlayer,
     );
-    const nextPlayerFaction = players.listOfPlayers[currentPlayerIndex + 1]?.faction;
-    if (nextPlayerFaction) {
-      return `${nextPlayerFaction} - Police Moviment`;
+    return players.listOfPlayers[currentPlayerIndex + 1];
+  }, [players, actualPlayer]);
+
+  const buttonLabel = useMemo(() => {
+    if (isPoliceTurn) {
+      return `${actualPlayer} turn`;
+    }
+    if (nextPlayer) {
+      return `${nextPlayer.faction} - Police Moviment`;
     }
     return 'Night Step';
-  }, [actualPlayer, isPoliceTurn, players]);
+  }, [actualPlayer, isPoliceTurn, nextPlayer]);
 
   const nextAction: NextAction = useMemo(() => {
     if (isPoliceTurn) {
       return {
         available: police.currentCard.length >= police.cardsToDraw,
-        action: policeActions.finishNightimeStep,
+        action: () => {
+          policeActions.finishNightTimeStep();
+        },
       };
     }
     return {
-      available: false,
-      action: () => false,
+      available:
+        currentPlayer?.usedDice.length === currentPlayer?.diceValues.length,
+      action: () => {
+        playerActions.finishNightTimeStep(currentPlayer.playerNumber);
+        policeActions.startNightTimeStep();
+      },
     };
-  }, [isPoliceTurn, police, policeActions]);
+  }, [isPoliceTurn, police, policeActions, playerActions, currentPlayer]);
 
   return (
     <BlocButton
@@ -48,7 +63,7 @@ const NextStep: React.FC<PlayerAidProps> = ({
       disabled={!nextAction.available}
       className="self-start mt-4"
     >
-      Next Step: {nextPlayer.toLocaleUpperCase()}
+      Next Step: {buttonLabel}
     </BlocButton>
   );
 };

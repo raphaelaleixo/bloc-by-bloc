@@ -51,6 +51,7 @@ const FactionAid: React.FC<PlayerAidProps> = ({
         setSelectedDice={setSelectedDice}
         selectedDice={selectedDice}
         actualPlayer={actualPlayer}
+        playerActions={playerActions}
       />
     </div>
   );
